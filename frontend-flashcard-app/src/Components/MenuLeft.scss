@@ -1,0 +1,55 @@
+@use "../SassStyles/variables";
+
+.menu-left {
+  color: white;
+  width: 20vw;
+  min-width: 20vw;
+  min-height: 100vh;
+  background-color: variables.$dark-gray;
+  overflow-y: auto;
+}
+
+.nav-collections {
+  margin: 1rem;
+  list-style: none;
+}
+
+.nav-collections li {
+  margin: 0.3rem;
+  cursor: pointer;
+}
+
+.collection-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.collection-name {
+  text-align: left;
+  font-size: 1.3rem;
+  position: relative;
+  opacity: 0.9;
+}
+
+.collection-name:hover {
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.collection-name::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: -15%;
+  height: 2px;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  transform: scale(0);
+}
+
+.collection-name:hover::before {
+  transform: scale(1);
+  transition: 0.5s;
+}

@@ -1,0 +1,41 @@
+@use "./mixin";
+@use "./variables";
+
+.btn-primary {
+  @include mixin.button;
+  background-color: variables.$light-blue;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: darken(variables.$light-blue, 10%);
+}
+
+.btn-secondary {
+  @include mixin.button;
+  background-color: variables.$dark-gray;
+  color: white;
+}
+
+.btn-tertiary {
+  @include mixin.button;
+  background-color: variables.$middle-blue;
+  color: white;
+}
+.btn-tertiary:hover {
+  background-color: darken(variables.$middle-blue, 5%);
+}
+
+.btn-white {
+  @include mixin.button;
+  background-color: white;
+  color: black;
+}
+
+.btn-white:hover {
+  background-color: darken(white, 8%);
+}
+
+.btn-border {
+  border: 2px solid black;
+}

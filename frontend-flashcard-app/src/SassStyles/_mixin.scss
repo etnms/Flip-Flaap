@@ -1,0 +1,19 @@
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin button {
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+}
+
+@mixin fonts {
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

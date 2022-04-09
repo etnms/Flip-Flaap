@@ -1,0 +1,53 @@
+@use "../SassStyles/variables";
+
+.wrapper-navbar {
+  padding: 0.2rem 0.6rem;
+
+}
+.navbar {
+  width: 100%;
+  background-color: white;
+  height: 12vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: 0.3rem;
+}
+
+.nav-menu {
+  margin-left: 1.2rem;
+}
+
+.link {
+  font-size: 1.3rem;
+  color: black;
+  text-decoration: none;
+  position: relative;
+  border: none;
+  background-color: white ;
+  cursor: pointer;
+}
+
+.link::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: -20%;
+  height: 2px;
+  width: 0;
+  background-color: black;
+  border-radius: 8px;
+}
+
+.link:hover::before {
+  width: 100%;
+  transition: 0.5s;
+}

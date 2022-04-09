@@ -1,0 +1,96 @@
+@use "./mixin";
+@use "./variables";
+
+.bg {
+  @include mixin.flex-center;
+  height: 100vh;
+  background-color: variables.$dark-white;
+}
+.form {
+  background-color: white;
+  @include mixin.flex-center;
+  flex-direction: column;
+}
+
+/* auth forms */
+.form-auth {
+  min-height: 60vh;
+  min-width: 40vw;
+  box-shadow: 0px 0px 6px 1px #00000036;
+  gap: 2rem;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.wrapper-input-auth {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.input-label {
+  font-weight: bold;
+}
+
+.input-text {
+  border-radius: 4px;
+  outline: none;
+  border: 2px solid black;
+  font-size: 1.3rem;
+  padding: 2px;
+}
+
+.input-text:focus {
+  transform: scale(1.05);
+  transition: 300ms;
+}
+
+.wrapper-button-auth {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+/* Flashcard form */
+
+.form-flashcard {
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px 1px #00000036;
+  margin: 1rem;
+  gap: 0.2rem;
+  width: 40vw;
+  text-align: left;
+  padding: 0.5rem;
+}
+
+.input-text-flashcard {
+  text-align: left;
+  border-radius: 4px;
+  outline: none;
+  border: 2px solid black;
+  font-size: 1.1rem;
+  padding: 2px;
+  width: 25vw;
+}
+
+.input-text-flashcard:focus {
+  transform: scale(1.05);
+  transition: 300ms;
+}
+
+.input-text-flashcard::placeholder {
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.def {
+  @include mixin.fonts;
+  resize: none;
+  height: 20vh;
+  width: 25vw;
+}
+
+.btn-form-flashcard {
+  margin: 1rem;
+}
