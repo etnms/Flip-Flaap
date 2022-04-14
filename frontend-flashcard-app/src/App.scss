@@ -1,8 +1,6 @@
 @use "./SassStyles/variables.scss";
 @use "./SassStyles/mixin.scss";
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap");
-
 * {
   padding: 0;
   margin: 0;
@@ -36,6 +34,13 @@ body {
   width: 80vw;
 }
 
+.wrapper-main {
+  @include mixin.flex-center;
+  height: 100%;
+  padding: 0.6rem;
+  background-color: variables.$dark-white;
+}
+
 .main-view {
   height: 100%;
   width: 100%;
@@ -43,6 +48,9 @@ body {
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0px 0px 6px 1px #00000010;
+  @include mixin.flex-center;
+  flex-direction: column;
+  position: relative;
 }
 
 /* App looks if not authenticated */

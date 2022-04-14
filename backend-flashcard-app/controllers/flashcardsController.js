@@ -33,7 +33,8 @@ const createFlashcard = (req, res) => {
     date,
   }).save((err, result) => {
     if (err) {
-      console.log(err);
+     // console.log(err);
+      res.status(400).json({message: "Error field empty"})
       return;
     } else {
       Flashcard.findById(result._id, (err) => {
@@ -91,12 +92,12 @@ const updateFlashcard = (req, res) => {
     if (err) {
       res.status(403);
     } else {
-      Flashcard.findByIdAndUpdate({ _id }, { concept, definition }, (err, result) => {
+      Flashcard.findByIdAndUpdate({ _id }, { concept, definition }, (err) => {
         if (err) {
           res.status(403);
           return;
         }
-        res.status(200).json({ message: "Flashcard was updated", result });
+        res.status(200).json({ message: "Flashcard was updated" });
       });
     }
   });

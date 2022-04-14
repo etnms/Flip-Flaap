@@ -1,4 +1,5 @@
 import "./Flashcard.scss";
+import "../SassStyles/icons.scss";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
@@ -55,7 +56,6 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
         { headers: { Authorization: token! } }
       )
       .then((res) => {
-        console.log(res);
         setEdit(false);
       })
       .catch((err) => console.log(err));
@@ -79,8 +79,8 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
             onChange={(e) => handleChange(e, "definition")}></textarea>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
-            <DeleteOutlinedIcon onClick={() => deleteFlashcard(_id, collectionName)} />
-            <CheckIcon onClick={() => editFlashcard()} />
+            <DeleteOutlinedIcon onClick={() => deleteFlashcard(_id, collectionName)} className="icon icon-delete"/>
+            <CheckIcon onClick={() => editFlashcard()} className="icon icon-edit" />
           </span>
         </div>
       );
@@ -93,8 +93,8 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
           <p className="def-text"> Definition: {defText}</p>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
-            <DeleteOutlinedIcon onClick={() => deleteFlashcard(_id, collectionName)} />
-            <EditIcon onClick={() => setEdit(true)} />
+            <DeleteOutlinedIcon onClick={() => deleteFlashcard(_id, collectionName)} className="icon icon-delete" />
+            <EditIcon onClick={() => setEdit(true)} className="icon icon-edit" />
           </span>
         </div>
       );

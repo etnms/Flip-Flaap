@@ -1,0 +1,41 @@
+@use "../SassStyles/mixin";
+@use "../SassStyles/variables";
+
+.wrapper-practice {
+    padding: 1rem;
+    @include mixin.flex-center;
+    flex-direction: column;
+    position: relative;
+}
+
+.check-practice {
+    width: 40vw;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.wrapper-btn-check {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.question {
+    font-size: 1.4rem;
+}
+
+.check-message {
+    font-size: 1.3rem;
+    border-radius: 4px;
+    background-color: variables.$green-alert;
+    color: white;
+    padding: 0.7rem;
+    height: 100%;
+    transition: 300ms;
+}
+
+.incorrect {
+    background-color: variables.$red-alert;
+}

@@ -16,13 +16,14 @@
 
 .nav-collections li {
   margin: 0.3rem;
-  cursor: pointer;
+  width: 100%;
 }
 
 .collection-link {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 }
 
 .collection-name {
@@ -30,6 +31,10 @@
   font-size: 1.3rem;
   position: relative;
   opacity: 0.9;
+  cursor: pointer;
+  word-wrap: break-word;
+  line-height: 1.4;
+  max-width: 75%;
 }
 
 .collection-name:hover {
@@ -41,7 +46,7 @@
   position: absolute;
   content: "";
   left: 0;
-  bottom: -15%;
+  bottom: -7%;
   height: 2px;
   width: 100%;
   background-color: white;
@@ -52,4 +57,30 @@
 .collection-name:hover::before {
   transform: scale(1);
   transition: 0.5s;
+}
+
+.wrapper-edit {
+  display: flex;
+  flex-direction: row;
+}
+
+.input-collection-name {
+  width: 100%;
+  font-size: 1.3rem ;
+  line-height: 1.4;
+}
+
+.active-menu-item {
+  opacity: 1;
+}
+.active-menu-item::before {
+  position: absolute;
+  content: "";
+  left: 0;
+  bottom: -7%;
+  height: 2px;
+  width: 100%;
+  background-color: #D4D4D4;
+  border-radius: 8px;
+  transform: scale(1);
 }

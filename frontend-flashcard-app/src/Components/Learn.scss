@@ -1,0 +1,91 @@
+@use "../SassStyles/mixin";
+
+.learn {
+  gap: 3rem;
+}
+
+.learn-flashcard-wrapper {
+  min-height: 50vh;
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.learn-flashcard {
+  @include mixin.flex-center;
+  flex-direction: column;
+  width: 90%;
+  height: 90%;
+}
+
+/* Container needed to position the front and back side */
+.card-inner {
+  @include mixin.flex-center;
+  @include mixin.box-shadow;
+  flex-direction: column;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  padding: 0.4rem;
+  word-wrap: break-word;
+  margin: 0.5rem;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+/* Horizontal flip when on hover */
+.learn-flashcard:hover .card-inner,
+.card-back {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  backface-visibility: hidden; // Hides back of the card
+}
+
+.card-front {
+  position: absolute;
+}
+
+.space-m {
+  @include mixin.spacing-m;
+}
+
+.begin-text {
+  margin: auto;
+}
+
+.anime-card {
+  animation: slide-card 0.7s;
+}
+
+@keyframes swipe-card {
+  0% {
+    transform: translate(0%, 0) rotate(0);
+  }
+  100% {
+    transform: translate(-200%, 0) rotate(-45deg);
+  }
+}
+
+.fake-card {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 40vw;
+  height: 40vh;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0px 0px 6px 1px #00000036;
+  padding: 0.4rem;
+  word-wrap: break-word;
+  margin: 0.5rem;
+  z-index: 1;
+  animation: swipe-card 0.7s;
+}

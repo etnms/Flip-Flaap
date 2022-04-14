@@ -1,45 +1,31 @@
-import axios from "axios";
+import "../SassStyles/icons.scss";
 import "./MenuLeft.scss";
 import "../SassStyles/TitlesAndTexts.scss";
-import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import DeleteConfirm from "./DeleteConfirm";
+import { IMenuProps } from "../Interfaces/InterfaceMenu";
+import { useState } from "react";
+import MenuLeftItem from "./MenuLeftItem";
 
-interface IMenuProps {
-  setShowCollectionForm: Function;
-  collectionNames: Array<Collection>;
-  setCurrentCollection: Function;
-  setLeftMenuChange: Function;
-}
-
-type Collection = {
-  name: string;
-  _id: string;
-};
 
 const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
   const { collectionNames, setShowCollectionForm, setCurrentCollection, setLeftMenuChange } = props;
 
-  const token = localStorage.getItem("token");
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [idCollection, setIdCollection] = useState("");
+  const [nameCollection, setNameCollection] = useState(""); // Get the name of the collection for delete purposes
 
-  const deleteCollection = (value: string) => {
-    axios
-      .delete(`${process.env.REACT_APP_BACKEND}/api/collections`, {
-        data: { _id: value },
-        headers: { Authorization: token! },
-      })
-      .then((res) => {
-        setLeftMenuChange(true);
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-  };
-
+  // Main function to display individual items with collection names and buttons
   const displayNames = () => {
     return collectionNames.map((result) => (
       <li key={result._id}>
-        <span className="collection-link">
-          <span onClick={() => setCurrentCollection(result.name)} className="collection-name">{result.name}</span>
-          <DeleteOutlinedIcon onClick={() => deleteCollection(result._id)} />
-        </span>
+        <MenuLeftItem
+          _id={result._id}
+          name={result.name}
+          setConfirmDeleteOpen={setConfirmDeleteOpen}
+          setCurrentCollection={setCurrentCollection}
+          setIdCollection={setIdCollection}
+          setNameCollection={setNameCollection}
+        />
       </li>
     ));
   };
@@ -51,6 +37,16 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
       <button onClick={() => setShowCollectionForm(true)} className="btn-white">
         Create new collection
       </button>
+      {confirmDeleteOpen ? (
+        <DeleteConfirm // Component to give confirm message if collection needs to be deleted
+          setShowCollectionForm={setShowCollectionForm}
+          setCurrentCollection={setCurrentCollection}
+          setLeftMenuChange={setLeftMenuChange}
+          setConfirmDeleteOpen={setConfirmDeleteOpen}
+          idCollection={idCollection}
+          nameCollection={nameCollection}
+        />
+      ) : null}
     </div>
   );
 };

@@ -42,6 +42,10 @@ const Signup = () => {
             Password
           </label>
           <input type="password" name="password" className="input-text" />
+          <label htmlFor="confirm-password" className="input-label">
+            Confirm Password
+          </label>
+          <input type="password" name="confirm-password" className="input-text" />
         </div>
         <button type="submit" className="btn-primary">
           Signup

@@ -1,14 +1,14 @@
 @use "../SassStyles/mixin";
 
 .flashcard {
+  @include mixin.box-shadow;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 300px;
+  width: 23vw;
   background-color: #fdfdfd;
   border-radius: 8px;
-  box-shadow: 0px 0px 6px 1px #00000036;
   padding: 0.4rem;
   word-wrap: break-word;
   margin: 0.5rem;
@@ -46,4 +46,6 @@
 .edit-def {
   @include mixin.fonts;
   resize: none;
+  min-height: 20vh;
 }
+

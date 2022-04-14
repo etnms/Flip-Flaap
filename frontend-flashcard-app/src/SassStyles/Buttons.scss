@@ -17,6 +17,10 @@
   color: white;
 }
 
+.btn-secondary:hover {
+  background-color: darken(variables.$dark-gray, 5%);
+}
+
 .btn-tertiary {
   @include mixin.button;
   background-color: variables.$middle-blue;
@@ -38,4 +42,19 @@
 
 .btn-border {
   border: 2px solid black;
+}
+
+.btn-alert {
+  @include mixin.button;
+  background-color: variables.$red-alert;
+  color: white;
+  border: 2px solid white;
+}
+
+.btn-alert:hover {
+  background-color: darken(variables.$red-alert, 5%);
+}
+
+.btn-space {
+  margin: 1rem;
 }

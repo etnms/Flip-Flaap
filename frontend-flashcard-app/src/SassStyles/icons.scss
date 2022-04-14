@@ -1,0 +1,30 @@
+.icon {
+    cursor: pointer;
+}
+
+.icon-edit:hover {
+    transition: 300ms;
+    transform: scale(1.2);
+}
+
+.icon-delete:hover {
+    animation: shake 0.5s;
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: rotate(0deg);   
+      }
+      
+      20%, 80% {
+        transform: rotate(10deg);
+      }
+    
+      30%, 50%, 70% {
+        transform:  rotate(0deg);
+      }
+    
+      40%, 60% {
+        transform: rotate(10deg);
+      }
+  }

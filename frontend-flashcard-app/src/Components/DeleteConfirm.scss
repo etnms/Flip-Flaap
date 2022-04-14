@@ -1,0 +1,29 @@
+@use "../SassStyles/variables";
+
+.confirm-menu {
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 50%;
+  right: 50%;
+  transform: translate(50%, -50%);
+  width: 40vw;
+  min-height: 30vh;
+  background-color: variables.$light-gray;
+  z-index: 1;
+  box-shadow: 0px 0px 10px 1px #00000036;
+}
+.name-selected-collection {
+  margin: 2px;
+  width: 90%;
+  word-wrap: break-word;
+}
+.delete-btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  margin: 1rem 0;
+}

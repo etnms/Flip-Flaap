@@ -4,6 +4,7 @@ import Flashcard from "./Flashcard";
 import FormFlashcard from "./FormFlashcard";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import "./FlashcardList.scss";
+import FlashcardDisplayStyle from "./FlashcardDisplayStyle";
 
 interface INameCollection {
   currentCollection: string;
@@ -16,8 +17,9 @@ const FlashcardList = (props: React.PropsWithChildren<INameCollection>) => {
 
   const [itemChange, setItemChange] = useState(false);
 
+  const [showFlashcardForm, setShowFlashcardForm] = useState(false);
+
   useEffect(() => {
-    console.log("use effect collection");
     if (currentCollection !== "") {
       axios
         .get(`${process.env.REACT_APP_BACKEND}/api/flashcards`, { params: { currentCollection } })
@@ -32,9 +34,9 @@ const FlashcardList = (props: React.PropsWithChildren<INameCollection>) => {
   const createCards = () => {
     return flashcards.map((card) => (
       <Flashcard
-      setItemChange={setItemChange}
+        setItemChange={setItemChange}
         key={card._id}
-        collectionName= {currentCollection}
+        collectionName={currentCollection}
         concept={card.concept}
         definition={card.definition}
         _id={card._id}
@@ -43,19 +45,28 @@ const FlashcardList = (props: React.PropsWithChildren<INameCollection>) => {
     ));
   };
 
-  return (
-    <main className="wrapper-flashcard-list">
-      {currentCollection !== "" ? (
-        <div className="main-view">
+  const renderMainView = () => {
+    if (currentCollection !== "")
+      return (
+        <main className="main-view">
           <h1 className="title">Collection: {currentCollection}</h1>
-          <div className="flashcard-view">{createCards()}</div>
-          <FormFlashcard currentCollection={currentCollection} setItemChange={setItemChange} />
-        </div>
-      ) : (
-        <p>No collection is open</p>
-      )}
-    </main>
-  );
+          <div className="flashcard-view">
+            {createCards()} <FlashcardDisplayStyle />
+          </div>
+          <button
+            onClick={() => setShowFlashcardForm(!showFlashcardForm)}
+            className="btn-secondary btn-space">
+            {!showFlashcardForm ? "Create new flashcard" : "Hide flashcard maker"}
+          </button>
+          {showFlashcardForm ? (
+            <FormFlashcard currentCollection={currentCollection} setItemChange={setItemChange} />
+          ) : null}
+        </main>
+      );
+    else return <p>No collection is open</p>;
+  };
+
+  return <div className="wrapper-main">{renderMainView()}</div>;
 };
 
 export default FlashcardList;

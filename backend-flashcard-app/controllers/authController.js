@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 const userLogin = async (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
-
   if (!username || !password) {
     res.sendStatus(401).json({ message: "Empty fields" });
     return;

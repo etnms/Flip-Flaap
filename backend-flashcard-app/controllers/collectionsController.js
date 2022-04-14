@@ -34,21 +34,28 @@ const getCollection = (req, res) => {
 const postCollection = (req, res) => {
   const name = req.body.name;
 
+  if (name.length > 80) {
+    res.status(400).json({ error: "Name too long" });
+    return;
+  }
+
   jwt.verify(req.token, "secretkey", (err, authData) => {
     if (err) {
       res.status(403);
       return;
     } else {
       User.findOne({ username: authData.user.username }).exec((err, result) => {
-        if (err) console.log(err);
+        if (err) {
+          res.status(400).json({ error: "Error creation collection" });
+          return;
+        }
         if (result) {
           new Collection({
             name,
             user: result,
           }).save((err) => {
             if (err) {
-              console.log(err);
-              res.status(400).json({ error: "Error in creation of collection" });
+              res.status(400).json({ error: "Error field empty" });
               return;
             } else {
               res.status(200).json({ message: "Collection created" });
@@ -82,4 +89,23 @@ const deleteCollection = (req, res) => {
   });
 };
 
-export { deleteCollection, getCollection, postCollection };
+const editCollection = (req, res) => {
+  const _id = req.body._id;
+  const name = req.body.name;
+
+  jwt.verify(req.token, "secretkey", (err) => {
+    if (err) {
+      res.send(403);
+      return;
+    }
+    Collection.findByIdAndUpdate({ _id }, { name }, (err) => {
+      if (err) {
+        res.status(400).json({ error: "Problem renaming collection" });
+        return;
+      }
+      res.status(200).json({ message: "Collection name updated" });
+    });
+  });
+};
+
+export { deleteCollection, editCollection, getCollection, postCollection };

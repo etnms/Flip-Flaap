@@ -1,6 +1,11 @@
 import express from "express";
-import {deleteCollection, getCollection, postCollection } from "../controllers/collectionsController.js";
-import verifyToken from "../verifyToken.js"
+import {
+  deleteCollection,
+  editCollection,
+  getCollection,
+  postCollection,
+} from "../controllers/collectionsController.js";
+import verifyToken from "../verifyToken.js";
 
 const router = express.Router();
 
@@ -10,4 +15,6 @@ const postCollectionRoute = router.post("/api/collections", verifyToken, postCol
 
 const deleteCollectionRoute = router.delete("/api/collections", verifyToken, deleteCollection);
 
-export {deleteCollectionRoute, getCollectionRoute, postCollectionRoute };
+const editCollectionRoute = router.put("/api/collections", verifyToken, editCollection);
+
+export { deleteCollectionRoute, editCollectionRoute, getCollectionRoute, postCollectionRoute };

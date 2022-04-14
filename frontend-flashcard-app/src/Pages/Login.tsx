@@ -1,8 +1,9 @@
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const [test, setTest] = useState(false);
   const navigate = useNavigate();
 
   const navigateIndex = () => {
@@ -10,12 +11,14 @@ const Login = () => {
   };
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {
+    
     e.preventDefault();
     const username = (document.querySelector("input[name='username']") as HTMLInputElement).value;
     const password = (document.querySelector("input[name='password']") as HTMLInputElement).value;
     axios
       .post(`${process.env.REACT_APP_BACKEND}/api/login`, { username, password })
       .then((res) => {
+        
         localStorage.setItem("token", res.data.token);
         navigateIndex();
       })
@@ -33,6 +36,7 @@ const Login = () => {
           <label htmlFor="password" className="input-label">Password</label>
           <input type="password" name="password"  className="input-text"  />
           </div>
+          {test? <p>hey</p>:null}
           <span className="wrapper-button-auth">
             <button type="submit" className="btn-primary">
               Login

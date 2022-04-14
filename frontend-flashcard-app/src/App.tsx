@@ -25,16 +25,21 @@ const App = () => {
 
   const [mode, setMode] = useState("Flashcard");
 
+  const [username, setUsername] = useState("");
+
   useEffect(() => {
     setLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
-      .then((res) => setIsLoggedIn(true))
+      .then((res) => {
+        setUsername(res.data);
+        setIsLoggedIn(true);
+      })
       .catch((err) => setIsLoggedIn(false));
 
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/collections`, { headers: { Authorization: token! } })
-      .then((res) => {setResults(res.data.results.collections); console.log(res.data.results)})
+      .then((res) => setResults(res.data.results.collections))
       .catch((err) => {
         console.log(err);
         setResults([]);
@@ -45,10 +50,10 @@ const App = () => {
 
   const renderMain = () => {
     if (mode === "Flashcard") return <FlashcardList currentCollection={currentCollection}></FlashcardList>;
-    if (mode === "Learn") return <Learn currentCollection={currentCollection} results={results} />;
-    if (mode === "Practice") return <Practice currentCollection={currentCollection} results={results} />;
+    if (mode === "Learn") return <Learn currentCollection={currentCollection} />;
+    if (mode === "Practice") return <Practice currentCollection={currentCollection} />;
   };
-  
+
   return (
     <div className="App">
       {loading ? (
@@ -62,14 +67,16 @@ const App = () => {
             setLeftMenuChange={setLeftMenuChange}></MenuLeft>
 
           <div className="main-page">
-            <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setMode={setMode}></Navbar>
+            <Navbar
+              isLoggedIn={isLoggedIn}
+              setIsLoggedIn={setIsLoggedIn}
+              setMode={setMode}
+              username={username}></Navbar>
             {showCollectionForm ? (
-              <main className="main">
-                <CollectionForm
-                  setShowCollectionForm={setShowCollectionForm}
-                  setLeftMenuChange={setLeftMenuChange}
-                />
-              </main>
+              <CollectionForm
+                setShowCollectionForm={setShowCollectionForm}
+                setLeftMenuChange={setLeftMenuChange}
+              />
             ) : (
               renderMain()
             )}
@@ -77,7 +84,11 @@ const App = () => {
         </div>
       ) : (
         <div className="wrapper-no-auth">
-          <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} setMode={setMode}></Navbar>
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            setMode={setMode}
+            username={username}></Navbar>
           <GettingStarted />
         </div>
       )}
