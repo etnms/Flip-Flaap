@@ -1,4 +1,5 @@
 @use "../SassStyles/mixin";
+@use "../SassStyles/animations";
 
 .flashcard {
   @include mixin.box-shadow;
@@ -12,6 +13,7 @@
   padding: 0.4rem;
   word-wrap: break-word;
   margin: 0.5rem;
+  animation: appear-opacity 750ms;
 }
 
 .title-flashcard {
@@ -48,4 +50,3 @@
   resize: none;
   min-height: 20vh;
 }
-

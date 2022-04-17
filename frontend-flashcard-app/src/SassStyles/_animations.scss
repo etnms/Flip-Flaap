@@ -25,6 +25,17 @@
   }
 }
 
+// Swiping card animation
+@keyframes swipe-card {
+  0% {
+    transform: translate(0%, 0) rotate(0);
+  }
+  100% {
+    transform: translate(-200%, 0) rotate(-45deg);
+  }
+}
+
+// Appear and disappear animations
 @keyframes width-appear {
   from {
     width: 0;
@@ -32,5 +43,56 @@
 
   to {
     width: 40vw;
+  }
+}
+
+@keyframes appear-opacity {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes delete {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(0);
+  }
+}
+
+// Loading screen
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: scale(0) rotateZ(45deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotateZ(45deg);
+  }
+}
+
+@keyframes text-appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }

@@ -1,4 +1,12 @@
 @use "../SassStyles/mixin";
+@use "../SassStyles/animations";
+
+.begin-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: auto;
+}
 
 .learn {
   gap: 3rem;
@@ -51,26 +59,6 @@
   position: absolute;
 }
 
-.space-m {
-  @include mixin.spacing-m;
-}
-
-.begin-text {
-  margin: auto;
-}
-
-.anime-card {
-  animation: slide-card 0.7s;
-}
-
-@keyframes swipe-card {
-  0% {
-    transform: translate(0%, 0) rotate(0);
-  }
-  100% {
-    transform: translate(-200%, 0) rotate(-45deg);
-  }
-}
 
 .fake-card {
   position: absolute;

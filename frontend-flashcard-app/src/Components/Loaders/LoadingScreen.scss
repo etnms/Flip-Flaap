@@ -1,0 +1,48 @@
+@use "../../SassStyles/mixin";
+@use "../../SassStyles/variables";
+@use "../../SassStyles/animations";
+
+.wrapper-loading {
+  height: 100vh;
+  @include mixin.flex-center;
+  flex-direction: column;
+  background-color: variables.$dark-white;
+}
+
+.loading-text {
+    padding: 0.8rem;
+    border-radius: 8px;
+    width: 40vw;
+    animation: text-appear 2s linear 0s infinite alternate;
+}
+
+.loader-square {
+    display: flex;
+    @include mixin.flex-center;
+    flex-direction: column;
+    width: 100px;
+    height: 100px;
+    animation: spin 4s linear infinite;
+}
+
+
+.square-row {
+    display: flex;
+    flex-direction: row;
+}
+.square {
+    background-color: variables.$dark-gray;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    margin: 1px;
+    transform: rotateZ(45deg);
+}
+
+.square-1, .square-4 {
+    animation: appear 2s linear 2s infinite alternate; 
+}
+
+.square-2, .square-3 {
+    animation: appear 2s linear 0s infinite alternate; 
+}

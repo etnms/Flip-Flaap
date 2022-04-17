@@ -4,9 +4,9 @@ import verifyToken from "../verifyToken.js";
 
 const router = express.Router();
 
-const createCard = router.post("/api/flashcards", createFlashcard);
+const createCard = router.post("/api/flashcards", verifyToken, createFlashcard);
 
-const displayCards = router.get("/api/flashcards", displayFlashcards);
+const displayCards = router.get("/api/flashcards", verifyToken, displayFlashcards);
 
 const deleteCard = router.delete("/api/flashcards", verifyToken, deleteFlashcard);
 

@@ -1,17 +1,11 @@
+import "./PracticeLearningActivity.scss";
 import axios from "axios";
 import React from "react";
 import ErrorMessage from "./ErrorMessage";
-
-interface IActivity {
-  title: string;
-  concept: string;
-  def: string;
-  errorText: string;
-  functionButton: Function;
-}
+import { IActivity } from "../Interfaces/InterfaceActivity";
 
 export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>) => {
-  const { title, concept, def, errorText } = props;
+  const { title, concept, def, errorText, textInstruction } = props;
 
   const renderCard = () => {
     if (concept)
@@ -26,7 +20,14 @@ export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>)
         </div>
       );
     else {
-      if (errorText === "") return <p className="begin-text">Press start to begin</p>;
+      if (errorText === "")
+        return (
+          <div className="begin-text">
+            <p>{textInstruction}</p>
+            <p>Once you start, hover over your flashcards to flip them. If you're on mobile you can tap them to achieve the same result.</p>
+            <p>Press start to begin</p>
+          </div>
+        );
       return null;
     }
   };
@@ -50,20 +51,28 @@ export const RenderButton = (props: React.PropsWithChildren<IActivity>) => {
 };
 
 export const Getdata = (
-  currentCollection: string,
+  currentCollectionId: string,
   setConcept: Function,
   setErrorText: Function,
   setResults: Function
 ) => {
   setConcept(""); //reinitialize value in case of change of collection
   setErrorText("");
-  if (currentCollection !== "") {
-    axios
-      .get(`${process.env.REACT_APP_BACKEND}/api/flashcards`, { params: { currentCollection } })
+  const token = localStorage.getItem("token");
+  if (currentCollectionId !== "") {
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_BACKEND}/api/flashcards`,
+      params: { currentCollectionId },
+      headers: { Authorization: token! },
+    })
       .then((res) => {
-        setResults(res.data.results.collections[0].flashcards);
+        setResults(res.data.results.collections.flashcards);
       })
-      .catch((err) => setResults([]));
+      .catch((err) => {
+        setResults([]);
+        if (err.response === 403) setErrorText("Error: you are not logged in.");
+      });
   }
 };
 
@@ -88,13 +97,13 @@ export const createFakeFlashcard = (concept: string, def: string) => {
   titleText.textContent = `Concept ${(<strong>{concept}</strong>)}`;
   titleText.classList.add("title-flashcard");
 
-/*
+  /*
   const defText = document.createElement("p");
   defText.textContent = `Definition: ${def}`;
   defText.classList.add("def-text");
 */
   fakecard.appendChild(titleText);
- // fakecard.appendChild(defText);
+  // fakecard.appendChild(defText);
   fakecard.classList.add("fake-card");
   main?.append(fakecard);
 

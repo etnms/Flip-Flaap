@@ -1,62 +1,75 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
 
-const userLogin = async (req, res) => {
+const userLogin = (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
+  let user; // Tmp empty user
+
   if (!username || !password) {
-    res.sendStatus(401).json({ message: "Empty fields" });
-    return;
+    return res.status(400).json("Empty fields");
   }
-  console.log("login part1");
-  const user = await User.findOne({ username });
-  console.log("login part2");
-  if (user) {
-    console.log("login part3");
-    const hashPassword = await bcrypt.compare(password, user.password);
-    if (hashPassword) {
-      console.log("login part4");
-      jwt.sign({ user }, "secretkey", (err, token) => {
-        res.status(200).json({token});
+
+  User.findOne({username}).exec((err, result) => {
+
+    if (err) return res.status(400).json("There was a problem");
+    if (!result) return res.status(400).json("Incorrect username or password");
+    else {
+      user = result;
+      bcrypt.compare(password, result.password, (err, result) =>{
+        if (err) return res.status(400).json("There was a problem");
+        if (!result) return res.status(400).json("Incorrect username or password");
+        if (result) {
+          jwt.sign({ user }, "secretkey", (err, token) => {
+            if (err) return res.status(400).json("Incorrect username or password");
+            return res.status(200).json({ token });
+          });
+        }
       });
-    } else {
-      res.status(401).json({ message: "Incorrect username or password" });
     }
-  } else {
-    res.status(401).json({ message: "User does not exist" });
-  }
+  })
 };
 
 const userSignup = (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+ 
+  const regexPattern =  new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])");
+  const checkPattern = regexPattern.test(password);
+  if (!checkPattern) return res.status(400).json("Passwords special characters");
+
+  // Finds the validation errors in this request and wraps them in an object with handy functions
+  const errors = validationResult(req);
+  // If errors only return the first one, frontend will deal with displaying each individual error
+  if (!errors.isEmpty()) return res.status(400).json(errors.array()[0].param);
+
+  if (password !== confirmPassword) return res.status(400).json("Passwords need to match" );
+  if (username == "") return res.status(400).json("Empty username" );
 
   bcrypt.hash(password, 10, (err, hashedPassword) => {
-    if (err) {
-      console.log(err);
-    }
+    if (err) return res.status(400).json("There was a problem" );
+
     const user = new User({
       username,
       email,
       password: hashedPassword,
-    }).save((err) => {
+    });
+    user.save((err) => {
       if (err) {
-        if (err.code === 11000 && err.keyPattern.username === 1) {
-          res.status(400).json({ error: "Username already exists" });
-          return;
-        }
-        if (err.code === 11000 && err.keyPattern.email === 1) {
-          res.status(400).json({ error: "Email already exists" });
-          return;
-        } else {
-          res.status(400).json({ error: "There was an error" });
-          return;
-        }
+        if (err.code === 11000 && err.keyPattern.username === 1)
+          return res.status(400).json("Username already exists");
+
+        if (err.code === 11000 && err.keyPattern.email === 1)
+          return res.status(400).json("Email already exists");
+        else return res.status(400).json("There was an error");
       } else {
         jwt.sign({ user }, "secretkey", (err, token) => {
-          res.status(200).json({ token, message: "User created" });
+          if (err) return res.status(403);
+          return res.status(200).json({ token, message: "User created" });
         });
       }
     });

@@ -20,6 +20,7 @@
     flex-direction: row;
     gap: 1rem;
     justify-content: center;
+    height: 7vh;
 }
 
 .question {
@@ -31,9 +32,9 @@
     border-radius: 4px;
     background-color: variables.$green-alert;
     color: white;
-    padding: 0.7rem;
-    height: 100%;
     transition: 300ms;
+    height: 7vh;
+    @include mixin.flex-center;
 }
 
 .incorrect {

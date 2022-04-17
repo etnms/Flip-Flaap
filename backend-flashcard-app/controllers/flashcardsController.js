@@ -4,56 +4,59 @@ import Flashcard from "../models/flashcard.js";
 import jwt from "jsonwebtoken";
 
 const displayFlashcards = (req, res) => {
-  const name = req.query.currentCollection;
+  jwt.verify(req.token, "secretkey", (err) => {
+    if (err) return res.status(403);
 
-  async.parallel(
-    {
-      collections: (callback) => {
-        Collection.find({ name }).populate("flashcards").exec(callback);
+    const _id = req.query.currentCollectionId;
+
+    async.parallel(
+      {
+        collections: (callback) => {
+          Collection.findById(_id).populate("flashcards").exec(callback);
+        },
       },
-    },
-    (err, results) => {
-      if (err) {
-        console.log(err);
-        return;
+      (err, results) => {
+        if (err) return res.status(400);
+
+        return res.status(200).json({ results });
       }
-      res.status(200).json({ results });
-      return;
-    }
-  );
+    );
+  });
 };
 
 const createFlashcard = (req, res) => {
   const concept = req.body.concept;
   const definition = req.body.definition;
+  const _id = req.body._id;
   const date = new Date();
+  
   new Flashcard({
     concept,
     definition,
     date,
   }).save((err, result) => {
-    if (err) {
-     // console.log(err);
-      res.status(400).json({message: "Error field empty"})
-      return;
-    } else {
+    if (err) return res.status(400).json({ message: "Error field empty" });
+    else {
       Flashcard.findById(result._id, (err) => {
         if (err) {
-          console.log(err);
-          res.status(400).json({ message: "Error adding flashcard to collection" });
-          return;
+          return res.status(400).json({ message: "Error adding flashcard to collection" });
         } else {
-          Collection.findOneAndUpdate({ name: req.body.name }, { $push: { flashcards: result } }, (err) => {
-            if (err) {
-              console.log(err);
-              res.status(400).json({ message: "Error adding flashcard to collection" });
-              return;
+          jwt.verify(req.token, "secretkey", (err) => {
+            if (err) return res.status(403);
+            else {
+
+              Collection.findByIdAndUpdate(
+                { _id },
+                { $push: { flashcards: result } },
+                (err) => {
+                  if (err) return res.status(400).json({ message: "Error adding flashcard to collection" });
+                }
+              );
             }
           });
         }
       });
-      res.status(200).json({ message: "Flashcard created!" });
-      return;
+      return res.status(200).json({ message: "Flashcard created!" });
     }
   });
 };
@@ -63,19 +66,14 @@ const deleteFlashcard = (req, res) => {
   const name = req.body.name;
 
   jwt.verify(req.token, "secretkey", (err) => {
-    if (err) {
-      res.status(403);
-    } else {
+    if (err) return res.status(403);
+    else {
       Flashcard.findByIdAndDelete({ _id }, (err) => {
-        if (err) {
-          res.status(400).json({ message: "Error while deleting flashcard" });
-        } else {
+        if (err) return res.status(400).json({ message: "Error while deleting flashcard" });
+        else {
           Collection.findOneAndUpdate({ name }, { $pull: { flashcards: _id } }, (err) => {
-            if (err) {
-              console.log(err);
-              res.status(400).json({ message: "Error del flashcard from collect" });
-            }
-            res.status(200).json({ message: "Flashcard deleted" });
+            if (err) return res.status(400).json({ message: "Error del flashcard from collect" });
+            return res.status(200).json({ message: "Flashcard deleted" });
           });
         }
       });
@@ -87,17 +85,13 @@ const updateFlashcard = (req, res) => {
   const _id = req.body._id;
   const concept = req.body.concept;
   const definition = req.body.definition;
-  
+
   jwt.verify(req.token, "secretkey", (err) => {
-    if (err) {
-      res.status(403);
-    } else {
+    if (err) return res.status(403);
+    else {
       Flashcard.findByIdAndUpdate({ _id }, { concept, definition }, (err) => {
-        if (err) {
-          res.status(403);
-          return;
-        }
-        res.status(200).json({ message: "Flashcard was updated" });
+        if (err) return res.status(403);
+        return res.status(200).json({ message: "Flashcard was updated" });
       });
     }
   });

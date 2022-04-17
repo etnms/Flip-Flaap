@@ -1,30 +1,33 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.scss";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
 import CollectionForm from "./Components/CollectionForm";
 import FlashcardList from "./Components/FlashcardList";
 import GettingStarted from "./Components/GettingStarted";
 import Learn from "./Components/Learn";
-import MenuLeft from "./Components/MenuLeft";
-import Navbar from "./Components/Navbar";
+import LoadingScreen from "./Components/Loaders/LoadingScreen";
+import MenuLeft from "./Components/Navigation/MenuLeft";
+import Navbar from "./Components/Navigation/Navbar";
 import Practice from "./Components/Practice";
+import { menuChange } from "./features/menuChangeSlice";
 
 const App = () => {
   const token = localStorage.getItem("token");
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useAppDispatch();
+  // Value for animation purposes => when create/delete users can see the collection list being changed
+  const menuChangeValue = useAppSelector((state) => state.menuChangeValue.value);
+  // Check if the menu for a new collection is open
+  const openCollectionForm = useAppSelector((state) => state.openCollectionForm.open);
 
-  const [showCollectionForm, setShowCollectionForm] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
   const [loading, setLoading] = useState(true);
 
   const [results, setResults] = useState([]);
 
-  const [currentCollection, setCurrentCollection] = useState("");
-
-  const [leftMenuChange, setLeftMenuChange] = useState(false);
-
-  const [mode, setMode] = useState("Flashcard");
-
+  const [mode, setMode] = useState("Flashcard"); // Default to create flashcard option
   const [username, setUsername] = useState("");
 
   useEffect(() => {
@@ -33,60 +36,65 @@ const App = () => {
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
       .then((res) => {
         setUsername(res.data);
+
         setIsLoggedIn(true);
       })
       .catch((err) => setIsLoggedIn(false));
 
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/collections`, { headers: { Authorization: token! } })
-      .then((res) => setResults(res.data.results.collections))
-      .catch((err) => {
-        console.log(err);
+      .then((res) => {
+        setResults(res.data.results.collections);
+        if (firstLoad) {
+          setFirstLoad(false);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (firstLoad) {
+          setFirstLoad(false);
+          setLoading(false);
+        }
         setResults([]);
       });
-    setLoading(false);
-    setLeftMenuChange(false);
-  }, [token, leftMenuChange]);
+    dispatch(menuChange(false));
+  }, [token, firstLoad, menuChangeValue, dispatch]);
 
-  const renderMain = () => {
-    if (mode === "Flashcard") return <FlashcardList currentCollection={currentCollection}></FlashcardList>;
-    if (mode === "Learn") return <Learn currentCollection={currentCollection} />;
-    if (mode === "Practice") return <Practice currentCollection={currentCollection} />;
+  const renderView = () => {
+    if (mode === "Flashcard") return <FlashcardList />;
+    if (mode === "Learn") return <Learn />;
+    if (mode === "Practice") return <Practice />;
   };
 
-  return (
-    <div className="App">
-      {loading ? (
-        <div>Loading...</div>
-      ) : isLoggedIn ? (
+  const renderMainScreen = () => {
+    if (loading && firstLoad) return <LoadingScreen />;
+    else
+      return (
         <div className="wrapper-content">
-          <MenuLeft
-            setShowCollectionForm={setShowCollectionForm}
-            collectionNames={results}
-            setCurrentCollection={setCurrentCollection}
-            setLeftMenuChange={setLeftMenuChange}></MenuLeft>
-
+          <MenuLeft collectionNames={results}></MenuLeft>
           <div className="main-page">
             <Navbar
               isLoggedIn={isLoggedIn}
               setIsLoggedIn={setIsLoggedIn}
               setMode={setMode}
-              username={username}></Navbar>
-            {showCollectionForm ? (
-              <CollectionForm
-                setShowCollectionForm={setShowCollectionForm}
-                setLeftMenuChange={setLeftMenuChange}
-              />
-            ) : (
-              renderMain()
-            )}
+              username={username}
+              setFirstLoad={setFirstLoad}></Navbar>
+            {openCollectionForm ? <CollectionForm /> : renderView()}
           </div>
         </div>
+      );
+  };
+
+  return (
+    <div className="App">
+      {isLoggedIn ? (
+        renderMainScreen()
       ) : (
         <div className="wrapper-no-auth">
           <Navbar
             isLoggedIn={isLoggedIn}
             setIsLoggedIn={setIsLoggedIn}
+            setFirstLoad={setFirstLoad}
             setMode={setMode}
             username={username}></Navbar>
           <GettingStarted />

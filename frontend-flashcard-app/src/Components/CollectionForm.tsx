@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useAppDispatch } from "../app/hooks";
+import { changeCurrentCollection, changeCurrentCollectionId } from "../features/collectionSlice";
+import { menuChange } from "../features/menuChangeSlice";
+import { openCollectionForm } from "../features/openCollectionFormSlice";
 import "./CollectionForm.scss";
 import ErrorMessage from "./ErrorMessage";
 
-interface IShowCollection {
-  setShowCollectionForm: Function;
-  setLeftMenuChange: Function;
-}
+const CollectionForm = () => {
 
-const CollectionForm = (props: React.PropsWithChildren<IShowCollection>) => {
-  const { setShowCollectionForm, setLeftMenuChange } = props;
   const token = localStorage.getItem("token");
+
+  const dispatch = useAppDispatch();
 
   // Create an empty error message to check if input is valid. If so, stays as 0, otherwise message indicate type of errors until correct.
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,9 +27,15 @@ const CollectionForm = (props: React.PropsWithChildren<IShowCollection>) => {
         { headers: { Authorization: token! } }
       )
       .then((res) => {
-        // Name valid, reset the errorMessage value 
+        // Name valid, reset the errorMessage value and close the form
         setErrorMessage("");
-        setShowCollectionForm(false);
+        dispatch(openCollectionForm(false));
+        // Open the new collection 
+        dispatch(changeCurrentCollectionId(res.data._id))
+        dispatch(changeCurrentCollection(name));
+        // Wait a bit and then assign the active status to the newly created element
+        // This doesn't seem to be the most optimal solution but it works
+        setTimeout(() => assignActiveHtml(), 50);
       })
       .catch((err) => {
         if (err.response.data.error === "Name too long") {
@@ -43,23 +50,38 @@ const CollectionForm = (props: React.PropsWithChildren<IShowCollection>) => {
           setErrorMessage("There was a problem and the collection could not be created.");
         }
       });
-    setLeftMenuChange(true);
+    dispatch(menuChange(true));
   };
+
+  // Get the last item in the menu left nav and assign it the active status to show that it's the currently open
+  const assignActiveHtml = () => {
+    const activeItem = document.querySelector(".active-menu-item");
+    activeItem?.classList.remove("active-menu-item");
+    const navCollection = document.querySelector(".nav-collections");
+    const lastLi = navCollection?.lastChild;
+    const link = lastLi?.firstChild;
+    const el = link?.firstChild;
+    (el as HTMLElement).classList.add("active-menu-item");
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLElement>) => {
     if ((e.target as HTMLInputElement).value !== "" && (e.target as HTMLInputElement).value.length < 80) {
       setErrorMessage("");
     }
   };
+
   return (
     <div className="wrapper-main">
       <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
-        <h1>Create new collection</h1>
+        <h1 className="title-form spacing-m">Create new collection</h1>
+        <label htmlFor="name" className="input-label">
+          Collection name:
+        </label>
         <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
         <button type="submit" className="btn-primary">
           Create collection
         </button>
-        <button type="button" onClick={() => setShowCollectionForm(false)} className="btn-secondary">
+        <button type="button" onClick={() => dispatch(openCollectionForm(false))} className="btn-secondary">
           Close
         </button>
         {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}

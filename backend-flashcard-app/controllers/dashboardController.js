@@ -1,15 +1,10 @@
 import jwt from "jsonwebtoken";
 
-const checkUserLogin =  (req, res, next) => {
-  
-    jwt.verify(req.token, "secretkey", (err, authData) => {
-        if (err) {
-            res.sendStatus(403);
-        } else {
-            res.json(authData.user.username);// might want to change that to avoid extra info like email etc.
-        }
-    })
-}
+const checkUserLogin = (req, res) => {
+  jwt.verify(req.token, "secretkey", (err, authData) => {
+    if (err) return res.sendStatus(403);
+    else return res.json(authData.user.username);
+  });
+};
 
-
-export {checkUserLogin};
+export { checkUserLogin };

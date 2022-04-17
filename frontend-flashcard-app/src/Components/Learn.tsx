@@ -1,7 +1,5 @@
-import "./Learn.scss";
 import { useEffect, useState } from "react";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
-import { IResults } from "../Interfaces/InterfaceResults";
 import {
   checkCollectionSize,
   createFakeFlashcard,
@@ -9,10 +7,12 @@ import {
   PracticeLearnActivity,
   RenderButton,
 } from "./PracticeLearnActivity";
+import { useAppSelector } from "../app/hooks";
 
-const Learn = (props: React.PropsWithChildren<IResults>) => {
-  const { currentCollection } = props;
-
+const Learn = () => {
+  const currentCollection = useAppSelector((state) => state.currentCollection.value);
+  const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
+  
   const [results, setResults] = useState([]);
   const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
 
@@ -22,8 +22,8 @@ const Learn = (props: React.PropsWithChildren<IResults>) => {
   const [previousRdn, setPreviousRdn] = useState<number>();
 
   useEffect(() => {
-    Getdata(currentCollection, setConcept, setErrorText, setResults);
-  }, [currentCollection]);
+    Getdata(currentCollectionId, setConcept, setErrorText, setResults);
+  }, [currentCollectionId]);
 
   const displayCard = (listCollections: Array<IFlashcard>) => {
     // Create a fake flashcard for every new card after the first one;
@@ -58,6 +58,7 @@ const Learn = (props: React.PropsWithChildren<IResults>) => {
             concept={concept}
             def={def}
             errorText={errorText}
+            textInstruction={"In this module your cards are shuffled randomly so you can learn about their content."}
           />     
         ) : (
           <h3 className="title-s">Select a collection to start learning.</h3>
@@ -69,6 +70,8 @@ const Learn = (props: React.PropsWithChildren<IResults>) => {
             concept={concept}
             def={def}
             errorText={errorText}
+            textInstruction={"In this module your cards are shuffled randomly so you can learn about their content."}
+            
           />
         ) : null}
       </main>

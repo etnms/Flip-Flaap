@@ -1,0 +1,44 @@
+@use "../SassStyles/variables";
+@use "../SassStyles/mixin";
+
+.wrapper-no-auth {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0 4rem;
+  background-color: variables.$dark-white;
+}
+.wrapper-sections {
+  @include mixin.flex-center;
+  flex-direction: column;
+}
+.section-get-started {
+  padding: 0.5rem 4rem;
+  width: 80vw;
+}
+
+.section-get-started p {
+  font-size: 1.2rem;
+  margin: 1rem;
+  text-align: left;
+}
+
+.section-login p {
+  text-align: center;
+}
+
+.get-started {
+  height: 80vh;
+  background-color: white;
+  margin: 1rem;
+  border-radius: 8px;
+}
+
+.title-get-started {
+  margin-top: 1.5rem;
+}
+
+.get-started-b {
+  font-size: 1.2rem;
+}
+

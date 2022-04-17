@@ -1,5 +1,6 @@
 @use "./SassStyles/variables.scss";
 @use "./SassStyles/mixin.scss";
+@use "./SassStyles/animations";
 
 * {
   padding: 0;
@@ -53,24 +54,12 @@ body {
   position: relative;
 }
 
-/* App looks if not authenticated */
-
-.wrapper-no-auth {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: 0 4rem;
-  background-color: variables.$dark-white;
+.space-m {
+  @include mixin.spacing-m;
 }
 
-.getting-started {
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-  margin: 1rem;
-  border-radius: 8px;
+.deleted-item {
+  animation: delete 500ms !important;
 }
 
 /* Scrollbar */
@@ -93,3 +82,5 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background-color: darken(#727272, 10%);
 }
+
+

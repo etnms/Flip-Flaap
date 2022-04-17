@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.scss";
-import "../SassStyles/Buttons.scss";
+import "../../SassStyles/Buttons.scss";
 import React from "react";
 
 interface ILoginProps {
@@ -8,10 +8,11 @@ interface ILoginProps {
   setIsLoggedIn: Function;
   setMode: Function;
   username: string;
+  setFirstLoad: Function;
 }
 
 const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
-  const { isLoggedIn, setIsLoggedIn, setMode, username } = props;
+  const { isLoggedIn, setIsLoggedIn, setFirstLoad, setMode, username } = props;
   const navigate = useNavigate();
 
   const signup = () => {
@@ -25,6 +26,7 @@ const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
   const signOut = () => {
     localStorage.setItem("token", "");
     setIsLoggedIn(false);
+    setFirstLoad(true);
   };
 
   const selectMode = (mode: string, e: React.MouseEvent<HTMLButtonElement>) => {
@@ -54,17 +56,17 @@ const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
         )}
         {!isLoggedIn ? (
           <nav className="nav nav-auth">
-            <button onClick={() => signup()} className="btn-white btn-border">
+            <button onClick={() => signup()} className="btn-white btn-border" aria-label="signup button">
               Sign up
             </button>
-            <button onClick={() => login()} className="btn-primary">
+            <button onClick={() => login()} className="btn-primary" aria-label="login button">
               Login
             </button>
           </nav>
         ) : (
           <nav className="nav nav-auth">
             <p>Welcome, {username}</p>
-            <button onClick={() => signOut()} className="btn-white btn-border">
+            <button onClick={() => signOut()} className="btn-white btn-border" aria-label="sign out button">
               Sign out
             </button>
           </nav>

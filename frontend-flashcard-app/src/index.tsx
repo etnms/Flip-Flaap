@@ -5,12 +5,15 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
+import { Provider } from 'react-redux'
+import {store} from './app/store'
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}/>
@@ -18,6 +21,7 @@ root.render(
         <Route path="/signup" element={<Signup />} />
       </Routes>
     </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
 

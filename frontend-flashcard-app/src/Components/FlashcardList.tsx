@@ -1,35 +1,36 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Flashcard from "./Flashcard";
 import FormFlashcard from "./FormFlashcard";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import "./FlashcardList.scss";
 import FlashcardDisplayStyle from "./FlashcardDisplayStyle";
+import { useAppSelector } from "../app/hooks";
 
-interface INameCollection {
-  currentCollection: string;
-}
+const FlashcardList = () => {
+  const currentCollection = useAppSelector((state) => state.currentCollection.value);
+  const currentCollectionId = useAppSelector((state) => state.currentCollection._id)
+  const token = localStorage.getItem("token");
 
-const FlashcardList = (props: React.PropsWithChildren<INameCollection>) => {
   const [flashcards, setFlashcards] = useState<Array<IFlashcard>>([]);
-
-  const { currentCollection } = props;
-
   const [itemChange, setItemChange] = useState(false);
-
   const [showFlashcardForm, setShowFlashcardForm] = useState(false);
 
   useEffect(() => {
+
     if (currentCollection !== "") {
-      axios
-        .get(`${process.env.REACT_APP_BACKEND}/api/flashcards`, { params: { currentCollection } })
-        .then((res) => {
-          setFlashcards(res.data.results.collections[0].flashcards);
-          setItemChange(false);
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_BACKEND}/api/flashcards`,
+        params: { currentCollectionId },
+        headers: {Authorization: token!}
+      }).then((res) => {
+          setFlashcards(res.data.results.collections.flashcards);
+          setItemChange(false);       
         })
         .catch((err) => console.log(err));
     }
-  }, [currentCollection, itemChange]);
+  }, [currentCollection, currentCollectionId, itemChange, token]);
 
   const createCards = () => {
     return flashcards.map((card) => (
@@ -59,11 +60,11 @@ const FlashcardList = (props: React.PropsWithChildren<INameCollection>) => {
             {!showFlashcardForm ? "Create new flashcard" : "Hide flashcard maker"}
           </button>
           {showFlashcardForm ? (
-            <FormFlashcard currentCollection={currentCollection} setItemChange={setItemChange} />
+            <FormFlashcard setItemChange={setItemChange} />
           ) : null}
         </main>
       );
-    else return <p>No collection is open</p>;
+    else return  <main className="main-view"><h1 className="title-s">No collection is currently open</h1></main>;
   };
 
   return <div className="wrapper-main">{renderMainView()}</div>;

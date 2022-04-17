@@ -1,11 +1,13 @@
 import "./Practice.scss";
+import "./PracticeLearningActivity.scss";
 import { useEffect, useState } from "react";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
-import { IResults } from "../Interfaces/InterfaceResults";
-import { checkCollectionSize, Getdata, PracticeLearnActivity, RenderButton } from "./PracticeLearnActivity";
+import { checkCollectionSize, createFakeFlashcard, Getdata, PracticeLearnActivity, RenderButton } from "./PracticeLearnActivity";
+import { useAppSelector } from "../app/hooks";
 
-const Practice = (props: React.PropsWithChildren<IResults>) => {
-  const { currentCollection } = props;
+const Practice = () => {
+  const currentCollection = useAppSelector((state) => state.currentCollection.value);
+  const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
 
   const [results, setResults] = useState([]);
   const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
@@ -18,10 +20,13 @@ const Practice = (props: React.PropsWithChildren<IResults>) => {
   const [previousRdn, setPreviousRdn] = useState<number>();
 
   useEffect(() => {
-    Getdata(currentCollection, setConcept, setErrorText, setResults);
-  }, [currentCollection]);
+    Getdata(currentCollectionId, setConcept, setErrorText, setResults);
+  }, [currentCollectionId]);
 
   const createRandomCard = (listCollections: Array<IFlashcard>) => {
+
+    if (concept) createFakeFlashcard(concept, def);
+
     setAnswerSubmitted(false);
     // Reinitialize check message & samecard for every card
     setSameCard(true);
@@ -84,6 +89,7 @@ const Practice = (props: React.PropsWithChildren<IResults>) => {
               concept={concept}
               def={def}
               errorText={errorText}
+              textInstruction={"In this module your cards are shuffle and you'll be asked to recognize which ones are correct."}
             />
             {concept? (
             
@@ -113,6 +119,7 @@ const Practice = (props: React.PropsWithChildren<IResults>) => {
             concept={concept}
             def={def}
             errorText={errorText}
+            textInstruction={"In this module your cards are mixed up and you'll be asked to recognize which ones are correct."}
           />
         ) : null}
       </main>

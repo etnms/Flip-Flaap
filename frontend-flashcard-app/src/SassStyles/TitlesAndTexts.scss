@@ -1,5 +1,6 @@
 @use "./mixin";
 @use "./animations";
+
 .title {
   font-size: 2rem;
   @include mixin.spacing-s;
@@ -7,10 +8,13 @@
 
 .title-s {
   font-size: 1.5rem;
-  margin: 0.2rem;
+  margin: 0.3rem;
 }
 
 .error-msg {
   @include mixin.alert-text;
   animation: error-shake 250ms ;
+  width: 100%;
+  word-wrap: break-word;
+  text-align: center;
 }

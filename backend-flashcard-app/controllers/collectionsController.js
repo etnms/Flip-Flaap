@@ -5,15 +5,10 @@ import async from "async";
 
 const getCollection = (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authData) => {
-    if (err) {
-      res.status(400);
-      return;
-    }
-    User.findOne({ user: authData.user.username }).exec((err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      } else
+    if (err) return res.status(400);
+    User.findById(authData.user._id).exec((err, result) => {
+      if (err) return res.status(400).json({ error: "Error login" });
+      else
         async.parallel(
           {
             collections: (callback) => {
@@ -22,9 +17,9 @@ const getCollection = (req, res) => {
           },
           (err, results) => {
             if (err) {
-              res.status(400).send(err);
+              return res.status(400).send(err);
             }
-            res.status(200).json({ results });
+            return res.status(200).json({ results });
           }
         );
     });
@@ -34,34 +29,22 @@ const getCollection = (req, res) => {
 const postCollection = (req, res) => {
   const name = req.body.name;
 
-  if (name.length > 80) {
-    res.status(400).json({ error: "Name too long" });
-    return;
-  }
+  if (name.length > 80) return res.status(400).json({ error: "Name too long" });
 
   jwt.verify(req.token, "secretkey", (err, authData) => {
-    if (err) {
-      res.status(403);
-      return;
-    } else {
+    if (err) return res.status(403);
+    else {
       User.findOne({ username: authData.user.username }).exec((err, result) => {
-        if (err) {
-          res.status(400).json({ error: "Error creation collection" });
-          return;
-        }
+        if (err) return res.status(400).json({ error: "Error creation collection" });
+
         if (result) {
           new Collection({
             name,
             user: result,
-          }).save((err) => {
-            if (err) {
-              res.status(400).json({ error: "Error field empty" });
-              return;
-            } else {
-              res.status(200).json({ message: "Collection created" });
-              //name: result.name, _id: result._id, user: result.user.name,
-              return;
-            }
+          }).save((err, result) => {
+            if (err) return res.status(400).json({ error: "Error field empty" });
+            else return res.status(200).json({ message: "Collection created", _id: result._id });
+            //name: result.name, _id: result._id, user: result.user.name,
           });
         }
       });
