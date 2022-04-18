@@ -28,6 +28,7 @@ const getCollection = (req, res) => {
 
 const postCollection = (req, res) => {
   const name = req.body.name;
+  //const type = req.body.type;
 
   if (name.length > 80) return res.status(400).json({ error: "Name too long" });
 
@@ -41,6 +42,7 @@ const postCollection = (req, res) => {
           new Collection({
             name,
             user: result,
+            //type,
           }).save((err, result) => {
             if (err) return res.status(400).json({ error: "Error field empty" });
             else return res.status(200).json({ message: "Collection created", _id: result._id });

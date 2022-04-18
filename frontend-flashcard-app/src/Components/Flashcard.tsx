@@ -91,15 +91,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
             onChange={(e) => handleChange(e, "definition")}></textarea>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
-            {loadingDelete ? ( // Loading animation if item is being deleted
-              <Loader />
-            ) : (
-              <DeleteOutlinedIcon
-                onClick={(e) => deleteFlashcard(_id, collectionName, e)}
-                className="icon icon-delete"
-                aria-label="button delete flashcard"
-              />
-            )}
+            {renderDelBtn()}
             <CheckIcon
               onClick={() => editFlashcard()}
               className="icon icon-edit"
@@ -117,15 +109,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
           <p className="def-text"> Definition: {defText}</p>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
-            {loadingDelete ? ( // Loading animation if item is being deleted
-              <Loader /> 
-            ) : (
-              <DeleteOutlinedIcon
-                onClick={(e) => deleteFlashcard(_id, collectionName, e)}
-                className="icon icon-delete"
-                aria-label="button delete flashcard"
-              />
-            )}
+            {renderDelBtn()}
             <EditIcon
               onClick={() => setEdit(true)}
               className="icon icon-edit"
@@ -135,6 +119,20 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
         </div>
       );
     }
+  };
+
+  // Common delete button between view/edit modes
+  const renderDelBtn = () => {
+    // Loading animation if item is being deleted
+    if (loadingDelete) return <Loader />;
+    else
+      return (
+        <DeleteOutlinedIcon
+          onClick={(e) => deleteFlashcard(_id, collectionName, e)}
+          className="icon icon-delete"
+          aria-label="button delete flashcard"
+        />
+      );
   };
 
   return renderFlashcard();

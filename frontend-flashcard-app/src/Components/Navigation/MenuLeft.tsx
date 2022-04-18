@@ -9,15 +9,11 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { openCollectionForm } from "../../features/openCollectionFormSlice";
 
 const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
-  const { collectionNames} = props;
+  const { collectionNames } = props;
 
   const dispatch = useAppDispatch();
 
   const confirmDeleteOpen = useAppSelector((state) => state.confirmDeleteMenu.value);
-
-  // Get the name of the collection for delete purposes
-  const nameCollectionDelete= useAppSelector((state) => state.confirmDeleteMenu.nameCollectionDelete); 
-
   // Prop drilling for the selectedHTML as redux is not really a good option here (not a "normal" object)
   const [selectedHTML, setSelectedHTML] = useState<HTMLElement>();
 
@@ -25,11 +21,7 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
   const displayNames = () => {
     return collectionNames.map((result) => (
       <li key={result._id}>
-        <MenuLeftItem
-          _id={result._id}
-          name={result.name}
-          setSelectedHTML={setSelectedHTML}
-        />
+        <MenuLeftItem _id={result._id} name={result.name} setSelectedHTML={setSelectedHTML} />
       </li>
     ));
   };
@@ -37,8 +29,10 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
   return (
     <div className="menu-left">
       <h1 className="title">Collections</h1>
+      <h2>First collection</h2>
       <ul className="nav-collections">{displayNames()}</ul>
-      <button onClick={() => dispatch(openCollectionForm(true))} className="btn-white">
+      <h2>Second collection</h2>
+      <button onClick={() => dispatch(openCollectionForm(true))} className="btn-white btn-new-collec">
         Create new collection
       </button>
       {confirmDeleteOpen ? (
@@ -46,7 +40,6 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
           selectedHTML={selectedHTML!}
         />
       ) : null}
-      
     </div>
   );
 };

@@ -5,12 +5,14 @@ interface DeleteConfirm {
   value: boolean;
   loadingDelete: boolean;
   nameCollectionDelete: string;
+  idCollectionDelete: string;
 }
 
 const initialState: DeleteConfirm = {
   value: false,
   loadingDelete: false,
   nameCollectionDelete: "",
+  idCollectionDelete: "",
 };
 
 const deleteConfirmSlice = createSlice({
@@ -26,10 +28,13 @@ const deleteConfirmSlice = createSlice({
     setNameCollectionDelete: (state, action: PayloadAction<string>) => {
       state.nameCollectionDelete = action.payload;
     },
+    setIDcollectionDelete: (state, action: PayloadAction<string>) => {
+      state.idCollectionDelete = action.payload;
+    }
   },
 });
 
-export const { setNameCollectionDelete, openDeleteConfirm, showLoadingDelete } = deleteConfirmSlice.actions;
+export const {  openDeleteConfirm, setIDcollectionDelete, setNameCollectionDelete, showLoadingDelete } = deleteConfirmSlice.actions;
 
 export const deleteConfirm = (state: RootState) => state.confirmDeleteMenu.value;
 

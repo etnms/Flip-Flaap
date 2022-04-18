@@ -1,20 +1,21 @@
 @use "../../SassStyles/variables";
 
-.loader {
+.loader, .loader-del-col {
   border: 3px solid white;
-  border-top: 3px solid lighten(variables.$light-blue, 15%);
   border-radius: 50%;
-  width: 1.5rem;
-  height: 1.5rem;
   animation: spin 2s linear infinite;
 }
-
-.loader-blue {
-  border: 3px solid white;
+.loader {
   border-top: 3px solid lighten(variables.$light-blue, 15%);
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.loader-dark {
+.loader-del-col {
+  border-radius: 50%;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-top: 3px solid variables.$dark;
 }
 
 @keyframes spin {

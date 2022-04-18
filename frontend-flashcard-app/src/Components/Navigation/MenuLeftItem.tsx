@@ -5,10 +5,10 @@ import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { changeCurrentCollection, changeCurrentCollectionId } from "../../features/collectionSlice";
-import { openDeleteConfirm, setNameCollectionDelete } from "../../features/deleteConfirmSlice";
+import { openDeleteConfirm, setIDcollectionDelete, setNameCollectionDelete } from "../../features/deleteConfirmSlice";
 import { IMenuLeftItem } from "../../Interfaces/InterfaceMenu";
 import { openCollectionForm } from "../../features/openCollectionFormSlice";
-import Loader from "../Loaders/Loader";
+
 
 const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   const { _id, name, setSelectedHTML } = props;
@@ -20,11 +20,11 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
 
   const dispatch = useAppDispatch();
   const collectionFormOpen = useAppSelector((state) => state.openCollectionForm.open);
-  const loadingDelete = useAppSelector((state) => state.confirmDeleteMenu.loadingDelete);
 
   const openConfirmDelete = (_id: string, name: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     dispatch(setNameCollectionDelete(name))
-    dispatch(changeCurrentCollectionId(_id));
+    dispatch(setIDcollectionDelete(_id));
+   // dispatch(changeCurrentCollectionId(_id));
     dispatch(openDeleteConfirm(true));
 
     // Get the html of the parent (name in menu + icon) for the delete animation
@@ -48,6 +48,7 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   const selectCollection = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, name: string, _id: string) => {
     dispatch(changeCurrentCollection(name));
     dispatch(changeCurrentCollectionId(_id));
+    // UI: Remove the previous active collection and assign selected one 
     const activeItem = document.querySelector(".active-menu-item");
     activeItem?.classList.remove("active-menu-item");
     (e.target as HTMLButtonElement).classList.add("active-menu-item");
@@ -58,6 +59,7 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   };
 
   return (
+    
     <span className="collection-link">
       {edit ? (
         <input
@@ -86,17 +88,15 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
             aria-label="button edit collection"
           />
         )}
-        {loadingDelete ? (
-          <Loader /> // Check if element is being deleted
-        ) : (
           <DeleteOutlinedIcon
             onClick={(e) => openConfirmDelete(_id, currentName, e)}
             className="icon icon-delete"
             aria-label="button delete collection"
           />
-        )}
+        
       </span>
     </span>
+    
   );
 };
 

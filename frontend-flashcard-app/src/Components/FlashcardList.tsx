@@ -17,7 +17,6 @@ const FlashcardList = () => {
   const [showFlashcardForm, setShowFlashcardForm] = useState(false);
 
   useEffect(() => {
-
     if (currentCollection !== "") {
       axios({
         method: "get",
