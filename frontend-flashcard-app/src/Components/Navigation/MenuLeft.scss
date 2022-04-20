@@ -10,7 +10,7 @@
 }
 
 .nav-collections {
-  margin: 1rem;
+  margin: 0.5rem 1rem;
   list-style: none;
 }
 
@@ -26,6 +26,46 @@
   align-items: center;
 }
 
+// Subtitles
+.wrapper-subtitle {
+  margin: auto; // Center the subtitles
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+  background-color: #ffffff0c;
+  border-radius: 6px;
+  padding: 0.2rem;
+}
+
+.wrapper-subtitle:hover {
+  background-color: #ffffff1c;
+}
+
+.menu-subtitle {
+  font-size: 1.3rem;
+  text-align: left;
+  margin: 0 0.4rem;
+}
+
+.arrow {
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  margin: 5px;
+  transform: rotate(-135deg);
+  transition: 300ms;
+}
+
+.arrow-down {
+  transform: rotate(45deg);
+  transition: 300ms;
+}
+
+// Collections 
 .collection-name {
   text-align: left;
   font-size: 1.3rem;
@@ -90,4 +130,8 @@
   width: 90%;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.collec-hidden {
+ display: none;
 }

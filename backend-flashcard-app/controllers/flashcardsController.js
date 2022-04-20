@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 const displayFlashcards = (req, res) => {
   jwt.verify(req.token, "secretkey", (err) => {
-    if (err) return res.status(403);
+    if (err) return res.sendStatus(403);
 
     const _id = req.query.currentCollectionId;
 
@@ -42,7 +42,7 @@ const createFlashcard = (req, res) => {
           return res.status(400).json({ message: "Error adding flashcard to collection" });
         } else {
           jwt.verify(req.token, "secretkey", (err) => {
-            if (err) return res.status(403);
+            if (err)  return res.sendStatus(403);
             else {
 
               Collection.findByIdAndUpdate(
@@ -66,7 +66,7 @@ const deleteFlashcard = (req, res) => {
   const name = req.body.name;
 
   jwt.verify(req.token, "secretkey", (err) => {
-    if (err) return res.status(403);
+    if (err) return res.sendStatus(403);
     else {
       Flashcard.findByIdAndDelete({ _id }, (err) => {
         if (err) return res.status(400).json({ message: "Error while deleting flashcard" });
@@ -87,10 +87,10 @@ const updateFlashcard = (req, res) => {
   const definition = req.body.definition;
 
   jwt.verify(req.token, "secretkey", (err) => {
-    if (err) return res.status(403);
+    if (err) return res.sendStatus(403);
     else {
       Flashcard.findByIdAndUpdate({ _id }, { concept, definition }, (err) => {
-        if (err) return res.status(403);
+        if (err) return res.sendStatus(403);
         return res.status(200).json({ message: "Flashcard was updated" });
       });
     }

@@ -3,9 +3,11 @@ import axios from "axios";
 import React from "react";
 import ErrorMessage from "./ErrorMessage";
 import { IActivity } from "../Interfaces/InterfaceActivity";
+import { useNavigate } from "react-router-dom";
 
 export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>) => {
   const { title, concept, def, errorText, textInstruction } = props;
+
 
   const renderCard = () => {
     if (concept)
@@ -58,6 +60,8 @@ export const Getdata = (
 ) => {
   setConcept(""); //reinitialize value in case of change of collection
   setErrorText("");
+
+
   const token = localStorage.getItem("token");
   if (currentCollectionId !== "") {
     axios({
@@ -71,7 +75,7 @@ export const Getdata = (
       })
       .catch((err) => {
         setResults([]);
-        if (err.response === 403) setErrorText("Error: you are not logged in.");
+
       });
   }
 };
@@ -92,7 +96,7 @@ export const createFakeFlashcard = (concept: string, def: string) => {
   fakecard.classList.add("learn-flashcard");
 
   // Only show the concept part of the card and not the full card
-  // If flip animation is not activated then showing the full card makes sense
+  // If flip animation is not activated then showing the full card makes sense, see comment below
   const titleText = document.createElement("h2");
   titleText.textContent = `Concept ${(<strong>{concept}</strong>)}`;
   titleText.classList.add("title-flashcard");

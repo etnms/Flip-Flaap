@@ -3,7 +3,6 @@ import "./LoadingScreen.scss";
 const LoadingScreen = () => {
   return (
     <div className="wrapper-loading">
-      <div className="loader"></div>
       <div className="loader-square">
         <div className="square-row">
           <div className="square square-1"></div>

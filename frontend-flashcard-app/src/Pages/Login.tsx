@@ -39,10 +39,16 @@ const Login = () => {
           </label>
           <input type="text" name="username" className="input-text" />
           <div className="wrapper-password-text">
-          <label htmlFor="password" className="input-label">
-            Password
-          </label>
-          <span className="tooltip">? <span className="tooltiptext"> Passwords contain 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.</span></span>
+            <label htmlFor="password" className="input-label">
+              Password
+            </label>
+            <span className="tooltip">
+              ?{" "}
+              <span className="tooltiptext">
+                {" "}
+                Passwords contain 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.
+              </span>
+            </span>
           </div>
           <input type="password" name="password" className="input-text" />
         </div>

@@ -1,5 +1,10 @@
 @use "../SassStyles/mixin";
 
+.title-list-cards {
+  max-width: 40vw;
+  word-wrap: break-word;
+}
+
 .flashcard-view {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

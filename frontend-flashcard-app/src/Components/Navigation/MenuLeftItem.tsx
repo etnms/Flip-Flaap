@@ -4,14 +4,16 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { changeCurrentCollection, changeCurrentCollectionId } from "../../features/collectionSlice";
+import { changeCurrentCollection, changeCurrentCollectionId, changeCurrentCollectionType } from "../../features/collectionSlice";
 import { openDeleteConfirm, setIDcollectionDelete, setNameCollectionDelete } from "../../features/deleteConfirmSlice";
 import { IMenuLeftItem } from "../../Interfaces/InterfaceMenu";
 import { openCollectionForm } from "../../features/openCollectionFormSlice";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../../features/expiredSessionSlice";
 
 
 const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
-  const { _id, name, setSelectedHTML } = props;
+  const { _id, name, type, setSelectedHTML } = props;
 
   const [edit, setEdit] = useState(false);
   const [currentName, setCurrentName] = useState(name); //extra name for the sole purpose of editing
@@ -19,12 +21,12 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   const token = localStorage.getItem("token");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const collectionFormOpen = useAppSelector((state) => state.openCollectionForm.open);
 
   const openConfirmDelete = (_id: string, name: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     dispatch(setNameCollectionDelete(name))
     dispatch(setIDcollectionDelete(_id));
-   // dispatch(changeCurrentCollectionId(_id));
     dispatch(openDeleteConfirm(true));
 
     // Get the html of the parent (name in menu + icon) for the delete animation
@@ -40,14 +42,18 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
         { _id, name },
         { headers: { Authorization: token! } }
       )
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+      .then()
+      .catch((err) => {if (err.response.status === 403) {
+        navigate("/redirect")}
+        dispatch(changeExpiredStatus(true));
+      });
     setEdit(false);
   };
 
-  const selectCollection = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, name: string, _id: string) => {
+  const selectCollection = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>, name: string, _id: string, type: string) => {
     dispatch(changeCurrentCollection(name));
     dispatch(changeCurrentCollectionId(_id));
+    dispatch(changeCurrentCollectionType(type))
     // UI: Remove the previous active collection and assign selected one 
     const activeItem = document.querySelector(".active-menu-item");
     activeItem?.classList.remove("active-menu-item");
@@ -59,7 +65,6 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   };
 
   return (
-    
     <span className="collection-link">
       {edit ? (
         <input
@@ -70,7 +75,7 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
           onChange={(e) => setCurrentName((e.target as HTMLInputElement).value)}
         />
       ) : (
-        <span onClick={(e) => selectCollection(e, currentName, _id)} className="collection-name">
+        <span onClick={(e) => selectCollection(e, currentName, _id, type)} className="collection-name">
           {currentName}
         </span>
       )}

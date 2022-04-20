@@ -7,6 +7,8 @@ import { openDeleteConfirm, showLoadingDelete } from "../features/deleteConfirmS
 import { menuChange } from "../features/menuChangeSlice";
 import { useState } from "react";
 import { LoaderDeleteCollection } from "./Loaders/Loader";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
 const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
   const { selectedHTML } = props;
@@ -14,6 +16,7 @@ const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
   const token = localStorage.getItem("token");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // Get the name of the collection for delete purposes
   const nameCollectionDelete = useAppSelector((state) => state.confirmDeleteMenu.nameCollectionDelete);
@@ -41,9 +44,13 @@ const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
         // by change the currentcollection name to null
         if (currentCollection === nameCollectionDelete) dispatch(changeCurrentCollection(""));
       })
-      .catch(() => {
+      .catch((err) => {
         dispatch(showLoadingDelete(false));
         setDeleteLoading(false);
+        if (err.response.status === 403) {
+          dispatch(changeExpiredStatus(true));
+          navigate("/redirect")
+        }
       });
   };
 

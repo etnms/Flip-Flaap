@@ -34,7 +34,7 @@ const deleteConfirmSlice = createSlice({
   },
 });
 
-export const {  openDeleteConfirm, setIDcollectionDelete, setNameCollectionDelete, showLoadingDelete } = deleteConfirmSlice.actions;
+export const { openDeleteConfirm, setIDcollectionDelete, setNameCollectionDelete, showLoadingDelete } = deleteConfirmSlice.actions;
 
 export const deleteConfirm = (state: RootState) => state.confirmDeleteMenu.value;
 

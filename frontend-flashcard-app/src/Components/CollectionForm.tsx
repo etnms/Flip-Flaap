@@ -1,17 +1,21 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { changeCurrentCollection, changeCurrentCollectionId } from "../features/collectionSlice";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { menuChange } from "../features/menuChangeSlice";
 import { openCollectionForm } from "../features/openCollectionFormSlice";
 import "./CollectionForm.scss";
 import ErrorMessage from "./ErrorMessage";
 
 const CollectionForm = () => {
-
   const token = localStorage.getItem("token");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  // Get the type in the state to be used later for class animations
+  const [type, setType] = useState("concept");
 
   // Create an empty error message to check if input is valid. If so, stays as 0, otherwise message indicate type of errors until correct.
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,24 +24,29 @@ const CollectionForm = () => {
     e.preventDefault();
 
     const name = (document.querySelector("input[name='name']") as HTMLFormElement).value;
+  
     axios
       .post(
         `${process.env.REACT_APP_BACKEND}/api/collections`,
-        { name },
+        { name, type },
         { headers: { Authorization: token! } }
       )
       .then((res) => {
         // Name valid, reset the errorMessage value and close the form
         setErrorMessage("");
         dispatch(openCollectionForm(false));
-        // Open the new collection 
-        dispatch(changeCurrentCollectionId(res.data._id))
+        // Open the new collection
+        dispatch(changeCurrentCollectionId(res.data._id));
         dispatch(changeCurrentCollection(name));
         // Wait a bit and then assign the active status to the newly created element
         // This doesn't seem to be the most optimal solution but it works
-        setTimeout(() => assignActiveHtml(), 50);
+        setTimeout(() => assignActiveHtml(), 300);
       })
       .catch((err) => {
+        if (err.response.status === 403) {
+          navigate("/redirect")
+          dispatch(changeExpiredStatus(true));
+        }
         if (err.response.data.error === "Name too long") {
           setErrorMessage(
             "Error: the name of the collection is too long. A collection name cannot be longer than 80 characters."
@@ -57,17 +66,21 @@ const CollectionForm = () => {
   const assignActiveHtml = () => {
     const activeItem = document.querySelector(".active-menu-item");
     activeItem?.classList.remove("active-menu-item");
-    const navCollection = document.querySelector(".nav-collections");
+    const navCollection = document.querySelector(`.collec-${type}`);
     const lastLi = navCollection?.lastChild;
     const link = lastLi?.firstChild;
     const el = link?.firstChild;
     (el as HTMLElement).classList.add("active-menu-item");
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLElement>) => {
     if ((e.target as HTMLInputElement).value !== "" && (e.target as HTMLInputElement).value.length < 80) {
       setErrorMessage("");
     }
+  };
+
+  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
+    setType(e.target.value);
   };
 
   return (
@@ -78,6 +91,14 @@ const CollectionForm = () => {
           Collection name:
         </label>
         <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
+        <label htmlFor="collection-type-select" className="input-label">
+          Type of collection:
+        </label>
+        <select name="collection-type-select" className="select-collection" onChange={(e) => handleSelect(e)}>
+          <option value="concept">Concepts</option>
+          <option value="language">Language</option>
+          <option value="to-do">To do</option>
+        </select>
         <button type="submit" className="btn-primary">
           Create collection
         </button>

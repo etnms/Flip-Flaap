@@ -1,0 +1,24 @@
+@use "../SassStyles/variables";
+@use "../SassStyles/mixin";
+.redirect-main {
+    height: 100vh;
+    background-color: variables.$dark-white;
+    @include mixin.flex-center;
+}
+
+.wrapper-redirect-message {
+    background-color: white;
+    height: 40vh;
+    width: 40vw;
+    border-radius: 8px;
+    @include mixin.flex-center;
+    flex-direction: column;
+    @include mixin.box-shadow;
+    gap: 0.5rem;
+
+}
+
+.wrapper-redirect-message p {
+    text-align: center;
+    font-size: 1.5rem;
+}

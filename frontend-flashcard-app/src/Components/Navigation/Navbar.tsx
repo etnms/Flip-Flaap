@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 import "../../SassStyles/Buttons.scss";
-import React from "react";
 
 interface ILoginProps {
   isLoggedIn: boolean;

@@ -23,6 +23,13 @@ body {
   height: 100vh;
 }
 
+.icon-main {
+  height: 4rem;
+  width: auto;
+  margin-top: 1rem;
+  cursor: default;
+}
+
 .wrapper-content {
   display: flex;
   flex-direction: row;

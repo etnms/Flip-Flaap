@@ -6,11 +6,17 @@ import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import "./FlashcardList.scss";
 import FlashcardDisplayStyle from "./FlashcardDisplayStyle";
 import { useAppSelector } from "../app/hooks";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { useDispatch } from "react-redux";
 
 const FlashcardList = () => {
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id)
   const token = localStorage.getItem("token");
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [flashcards, setFlashcards] = useState<Array<IFlashcard>>([]);
   const [itemChange, setItemChange] = useState(false);
@@ -27,9 +33,12 @@ const FlashcardList = () => {
           setFlashcards(res.data.results.collections.flashcards);
           setItemChange(false);       
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {if (err.response.status === 403) {
+          dispatch(changeExpiredStatus(true));
+          navigate("/redirect")}
+        });
     }
-  }, [currentCollection, currentCollectionId, itemChange, token]);
+  }, [currentCollection, currentCollectionId, itemChange, token, navigate, dispatch]);
 
   const createCards = () => {
     return flashcards.map((card) => (
@@ -49,7 +58,7 @@ const FlashcardList = () => {
     if (currentCollection !== "")
       return (
         <main className="main-view">
-          <h1 className="title">Collection: {currentCollection}</h1>
+          <h1 className="title title-list-cards">Collection: {currentCollection}</h1>
           <div className="flashcard-view">
             {createCards()} <FlashcardDisplayStyle />
           </div>

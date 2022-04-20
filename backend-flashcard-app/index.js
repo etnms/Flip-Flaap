@@ -43,6 +43,11 @@ app.use("/", displayCards);
 app.use("/", deleteCard);
 app.use("/", updateCard);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`app is listening on port ${port}`);
 });
+
+server;
+
+server.setTimeout(45000);
+

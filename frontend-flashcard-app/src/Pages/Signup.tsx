@@ -21,7 +21,6 @@ const Signup = () => {
     axios
       .post("http://localhost:8000/api/signup", { email, username, password, confirmPassword })
       .then((res) => {
-        console.log(res);
         if (res.data.message === "User created") {
           localStorage.setItem("token", res.data.token);
           navigateIndex();

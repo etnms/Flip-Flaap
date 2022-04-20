@@ -8,6 +8,10 @@ import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
 import React, { useState } from "react";
 import Loader from "./Loaders/Loader";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { conceptTypeText, defTypeText } from "../helper/helper";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
 const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const { _id, concept, collectionName, date, definition, setItemChange } = props;
@@ -15,6 +19,11 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const token = localStorage.getItem("token");
 
   const [edit, setEdit] = useState(false);
+
+  const type = useAppSelector((state) => state.currentCollection.type);
+  
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const [conceptText, setConceptText] = useState(concept);
   const [defText, setDefText] = useState(definition);
@@ -48,7 +57,13 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
         setTimeout(() => setItemChange(true), 100);
         setLoadingDelete(false);
       })
-      .catch(() => setLoadingDelete(false));
+      .catch((err) => {
+        if (err.response.status === 403) {
+          navigate("/redirect");
+          dispatch(changeExpiredStatus(true));
+        }
+        setLoadingDelete(false);
+      });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLElement>, elementName: string) => {
@@ -67,10 +82,15 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
         },
         { headers: { Authorization: token! } }
       )
-      .then((res) => {
+      .then(() => {
         setEdit(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 403) {
+          navigate("/redirect");
+          dispatch(changeExpiredStatus(true));
+        }
+      });
   };
 
   const renderFlashcard = () => {
@@ -104,9 +124,12 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
       return (
         <div className="flashcard">
           <h2 className="title-flashcard">
-            Concept: <strong>{conceptText}</strong>
+            {conceptTypeText(type)}: <strong>{conceptText}</strong>
           </h2>
-          <p className="def-text"> Definition: {defText}</p>
+          <p className="def-text">
+            {" "}
+            {defTypeText(type)}: {defText}
+          </p>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
             {renderDelBtn()}

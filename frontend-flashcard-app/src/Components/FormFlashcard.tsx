@@ -1,6 +1,10 @@
 import axios from "axios";
 import React, { PropsWithChildren, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { conceptTypeText, defTypeText } from "../helper/helper";
 import "../SassStyles/Forms.scss";
 import ErrorMessage from "./ErrorMessage";
 
@@ -13,9 +17,14 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
 
   const token = localStorage.getItem("token");
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [errorPost, setErrorPost] = useState(false);
 
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
+  const type = useAppSelector((state) => state.currentCollection.type);
+
   useEffect(() => {
     setErrorPost(false);
   }, [currentCollectionId]);
@@ -41,17 +50,21 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
         if (err.response.data.message === "Error field empty") {
           setErrorPost(true);
         }
+        if (err.response.status === 403) {
+          dispatch(changeExpiredStatus(true));
+          navigate("/redirect")
+        }
       });
   };
 
   return (
     <form onSubmit={(e) => createFlashCard(e)} className="form form-flashcard">
       <label htmlFor="concept" className="input-label">
-        Concept:
+        {conceptTypeText(type)}:
       </label>
       <input type="text" name="concept" placeholder="Name of the concept" className="input-text-flashcard" />
       <label htmlFor="definition" className="input-label">
-        Definition:
+        {defTypeText(type)}:
       </label>
       <textarea
         name="definition"

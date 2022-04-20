@@ -1,3 +1,4 @@
+import Icon from "../Assets/Flip-Flaap-black.png";
 import { useNavigate } from "react-router-dom";
 import "./GettingStarted.scss";
 
@@ -14,7 +15,7 @@ const GettingStarted = () => {
 
   return (
     <main className="get-started">
-      <h1 className="title title-get-started">Flashcard Maker</h1>
+      <img src={Icon} alt="icon" className="icon-main"/>
       <div className="wrapper-sections">
         <section className="section-get-started">
           <p>
@@ -39,7 +40,7 @@ const GettingStarted = () => {
             {" "}to get started.
           </p>
           <p>
-            Flashcard Maker is completely <strong className="get-started-b">free!</strong>
+            Flip-Flaap is completely <strong className="get-started-b">free!</strong>
           </p>
         </section>
       </div>

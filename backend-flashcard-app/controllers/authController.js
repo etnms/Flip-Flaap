@@ -22,9 +22,9 @@ const userLogin = (req, res) => {
         if (err) return res.status(400).json("There was a problem");
         if (!result) return res.status(400).json("Incorrect username or password");
         if (result) {
-          jwt.sign({ user }, "secretkey", (err, token) => {
+          jwt.sign({ user }, "secretkey", { expiresIn: "7d" }, (err, token) => {
             if (err) return res.status(400).json("Incorrect username or password");
-            return res.status(200).json({ token });
+            return res.status(200).json({ token: `Bearer ${token}` });
           });
         }
       });
@@ -67,9 +67,9 @@ const userSignup = (req, res) => {
           return res.status(400).json("Email already exists");
         else return res.status(400).json("There was an error");
       } else {
-        jwt.sign({ user }, "secretkey", (err, token) => {
-          if (err) return res.status(403);
-          return res.status(200).json({ token, message: "User created" });
+        jwt.sign({ user }, "secretkey", { expiresIn: "7d" }, (err, token) => {
+          if (err) return res.sendStatus(403);
+          return res.status(200).json({ token: `Bearer ${token}`, message: "User created" });
         });
       }
     });

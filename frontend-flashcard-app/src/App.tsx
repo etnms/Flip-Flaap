@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./App.scss";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import CollectionForm from "./Components/CollectionForm";
@@ -16,6 +17,8 @@ const App = () => {
   const token = localStorage.getItem("token");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   // Value for animation purposes => when create/delete users can see the collection list being changed
   const menuChangeValue = useAppSelector((state) => state.menuChangeValue.value);
   // Check if the menu for a new collection is open
@@ -36,10 +39,11 @@ const App = () => {
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
       .then((res) => {
         setUsername(res.data);
-
         setIsLoggedIn(true);
       })
-      .catch((err) => setIsLoggedIn(false));
+      .catch(() => {
+        setIsLoggedIn(false);
+      });
 
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/collections`, { headers: { Authorization: token! } })

@@ -28,12 +28,12 @@ const getCollection = (req, res) => {
 
 const postCollection = (req, res) => {
   const name = req.body.name;
-  //const type = req.body.type;
+  const type = req.body.type;
 
   if (name.length > 80) return res.status(400).json({ error: "Name too long" });
 
   jwt.verify(req.token, "secretkey", (err, authData) => {
-    if (err) return res.status(403);
+    if (err)  return res.sendStatus(403);
     else {
       User.findOne({ username: authData.user.username }).exec((err, result) => {
         if (err) return res.status(400).json({ error: "Error creation collection" });
@@ -42,7 +42,7 @@ const postCollection = (req, res) => {
           new Collection({
             name,
             user: result,
-            //type,
+            type,
           }).save((err, result) => {
             if (err) return res.status(400).json({ error: "Error field empty" });
             else return res.status(200).json({ message: "Collection created", _id: result._id });
@@ -59,13 +59,13 @@ const deleteCollection = (req, res) => {
 
   jwt.verify(req.token, "secretkey", (err) => {
     if (err) {
-      res.status(403);
+      return res.sendStatus(403);
     } else {
       Collection.deleteOne({ _id }, (err) => {
         if (err) {
           console.log(err);
-          res.status(400).json({ error: "Error deleting collection" });
-          return;
+          return res.status(400).json({ error: "Error deleting collection" });
+          
         } else {
           res.status(200).json({ message: "Successfully deleted" });
         }
@@ -80,15 +80,13 @@ const editCollection = (req, res) => {
 
   jwt.verify(req.token, "secretkey", (err) => {
     if (err) {
-      res.send(403);
-      return;
+      return res.sendStatus(403);
     }
     Collection.findByIdAndUpdate({ _id }, { name }, (err) => {
       if (err) {
-        res.status(400).json({ error: "Problem renaming collection" });
-        return;
+        return res.status(400).json({ error: "Problem renaming collection" });
       }
-      res.status(200).json({ message: "Collection name updated" });
+      return res.status(200).json({ message: "Collection name updated" });
     });
   });
 };
