@@ -6,7 +6,7 @@
   height: 100vh;
   @include mixin.flex-center;
   flex-direction: column;
-  background-color: variables.$dark-white;
+  background-color: var(--bg-primary);
 }
 
 .loading-text {
@@ -30,8 +30,9 @@
     display: flex;
     flex-direction: row;
 }
+
 .square {
-    background-color: variables.$dark-gray;
+    background-color: var(--secondary);
     border-radius: 100%;
     width: 20px;
     height: 20px;

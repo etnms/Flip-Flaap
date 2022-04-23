@@ -6,7 +6,7 @@
   flex-direction: column;
   height: 100vh;
   padding: 0 4rem;
-  background-color: variables.$dark-white;
+  background-color: var(--bg-primary);
 }
 .wrapper-sections {
   @include mixin.flex-center;
@@ -29,7 +29,7 @@
 
 .get-started {
   height: 80vh;
-  background-color: white;
+  background-color: var(--bg-secondary);
   margin: 1rem;
   border-radius: 8px;
 }

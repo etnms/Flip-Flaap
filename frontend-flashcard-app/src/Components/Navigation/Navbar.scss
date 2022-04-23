@@ -3,17 +3,25 @@
 
 .wrapper-navbar {
   padding: 0.2rem 0.6rem;
-
 }
+
 .navbar {
   width: 100%;
-  background-color: white;
+  background-color: var(--bg-secondary);
   height: 12vh;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   border-radius: 8px;
+}
+
+.settings-icon{
+  cursor: pointer;
+}
+
+.settings-icon:hover {
+  animation: spin 4s linear infinite;
 }
 
 .nav {
@@ -59,7 +67,6 @@
   margin: auto;
   background: variables.$dark;
   transition: width .2s, height .2s;
-
 }
 
 .navbar-link:hover::before{
@@ -88,6 +95,37 @@
   margin: auto;
   background: variables.$dark;
 }
+
 .link-active {
   color: white;
+}
+
+@media (max-width: 900px) {
+
+  .wrapper-navbar {
+    width: 100%;
+  }
+  .navbar {
+    height: 20vh;
+    width: 100%;
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+  .navbar-link {
+    margin: 0.2rem;
+  }
+}
+
+
+@media (max-width: 400px) {
+  .navbar-link {
+   font-size: 1rem;
+   padding: 0.2rem;
+  }
+}
+
+@media (max-width: 300px) {
+  .nav-menu {
+      flex-direction: column;
+  }
 }

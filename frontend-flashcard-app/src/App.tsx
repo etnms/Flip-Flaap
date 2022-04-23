@@ -1,9 +1,8 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./App.scss";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import CollectionForm from "./Components/CollectionForm";
+import CollectionForm from "./Components/FormCollection";
 import FlashcardList from "./Components/FlashcardList";
 import GettingStarted from "./Components/GettingStarted";
 import Learn from "./Components/Learn";
@@ -17,7 +16,6 @@ const App = () => {
   const token = localStorage.getItem("token");
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   // Value for animation purposes => when create/delete users can see the collection list being changed
   const menuChangeValue = useAppSelector((state) => state.menuChangeValue.value);
@@ -34,6 +32,12 @@ const App = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+    const theme = localStorage.getItem("darkmode");
+    if (theme === "darkmode")
+      document.documentElement.setAttribute("data-color-scheme", "dark");
+    else 
+    document.documentElement.setAttribute("data-color-scheme", "light");
+  
     setLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })

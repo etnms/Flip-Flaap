@@ -2,12 +2,14 @@ import axios from "axios";
 import React, { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import { changeCurrentCollection, changeCurrentCollectionId } from "../features/collectionSlice";
+import { changeCurrentCollection, changeCurrentCollectionId, changeCurrentCollectionType } from "../features/collectionSlice";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { menuChange } from "../features/menuChangeSlice";
 import { openCollectionForm } from "../features/openCollectionFormSlice";
-import "./CollectionForm.scss";
+import "./FormCollection.scss";
 import ErrorMessage from "./ErrorMessage";
+import Loader from "./Loaders/Loader";
+import CustomSelect from "./CustomSelect";
 
 const CollectionForm = () => {
   const token = localStorage.getItem("token");
@@ -20,11 +22,15 @@ const CollectionForm = () => {
   // Create an empty error message to check if input is valid. If so, stays as 0, otherwise message indicate type of errors until correct.
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Loading icon waiting for post request to be done
+  const [loading, setLoading] = useState(false);
+
   const createCollection = (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
 
     const name = (document.querySelector("input[name='name']") as HTMLFormElement).value;
-  
+
     axios
       .post(
         `${process.env.REACT_APP_BACKEND}/api/collections`,
@@ -32,19 +38,22 @@ const CollectionForm = () => {
         { headers: { Authorization: token! } }
       )
       .then((res) => {
+        setLoading(false);
         // Name valid, reset the errorMessage value and close the form
         setErrorMessage("");
         dispatch(openCollectionForm(false));
         // Open the new collection
         dispatch(changeCurrentCollectionId(res.data._id));
         dispatch(changeCurrentCollection(name));
+        dispatch(changeCurrentCollectionType(type));
         // Wait a bit and then assign the active status to the newly created element
         // This doesn't seem to be the most optimal solution but it works
         setTimeout(() => assignActiveHtml(), 300);
       })
       .catch((err) => {
+        setLoading(false);
         if (err.response.status === 403) {
-          navigate("/redirect")
+          navigate("/redirect");
           dispatch(changeExpiredStatus(true));
         }
         if (err.response.data.error === "Name too long") {
@@ -85,29 +94,34 @@ const CollectionForm = () => {
 
   return (
     <div className="wrapper-main">
-      <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
-        <h1 className="title-form spacing-m">Create new collection</h1>
-        <label htmlFor="name" className="input-label">
-          Collection name:
-        </label>
-        <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
-        <label htmlFor="collection-type-select" className="input-label">
-          Type of collection:
-        </label>
-        <select name="collection-type-select" className="select-collection" onChange={(e) => handleSelect(e)}>
-          <option value="concept">Concepts</option>
-          <option value="language">Language</option>
-          <option value="to-do">To do</option>
-        </select>
+    <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
+      <h1 className="title-form spacing-m">Create new collection</h1>
+      <label htmlFor="name" className="input-label">
+        Collection name:
+      </label>
+      <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
+      <label htmlFor="collection-type-select" className="input-label">
+        Type of collection:
+      </label>
+      <select name="collection-type-select" className="select-collection" onChange={(e) => handleSelect(e)}>
+        <option value="concept">Concepts</option>
+        <option value="language">Language</option>
+        <option value="to-do">To do</option>
+      </select>
+      <CustomSelect/>
+      {loading ? (
+        <Loader />
+      ) : (
         <button type="submit" className="btn-primary">
           Create collection
         </button>
-        <button type="button" onClick={() => dispatch(openCollectionForm(false))} className="btn-secondary">
-          Close
-        </button>
-        {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
-      </form>
-    </div>
+      )}
+      <button type="button" onClick={() => dispatch(openCollectionForm(false))} className="btn-secondary">
+        Close
+      </button>
+      {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
+    </form>
+  </div>
   );
 };
 

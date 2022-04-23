@@ -44,3 +44,32 @@
 .icon-display-style:hover{
   background-color: #f8f8f8;
 }
+
+
+@media (max-width: 800px) {
+  .selector-display-style {
+    position: initial  ; // need change
+  }
+  
+  .title-list-cards  {
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 650px) {
+  .flashcard-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
+} 
+
+@media (max-width: 400px) {
+  .flashcard-view {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap; 
+  }
+
+  .selector-display-style {
+    display: none;
+  }
+} 

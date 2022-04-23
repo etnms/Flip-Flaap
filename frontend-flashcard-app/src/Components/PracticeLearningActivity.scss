@@ -32,7 +32,7 @@
   @include mixin.flex-center;
   @include mixin.box-shadow;
   flex-direction: column;
-  background-color: #fdfdfd;
+  background-color: var(--bg-primary);
   border-radius: 8px;
   padding: 0.4rem;
   word-wrap: break-word;
@@ -59,7 +59,6 @@
   position: absolute;
 }
 
-
 .fake-card {
   position: absolute;
   display: flex;
@@ -77,3 +76,17 @@
   z-index: 1;
   animation: swipe-card 0.7s;
 }
+
+@media (max-width: 900px) {
+  .learn-flashcard-wrapper {
+    width: 80vw;
+  }
+}
+
+@media (max-width: 650px) {
+  .learn-flashcard, .fake-card {
+    min-width: 70vw;
+    min-height: 30vh;
+  }
+}
+

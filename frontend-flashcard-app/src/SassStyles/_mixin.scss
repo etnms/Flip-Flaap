@@ -14,17 +14,21 @@
   padding: 0.5rem 1rem;
   text-align: center;
   cursor: pointer;
+  box-shadow: var(--elevation);
 }
 
 @mixin fonts {
-  font-family: "Inter", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
-    "Fira Sans", sans-serif;
+  font-family: "Inter", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 @mixin alert-text {
   color: variables.$red-alert;
+}
+
+@mixin success-text {
+  color: variables.$green-alert;
 }
 
 @mixin spacing-s {
@@ -37,4 +41,9 @@
 
 @mixin box-shadow {
   box-shadow: 0px 0px 6px 1px #00000036;
+}
+
+@mixin box-shadow-dark {
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 2px 1px -1px rgba(0, 0, 0, 0.12);
 }

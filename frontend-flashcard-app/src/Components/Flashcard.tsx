@@ -9,7 +9,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import Loader from "./Loaders/Loader";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { conceptTypeText, defTypeText } from "../helper/helper";
+import { conceptTypeText, defTypeText, formatDate } from "../helper/helper";
 import { useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
@@ -21,7 +21,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const [edit, setEdit] = useState(false);
 
   const type = useAppSelector((state) => state.currentCollection.type);
-  
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -29,15 +29,6 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const [defText, setDefText] = useState(definition);
 
   const [loadingDelete, setLoadingDelete] = useState(false);
-
-  const formatDate = (value: Date) => {
-    const date = new Date(value);
-    const year = date.getFullYear();
-    const month = date.getMonth();
-    const day = date.getDate();
-
-    return `${year}/${month}/${day}`;
-  };
 
   const deleteFlashcard = (_id: string, name: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     setLoadingDelete(true);
@@ -68,7 +59,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLElement>, elementName: string) => {
     if (elementName === "concept") setConceptText((e.target as HTMLInputElement).value);
-    if (elementName === "definition") setDefText((e.target as HTMLInputElement).value);
+    if (elementName === "definition-edit") setDefText((e.target as HTMLInputElement).value);
   };
 
   const editFlashcard = () => {
@@ -105,10 +96,10 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
             onChange={(e) => handleChange(e, "concept")}
           />
           <textarea
-            name="definition"
+            name="definition-edit"
             value={`${defText}`}
             className="edit-text edit-def"
-            onChange={(e) => handleChange(e, "definition")}></textarea>
+            onChange={(e) => handleChange(e, "definition-edit")}></textarea>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
             {renderDelBtn()}

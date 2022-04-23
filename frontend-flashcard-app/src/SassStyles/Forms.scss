@@ -5,10 +5,10 @@
 .bg {
   @include mixin.flex-center;
   height: 100vh;
-  background-color: variables.$dark-white;
+  background-color: var(--bg-primary);
 }
 .form {
-  background-color: white;
+  background-color: var(--bg-secondary);
   @include mixin.flex-center;
   flex-direction: column;
 }
@@ -34,7 +34,7 @@
 }
 
 .wrapper-input-auth {
-  background-color: white;
+  background-color: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -141,4 +141,16 @@
 
 .btn-form-flashcard {
   margin: 1rem;
+}
+
+@media (max-width: 900px) {
+  .form-flashcard, .input-text-flashcard {
+    width: 70%;
+  }
+}
+
+@media (max-width: 650px) {
+  .form-flashcard, .input-text-flashcard {
+    width: 95%;
+  }
 }

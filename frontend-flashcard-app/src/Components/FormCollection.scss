@@ -1,0 +1,31 @@
+@use "../SassStyles/mixin";
+
+.form-collection {
+  @include mixin.box-shadow;
+  @include mixin.flex-center;
+  flex-direction: column;
+  width: 60%;
+  margin: 5rem auto;
+  border-radius: 8px;
+ // margin-top: 5rem;
+}
+
+.select-collection {
+  font-size: 1.2rem;
+  width: 20vw;
+  border: 2px solid black;
+  border-radius: 4px;
+}
+
+.form-collection * {
+  @include mixin.spacing-m;
+}
+
+@media (max-width: 650px) {
+  .form-collection {
+    width: 95%;
+  }
+  .select-collection {
+    width: 95%;
+  }
+}

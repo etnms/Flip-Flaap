@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
-
+import HomeIcon from '@mui/icons-material/Home';
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -11,6 +11,7 @@ const Signup = () => {
   const navigateIndex = () => {
     navigate("/");
   };
+
   const signup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = (document.querySelector("input[name='email']") as HTMLInputElement).value;
@@ -18,8 +19,9 @@ const Signup = () => {
     const password = (document.querySelector("input[name='password']") as HTMLInputElement).value;
     const confirmPassword = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
       .value;
+      
     axios
-      .post("http://localhost:8000/api/signup", { email, username, password, confirmPassword })
+      .post(`${process.env.REACT_APP_BACKEND}/api/signup`, { email, username, password, confirmPassword })
       .then((res) => {
         if (res.data.message === "User created") {
           localStorage.setItem("token", res.data.token);
@@ -106,9 +108,12 @@ const Signup = () => {
           />
         </div>
         {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
+        <span className="wrapper-button-auth">
         <button type="submit" className="btn-primary">
           Signup
         </button>
+        <button className="btn-white btn-border" onClick={() => navigateIndex()}>{<HomeIcon/>}</button>
+        </span> 
       </form>
     </div>
   );

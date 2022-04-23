@@ -8,6 +8,7 @@ import Signup from "./Pages/Signup";
 import { Provider } from 'react-redux'
 import {store} from './app/store'
 import SessionExpired from "./Pages/SessionExpired";
+import UserProfile from "./Pages/UserProfile";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -21,6 +22,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/redirect" element={<SessionExpired/>}/>
+        <Route path="/profile" element={<UserProfile/>}/>
       </Routes>
     </BrowserRouter>
     </Provider>

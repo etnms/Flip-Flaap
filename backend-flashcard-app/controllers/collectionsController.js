@@ -4,7 +4,7 @@ import User from "../models/user.js";
 import async from "async";
 
 const getCollection = (req, res) => {
-  jwt.verify(req.token, "secretkey", (err, authData) => {
+  jwt.verify(req.token, process.env.JWTKEY, (err, authData) => {
     if (err) return res.status(400);
     User.findById(authData.user._id).exec((err, result) => {
       if (err) return res.status(400).json({ error: "Error login" });
@@ -32,7 +32,7 @@ const postCollection = (req, res) => {
 
   if (name.length > 80) return res.status(400).json({ error: "Name too long" });
 
-  jwt.verify(req.token, "secretkey", (err, authData) => {
+  jwt.verify(req.token, process.env.JWTKEY, (err, authData) => {
     if (err)  return res.sendStatus(403);
     else {
       User.findOne({ username: authData.user.username }).exec((err, result) => {
@@ -57,7 +57,7 @@ const postCollection = (req, res) => {
 const deleteCollection = (req, res) => {
   const _id = req.body._id;
 
-  jwt.verify(req.token, "secretkey", (err) => {
+  jwt.verify(req.token, process.env.JWTKEY, (err) => {
     if (err) {
       return res.sendStatus(403);
     } else {
@@ -78,7 +78,7 @@ const editCollection = (req, res) => {
   const _id = req.body._id;
   const name = req.body.name;
 
-  jwt.verify(req.token, "secretkey", (err) => {
+  jwt.verify(req.token, process.env.JWTKEY, (err) => {
     if (err) {
       return res.sendStatus(403);
     }

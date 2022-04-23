@@ -3,11 +3,16 @@ import "./PracticeLearningActivity.scss";
 import { useEffect, useState } from "react";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import { checkCollectionSize, createFakeFlashcard, Getdata, PracticeLearnActivity, RenderButton } from "./PracticeLearnActivity";
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
 const Practice = () => {
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
+  const type = useAppSelector((state) => state.currentCollection.type);
+  
+  const [expired, setExpired] = useState(false);
 
   const [results, setResults] = useState([]);
   const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
@@ -19,12 +24,20 @@ const Practice = () => {
   const [answerSubmitted, setAnswerSubmitted] = useState(false);
   const [previousRdn, setPreviousRdn] = useState<number>();
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  
   useEffect(() => {
-    Getdata(currentCollectionId, setConcept, setErrorText, setResults);
-  }, [currentCollectionId]);
+    Getdata(currentCollectionId, setConcept, setErrorText, setResults, setExpired);
+    if (expired === true) {
+    navigate("/redirect")
+    dispatch(changeExpiredStatus(true));
+    }
+  }, [currentCollectionId, expired, navigate, dispatch]);
 
   const createRandomCard = (listCollections: Array<IFlashcard>) => {
-
+    if (type === "to-do")
+    return setErrorText("Error: This collection only contains to dos! Please use a collection with flashcards and come back.");
     if (concept) createFakeFlashcard(concept, def);
 
     setAnswerSubmitted(false);

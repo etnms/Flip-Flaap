@@ -7,12 +7,17 @@ import {
   PracticeLearnActivity,
   RenderButton,
 } from "./PracticeLearnActivity";
-import { useAppSelector } from "../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useNavigate } from "react-router-dom";
+import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
 const Learn = () => {
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
+  const type = useAppSelector((state) => state.currentCollection.type);
   
+  const [expired, setExpired] = useState(false);
+
   const [results, setResults] = useState([]);
   const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
 
@@ -21,11 +26,20 @@ const Learn = () => {
 
   const [previousRdn, setPreviousRdn] = useState<number>();
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    Getdata(currentCollectionId, setConcept, setErrorText, setResults);
-  }, [currentCollectionId]);
+    Getdata(currentCollectionId, setConcept, setErrorText, setResults, setExpired);
+    if (expired === true) {
+    navigate("/redirect")
+    dispatch(changeExpiredStatus(true));
+    }
+  }, [currentCollectionId, expired, navigate, dispatch]);
 
   const displayCard = (listCollections: Array<IFlashcard>) => {
+    if (type === "to-do")
+      return setErrorText("Error: This collection only contains to dos! Please use a collection with flashcards and come back.");
     // Create a fake flashcard for every new card after the first one;
     if (concept) createFakeFlashcard(concept, def);
 
@@ -58,8 +72,10 @@ const Learn = () => {
             concept={concept}
             def={def}
             errorText={errorText}
-            textInstruction={"In this module your cards are shuffled randomly so you can learn about their content."}
-          />     
+            textInstruction={
+              "In this module your cards are shuffled randomly so you can learn about their content."
+            }
+          />
         ) : (
           <h3 className="title-s">Select a collection to start learning.</h3>
         )}
@@ -70,8 +86,9 @@ const Learn = () => {
             concept={concept}
             def={def}
             errorText={errorText}
-            textInstruction={"In this module your cards are shuffled randomly so you can learn about their content."}
-            
+            textInstruction={
+              "In this module your cards are shuffled randomly so you can learn about their content."
+            }
           />
         ) : null}
       </main>

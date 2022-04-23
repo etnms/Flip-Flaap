@@ -5,13 +5,24 @@
   width: 20vw;
   min-width: 20vw;
   min-height: 100vh;
-  background-color: variables.$dark-gray;
+  background-color: var(--secondary);
   overflow-y: auto;
+}
+
+.btn-minimize {
+  margin: 5px;
+  right: 0;
+  display: none;
+}
+
+.menu-phone {
+  height: 2vh !important;
 }
 
 .nav-collections {
   margin: 0.5rem 1rem;
   list-style: none;
+  width: 85%;
 }
 
 .nav-collections li {
@@ -127,11 +138,30 @@
 }
 
 .btn-new-collec {
-  width: 90%;
+  width: fit-content;
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
 
 .collec-hidden {
  display: none;
+}
+
+@media (max-width: 900px){
+
+  .btn-minimize {
+    display: inline;
+  }
+  .menu-left {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 8vh;
+    height: 40vh;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }

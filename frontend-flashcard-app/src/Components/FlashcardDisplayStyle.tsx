@@ -10,6 +10,7 @@ const FlashcardDisplayStyle = () => {
     if (value === "list") {
       el?.classList.add("individual-list");
     }
+    localStorage.setItem("display", value);
   };
   
   return (

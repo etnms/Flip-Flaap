@@ -3,11 +3,9 @@ import axios from "axios";
 import React from "react";
 import ErrorMessage from "./ErrorMessage";
 import { IActivity } from "../Interfaces/InterfaceActivity";
-import { useNavigate } from "react-router-dom";
 
 export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>) => {
   const { title, concept, def, errorText, textInstruction } = props;
-
 
   const renderCard = () => {
     if (concept)
@@ -26,7 +24,10 @@ export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>)
         return (
           <div className="begin-text">
             <p>{textInstruction}</p>
-            <p>Once you start, hover over your flashcards to flip them. If you're on mobile you can tap them to achieve the same result.</p>
+            <p>
+              Once you start, hover over your flashcards to flip them. If you're on mobile you can tap them to
+              achieve the same result.
+            </p>
             <p>Press start to begin</p>
           </div>
         );
@@ -56,12 +57,12 @@ export const Getdata = (
   currentCollectionId: string,
   setConcept: Function,
   setErrorText: Function,
-  setResults: Function
+  setResults: Function,
+  setExpired: Function
 ) => {
   setConcept(""); //reinitialize value in case of change of collection
   setErrorText("");
-
-
+  setExpired(false);
   const token = localStorage.getItem("token");
   if (currentCollectionId !== "") {
     axios({
@@ -74,8 +75,8 @@ export const Getdata = (
         setResults(res.data.results.collections.flashcards);
       })
       .catch((err) => {
+        if (err.response.status === 403) setExpired(true);
         setResults([]);
-
       });
   }
 };
@@ -109,6 +110,8 @@ export const createFakeFlashcard = (concept: string, def: string) => {
   fakecard.appendChild(titleText);
   // fakecard.appendChild(defText);
   fakecard.classList.add("fake-card");
+  if (localStorage.getItem("darkmode") === "darkmode")
+  fakecard.classList.add("darkmode-primary");
   main?.append(fakecard);
 
   setTimeout(() => {

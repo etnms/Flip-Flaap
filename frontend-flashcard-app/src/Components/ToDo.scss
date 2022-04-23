@@ -1,0 +1,41 @@
+@use "../SassStyles/mixin";
+@use "../SassStyles/animations";
+
+.to-do {
+    box-shadow:var(--elevation-to-do);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    background-color: var(--bg-tertiary);
+    border-radius: 2px;
+    padding: 0.3rem;
+    word-wrap: break-word;
+    margin: 0.4rem;
+    animation: appear-opacity 750ms;
+    text-align: left;
+    
+}
+
+.wrapper-btn-todos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    width: fit-content;
+    padding: 2px;
+}
+
+.edit-to-do-text{
+    text-align: left;
+    padding: 0.1rem 0.3rem;
+    margin: 0.2rem;
+    border-radius: 4px;
+    border: 1.5px solid black;
+    resize: none;
+    @include mixin.fonts;
+} 
+
+.edit-to-do {
+    width: 100%;
+}

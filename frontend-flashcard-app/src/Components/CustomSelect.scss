@@ -1,0 +1,26 @@
+@use "../App.scss";
+
+.custom-select-dropdown {
+
+    position: relative;
+    display: inline-block;
+    border: 2px solid black;
+    width: 20vw;
+    cursor: default ;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: 12px;
+    left: -11px;
+    z-index: 10;
+    border: 2px solid black;
+  }
+  
+  .show-content {
+
+    width: 20vw;
+    display: flex;
+    flex-direction: column;
+  }

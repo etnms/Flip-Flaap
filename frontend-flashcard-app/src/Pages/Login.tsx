@@ -2,15 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
+import HomeIcon from '@mui/icons-material/Home';
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
-
-  const navigateIndex = () => {
-    navigate("/");
-  };
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,7 +17,7 @@ const Login = () => {
       .post(`${process.env.REACT_APP_BACKEND}/api/login`, { username, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
-        navigateIndex();
+        navigate("/");
       })
       .catch((err) => {
         if (err.response.data === "Empty fields") return setErrorMessage("Error: one of the field is empty.");
@@ -57,9 +54,7 @@ const Login = () => {
           <button type="submit" className="btn-primary">
             Login
           </button>
-          <button type="button" onClick={() => navigate("/signup")} className="btn-white btn-border">
-            Signup
-          </button>
+          <button className="btn-white btn-border" onClick={() => navigate("/")}>{<HomeIcon/>}</button>
         </span>
       </form>
     </div>

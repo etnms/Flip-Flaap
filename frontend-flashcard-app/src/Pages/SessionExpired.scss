@@ -2,12 +2,12 @@
 @use "../SassStyles/mixin";
 .redirect-main {
     height: 100vh;
-    background-color: variables.$dark-white;
+    background-color: var(--bg-primary);
     @include mixin.flex-center;
 }
 
 .wrapper-redirect-message {
-    background-color: white;
+    background-color: var(--bg-secondary);
     height: 40vh;
     width: 40vw;
     border-radius: 8px;

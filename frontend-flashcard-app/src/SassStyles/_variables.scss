@@ -1,9 +1,33 @@
-$dark-white: #f4f4f4;
-$dark: #080F17;
-$dark-gray: #283442;
-$light-blue: #496B91;
 $light-gray: #627082;
-$dark-blue: #1B3859;
-$middle-blue: #4779B3;
-$red-alert: #E02D1D;
-$green-alert: #36852A;
+$dark: #080f17;
+$red-alert: #e02d1d;
+$green-alert: #36852a;
+
+
+$themes: (
+  "lightTheme": ( 
+    bg: #f4f4f4,
+    bgSecondary: white,
+    whiteSecond: #fdfdfd,
+    primary: #496b91,
+    secondary: #283442,
+    tertiary: #4779b3,
+    darkenPrimary: darken(#496b91, 10%),
+    darkenSecondary: darken(#283442, 5%),
+    darkenTertiary: darken(#4779b3, 5%)
+  ),
+  darkTheme: (
+    bg: #121212,
+    bgSecondary: #2c2c2c,
+    bgTertiary: #414141,
+    primary: #3978BF,
+    secondary: #3a3a3a,
+    tertiary: #757575,
+    darkenPrimary: darken(#3978BF, 10%),
+    darkenSecondary: lighten(#3a3a3a, 5%),
+    darkenTertiary: darken(#757575, 5%)
+  ),
+);
+
+
+

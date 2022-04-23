@@ -3,36 +3,37 @@
 
 .btn-primary {
   @include mixin.button;
-  background-color: variables.$light-blue;
+  background-color: var(--primary);
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: darken(variables.$light-blue, 10%);
+  background-color: var(--darkenPrimary);
 }
 
 .btn-secondary {
   @include mixin.button;
-  background-color: variables.$dark-gray;
+  background-color: var(--secondary);
   color: white;
 }
 
 .btn-secondary:hover {
-  background-color: darken(variables.$dark-gray, 5%);
+  background-color: var(--darkenSecondary);
 }
 
 .btn-tertiary {
   @include mixin.button;
-  background-color: variables.$middle-blue;
+  background-color: var(--tertiary);
   color: white;
 }
+
 .btn-tertiary:hover {
-  background-color: darken(variables.$middle-blue, 5%);
+  background-color: var(--darkenTertiary);
 }
 
 .btn-white {
   @include mixin.button;
-  background-color: white;
+  background-color: var(--btn-white); // white
   color: black;
 }
 

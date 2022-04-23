@@ -7,7 +7,7 @@
 }
 
 .loader {
-  border-top: 3px solid lighten(variables.$light-blue, 15%);
+  border-top: 3px solid var(--primary);
   width: 1.5rem;
   height: 1.5rem;
 }

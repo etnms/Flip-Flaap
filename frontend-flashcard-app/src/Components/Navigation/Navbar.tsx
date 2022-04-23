@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "./Navbar.scss";
 import "../../SassStyles/Buttons.scss";
+import SettingsIcon from "@mui/icons-material/Settings";
+
 
 interface ILoginProps {
   isLoggedIn: boolean;
@@ -12,6 +14,7 @@ interface ILoginProps {
 
 const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
   const { isLoggedIn, setIsLoggedIn, setFirstLoad, setMode, username } = props;
+
   const navigate = useNavigate();
 
   const signup = () => {
@@ -35,44 +38,46 @@ const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
     setMode(mode);
   };
 
-  return (
-    <div className="wrapper-navbar">
-      <nav className="navbar">
-        {isLoggedIn ? (
-          <nav className="nav nav-menu">
-            <button onClick={(e) => selectMode("Flashcard", e)} className="navbar-link link-active"> {/*Default value */}
-              Create Flashcards
-            </button>
-            <button onClick={(e) => selectMode("Learn", e)} className="navbar-link">
-              Learn
-            </button>
-            <button onClick={(e) => selectMode("Practice", e)} className="navbar-link">
-              Practice
-            </button>
-          </nav>
-        ) : (
-          <div></div>
-        )}
-        {!isLoggedIn ? (
-          <nav className="nav nav-auth">
-            <button onClick={() => signup()} className="btn-white btn-border" aria-label="signup button">
-              Sign up
-            </button>
-            <button onClick={() => login()} className="btn-primary" aria-label="login button">
-              Login
-            </button>
-          </nav>
-        ) : (
-          <nav className="nav nav-auth">
-            <p>Welcome, {username}</p>
-            <button onClick={() => signOut()} className="btn-white btn-border" aria-label="sign out button">
-              Sign out
-            </button>
-          </nav>
-        )}
+
+  return <div className="wrapper-navbar">
+  <nav className="navbar">
+    {isLoggedIn ? (
+      <nav className="nav nav-menu">
+        <button onClick={(e) => selectMode("Flashcard", e)} className="navbar-link link-active">
+          {" "}
+          {/*Default value */}
+          Create Flashcards
+        </button>
+        <button onClick={(e) => selectMode("Learn", e)} className="navbar-link">
+          Learn
+        </button>
+        <button onClick={(e) => selectMode("Practice", e)} className="navbar-link">
+          Practice
+        </button>
       </nav>
-    </div>
-  );
+    ) : (
+      <div></div>
+    )}
+    {!isLoggedIn ? (
+      <nav className="nav nav-auth">
+        <button onClick={() => signup()} className="btn-white btn-border" aria-label="signup button">
+          Sign up
+        </button>
+        <button onClick={() => login()} className="btn-primary" aria-label="login button">
+          Login
+        </button>
+      </nav>
+    ) : (
+      <nav className="nav nav-auth">
+        <SettingsIcon onClick={() => navigate("/profile")} className="settings-icon" />
+        <p>Welcome, {username}</p>
+        <button onClick={() => signOut()} className="btn-white btn-border" aria-label="sign out button">
+          Sign out
+        </button>
+      </nav>
+    )}
+  </nav>
+</div>
 };
 
 export default Navbar;
