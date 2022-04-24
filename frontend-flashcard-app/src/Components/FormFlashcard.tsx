@@ -6,8 +6,10 @@ import { useAppSelector } from "../app/hooks";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { conceptTypeText, defTypeText, placeHolderConcept, placeHolderDef } from "../helper/helper";
 import "../SassStyles/Forms.scss";
+import CustomSelect from "./CustomSelect";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loaders/Loader";
+import "./CustomSelect.scss";
 
 interface INameCollection {
   setItemChange: Function;
@@ -28,6 +30,21 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  // For to dos only - color option
+  
+  const colorValues = [
+    "none",
+    "red",
+    "yellow",
+    "orange",
+    "#2BFF52",
+    "cyan",
+    "#5073FF",
+    "#F454FF",
+    "purple",
+    "black",
+  ];
+  const [color, setColor] = useState(colorValues[0]); // Default to white
   useEffect(() => {
     // Adapting error post text
     setErrorPost(false);
@@ -58,14 +75,13 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
         .catch((err) => {
           errorDisplay(err);
           setIsLoading(false);
-          }
-        );
-    } 
+        });
+    }
     if (type === "to-do")
       axios
         .post(
           `${process.env.REACT_APP_BACKEND}/api/todos`,
-          { definition, _id },
+          { definition, _id, color },
           { headers: { Authorization: token! } }
         )
         .then(() => {
@@ -88,7 +104,7 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
       dispatch(changeExpiredStatus(true));
       navigate("/redirect");
     }
-  }
+  };
 
   return (
     <form onSubmit={(e) => createFlashCard(e)} className="form form-flashcard">
@@ -112,11 +128,22 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
         name="definition"
         placeholder={placeHolderDef(type)}
         className="input-text-flashcard def"></textarea>
+         {type === "to-do" ? (
+        <h2 className="input-label">
+          Color:
+        </h2>
+      ) : null}
+      {type === "to-do" ? ( // To do only: get select color to associate with the to do
+        <CustomSelect colorOnly={true} currentValue={color} setSelect={setColor} values={colorValues} displayUp={true} />
+      ) : null}
       {errorPost ? <ErrorMessage textError={"Error: one of the fields is empty."} /> : null}
-      {isLoading? <Loader/> :
-      <button type="submit" className="btn-primary btn-form-flashcard">
-        Create
-      </button> }
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <button type="submit" className="btn-primary btn-form-flashcard">
+          Create
+        </button>
+      )}
     </form>
   );
 };

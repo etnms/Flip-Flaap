@@ -1,0 +1,14 @@
+@use "../SassStyles/mixin";
+
+
+.page-404 {
+    height: 100vh;
+    background-color: var(--bg-secondary);
+
+    border-radius: 6px;
+    @include mixin.box-shadow;
+    @include mixin.flex-center;
+    flex-direction: column;
+    gap: 2rem;
+    @include mixin.fonts;
+}

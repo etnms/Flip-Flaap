@@ -1,6 +1,8 @@
-import Icon from "../Assets/Flip-Flaap-black.png";
+import IconLightTheme from "../Assets/Flip-Flaap-black.png";
+import IconDarkTheme from "../Assets/Flip-Flaap-white.png";
 import { useNavigate } from "react-router-dom";
 import "./GettingStarted.scss";
+import { useEffect } from "react";
 
 const GettingStarted = () => {
   const navigate = useNavigate();
@@ -13,9 +15,13 @@ const GettingStarted = () => {
     navigate("/signup");
   };
 
+  useEffect(() => {
+    document.title = "Flip-Flaap";
+  });
+
   return (
     <main className="get-started">
-      <img src={Icon} alt="icon" className="icon-main"/>
+      <img src={localStorage.getItem("darkmode") ==="darkmode"? IconDarkTheme: IconLightTheme} alt="icon" className="icon-main"/>
       <div className="wrapper-sections">
         <section className="section-get-started">
           <p>

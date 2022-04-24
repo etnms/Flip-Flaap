@@ -1,8 +1,12 @@
 import axios from "axios";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
-import { changeCurrentCollection, changeCurrentCollectionId, changeCurrentCollectionType } from "../features/collectionSlice";
+import {
+  changeCurrentCollection,
+  changeCurrentCollectionId,
+  changeCurrentCollectionType,
+} from "../features/collectionSlice";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { menuChange } from "../features/menuChangeSlice";
 import { openCollectionForm } from "../features/openCollectionFormSlice";
@@ -88,40 +92,37 @@ const CollectionForm = () => {
     }
   };
 
-  const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
-    setType(e.target.value);
-  };
-
   return (
     <div className="wrapper-main">
-    <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
-      <h1 className="title-form spacing-m">Create new collection</h1>
-      <label htmlFor="name" className="input-label">
-        Collection name:
-      </label>
-      <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
-      <label htmlFor="collection-type-select" className="input-label">
-        Type of collection:
-      </label>
-      <select name="collection-type-select" className="select-collection" onChange={(e) => handleSelect(e)}>
-        <option value="concept">Concepts</option>
-        <option value="language">Language</option>
-        <option value="to-do">To do</option>
-      </select>
-      <CustomSelect/>
-      {loading ? (
-        <Loader />
-      ) : (
-        <button type="submit" className="btn-primary">
-          Create collection
+      <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
+        <h1 className="title-form spacing-m">Create new collection</h1>
+        <label htmlFor="name" className="input-label">
+          Collection name:
+        </label>
+        <input type="text" name="name" onChange={(e) => handleChange(e)} className="input-text" />
+        <label htmlFor="collection-type-select" className="input-label">
+          Type of collection:
+        </label>
+        <CustomSelect
+          colorOnly={false}
+          currentValue={type}
+          setSelect={setType}
+          values={["concept", "language", "to-do"]}
+          displayUp={false}
+        />
+        {loading ? (
+          <Loader />
+        ) : (
+          <button type="submit" className="btn-primary">
+            Create collection
+          </button>
+        )}
+        <button type="button" onClick={() => dispatch(openCollectionForm(false))} className="btn-secondary">
+          Close
         </button>
-      )}
-      <button type="button" onClick={() => dispatch(openCollectionForm(false))} className="btn-secondary">
-        Close
-      </button>
-      {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
-    </form>
-  </div>
+        {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
+      </form>
+    </div>
   );
 };
 

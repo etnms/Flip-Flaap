@@ -32,12 +32,11 @@ const App = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
+
     const theme = localStorage.getItem("darkmode");
-    if (theme === "darkmode")
-      document.documentElement.setAttribute("data-color-scheme", "dark");
-    else 
-    document.documentElement.setAttribute("data-color-scheme", "light");
-  
+    if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
+    else document.documentElement.setAttribute("data-color-scheme", "light");
+
     setLoading(true);
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
@@ -56,6 +55,7 @@ const App = () => {
         if (firstLoad) {
           setFirstLoad(false);
           setLoading(false);
+          document.title = "Flip-Flaap - Dashboard"
         }
       })
       .catch(() => {

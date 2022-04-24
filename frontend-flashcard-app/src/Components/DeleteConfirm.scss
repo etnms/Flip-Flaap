@@ -12,7 +12,7 @@
   transform: translate(50%, -50%);
   width: 40vw;
   min-height: 30vh;
-  background-color: variables.$light-gray;
+  background-color: var(--secondary);
   z-index: 1;
   box-shadow: 0px 0px 10px 1px #00000036;
 }

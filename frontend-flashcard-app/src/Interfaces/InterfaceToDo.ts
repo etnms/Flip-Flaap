@@ -3,6 +3,7 @@ export interface ITodo {
     collectionName: string;
     date: Date;
     todo: string;
+    color: string,
     setItemChange: Function;
   }
   

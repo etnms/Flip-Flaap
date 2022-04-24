@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
 import HomeIcon from '@mui/icons-material/Home';
@@ -8,6 +8,10 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Flip-Flaap - Login"
+  })
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

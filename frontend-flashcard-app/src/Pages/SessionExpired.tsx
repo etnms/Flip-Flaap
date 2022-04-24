@@ -11,6 +11,7 @@ const SessionExpired = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    document.title = "Flip-Flaap - Session expired";
     if (countdownValue > 0) setTimeout(() => setCountdownValue(countdownValue - 1), 1000);
     if (countdownValue === 0) {
       navigate("/login");

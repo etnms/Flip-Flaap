@@ -118,7 +118,6 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
             {conceptTypeText(type)}: <strong>{conceptText}</strong>
           </h2>
           <p className="def-text">
-            {" "}
             {defTypeText(type)}: {defText}
           </p>
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>

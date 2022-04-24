@@ -67,6 +67,7 @@ const UserProfile = () => {
   };
 
   useEffect(() => {
+    document.title = "Flip-Flaap - Profile"
     if (localStorage.getItem("darkmode") === "darkmode") {
       document.documentElement.setAttribute("data-color-scheme", "dark");
       (document.querySelector("input[name='toggle-darkmode']") as HTMLInputElement).checked = true;

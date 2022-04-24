@@ -24,10 +24,12 @@ const displayTodos = (req, res) => {
 const createTodo = (req, res) => {
   const todo = req.body.definition; // Reuse front-end architecture from the flashcard, definition is a text-area
   const _id = req.body._id;
+  const color = req.body.color;
   const date = new Date();
 
   new Todo({
     todo,
+    color,
     date,
   }).save((err, result) => {
     if (err) return res.status(400).json({ message: "Error field empty" });
@@ -74,11 +76,12 @@ const deleteTodo = (req, res) => {
 const updateTodo = (req, res) => {
   const _id = req.body._id;
   const todo = req.body.definition;
+  const color = req.body.color;
 
   jwt.verify(req.token, process.env.JWTKEY, (err) => {
     if (err) return res.sendStatus(403);
     else {
-      Todo.findByIdAndUpdate({ _id }, { todo }, (err) => {
+      Todo.findByIdAndUpdate({ _id }, { todo, color }, (err) => {
         if (err) return res.sendStatus(403);
         return res.status(200).json({ message: "Todo was updated" });
       });

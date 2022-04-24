@@ -81,7 +81,9 @@ const FlashcardList = () => {
           collectionName={currentCollection}
           todo={todo.todo}
           _id={todo._id}
+          color={todo.color}
           date={todo.date}
+          
         />
       ));
     }
