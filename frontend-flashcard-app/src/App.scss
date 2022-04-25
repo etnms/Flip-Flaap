@@ -94,8 +94,8 @@ body {
 
 .main-view {
   box-sizing: border-box;
-  min-height: 70%;
- // height: 70%;
+  min-height: 80vh;
+  height: fit-content;
   width: 100%;
   background-color: var(--bg-secondary);
   border-radius: 8px;
