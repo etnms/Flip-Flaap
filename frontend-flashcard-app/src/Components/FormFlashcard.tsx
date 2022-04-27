@@ -56,13 +56,16 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
 
     const definition = (document.querySelector("textarea[name='definition']") as HTMLInputElement).value;
     const _id = currentCollectionId;
+    // Get the index by looking at number of items in the flaschard view, which corresponds to the length
+    const index = document.querySelector(".flashcard-view")?.children;
+    const indexLength = index!.length; 
 
     if (type !== "to-do") {
       const concept = (document.querySelector("input[name='concept']") as HTMLInputElement).value;
       axios
         .post(
           `${process.env.REACT_APP_BACKEND}/api/flashcards`,
-          { concept, definition, _id },
+          { concept, definition, _id, dbIndex: indexLength },
           { headers: { Authorization: token! } }
         )
         .then(() => {
@@ -81,10 +84,11 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
       axios
         .post(
           `${process.env.REACT_APP_BACKEND}/api/todos`,
-          { definition, _id, color },
+          { definition, _id, color, dbIndex: indexLength },
           { headers: { Authorization: token! } }
         )
         .then(() => {
+          
           setItemChange(true);
           setErrorPost(false);
           (document.querySelector("textarea[name='definition']") as HTMLInputElement).value = "";

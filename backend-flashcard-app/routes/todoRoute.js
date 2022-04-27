@@ -1,5 +1,5 @@
 import express from "express";
-import { createTodo, deleteTodo, displayTodos, updateTodo } from "../controllers/todoController.js";
+import { createTodo, deleteTodo, displayTodos, updateTodo, updateToDoIndexes } from "../controllers/todoController.js";
 import verifyToken from "../verifyToken.js";
 
 const router = express.Router();
@@ -13,4 +13,6 @@ const displayToDos = router.get("/api/todos", verifyToken, displayTodos);
 
 const updateToDo = router.put("/api/todos", verifyToken, updateTodo);
 
-export { createToDo, deleteToDo, displayToDos, updateToDo };
+const updateToDoIndex = router.put("/api/todos/index", verifyToken, updateToDoIndexes)
+
+export { createToDo, deleteToDo, displayToDos, updateToDo, updateToDoIndex };

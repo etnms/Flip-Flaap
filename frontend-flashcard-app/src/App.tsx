@@ -11,6 +11,8 @@ import MenuLeft from "./Components/Navigation/MenuLeft";
 import Navbar from "./Components/Navigation/Navbar";
 import Practice from "./Components/Practice";
 import { menuChange } from "./features/menuChangeSlice";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 const App = () => {
   const token = localStorage.getItem("token");
@@ -32,7 +34,6 @@ const App = () => {
   const [username, setUsername] = useState("");
 
   useEffect(() => {
-
     const theme = localStorage.getItem("darkmode");
     if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
     else document.documentElement.setAttribute("data-color-scheme", "light");
@@ -55,7 +56,7 @@ const App = () => {
         if (firstLoad) {
           setFirstLoad(false);
           setLoading(false);
-          document.title = "Flip-Flaap - Dashboard"
+          document.title = "Flip-Flaap - Dashboard";
         }
       })
       .catch(() => {
@@ -69,7 +70,12 @@ const App = () => {
   }, [token, firstLoad, menuChangeValue, dispatch]);
 
   const renderView = () => {
-    if (mode === "Flashcard") return <FlashcardList />;
+    if (mode === "Flashcard")
+      return (
+        <DndProvider backend={HTML5Backend}>
+          <FlashcardList />
+        </DndProvider>
+      );
     if (mode === "Learn") return <Learn />;
     if (mode === "Practice") return <Practice />;
   };

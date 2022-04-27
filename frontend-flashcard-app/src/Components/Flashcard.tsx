@@ -6,15 +6,26 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Loader from "./Loaders/Loader";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { conceptTypeText, defTypeText, formatDate } from "../helper/helper";
 import { useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { useDrag, useDrop } from "react-dnd";
 
 const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
-  const { _id, concept, collectionName, date, definition, setItemChange } = props;
+  const {
+    _id,
+    concept,
+    collectionName,
+    date,
+    definition,
+    editFlashcardIndexes,
+    displayIndex,
+    moveItemList,
+    setItemChange,
+  } = props;
 
   const token = localStorage.getItem("token");
 
@@ -84,10 +95,57 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
       });
   };
 
+  // Drag and drop logic
+  // Drag
+  const [{ isDragging }, dragRef] = useDrag({
+    type: "flashcard",
+    item: { displayIndex },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  // useDrop - each item is a drop area
+  const [, dropRef] = useDrop({
+    accept: ["flashcard"],
+    hover: (item: IFlashcard, monitor: any) => {
+      const dragIndex = item.displayIndex;
+      const hoverIndex = displayIndex;
+      const hoverBoundingRect = ref?.current?.getBoundingClientRect();
+
+      const hoverMiddleY = (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
+      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect!.top;
+
+      const hoverMiddleX = (hoverBoundingRect!.left - hoverBoundingRect!.right) / 2;
+      const hoverActualX = monitor.getClientOffset().x - hoverBoundingRect!.right;
+
+      // if dragging down, continue only when hover is smaller than middle Y
+      if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
+      // if dragging up, continue only when hover is bigger than middle Y
+      if (dragIndex > hoverIndex && hoverActualY > hoverMiddleY) return;
+
+      if (dragIndex < hoverIndex && hoverActualX < hoverMiddleX) return;
+      if (dragIndex > hoverIndex && hoverActualX > hoverMiddleX) return;
+
+      moveItemList(dragIndex, hoverIndex);
+      item.displayIndex = hoverIndex;
+    },
+    drop: () => {
+      editFlashcardIndexes(`${process.env.REACT_APP_BACKEND}/api/flashcards/index`);
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+
+  // refs for DnD
+  const ref = useRef<HTMLDivElement>();
+  const dragDropRef = dragRef(dropRef(ref));
+
   const renderFlashcard = () => {
     if (edit) {
       return (
-        <div className="flashcard">
+        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
           <input
             name="concept"
             className="edit-text title-flashcard"
@@ -113,7 +171,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
       );
     } else {
       return (
-        <div className="flashcard">
+        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
           <h2 className="title-flashcard">
             {conceptTypeText(type)}: <strong>{conceptText}</strong>
           </h2>

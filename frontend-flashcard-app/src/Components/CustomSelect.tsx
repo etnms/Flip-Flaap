@@ -5,10 +5,10 @@ interface ICustomSelect {
   setSelect: Function;
   colorOnly: boolean;
   values: Array<any>;
-  displayUp: boolean;  // Display the dropdown on top and not the bottom;
+  displayUp: boolean; // Display the dropdown on top and not the bottom;
 }
 
-// Component function to have custom select. 
+// Component function to have custom select.
 // Includes lot of dom manipulation to render styles and animations
 
 const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
@@ -31,16 +31,16 @@ const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
     const arrowUp = (e.currentTarget as HTMLElement).children[1] as HTMLElement;
     dropdown.classList.toggle("show-content");
 
-     // Dependng on the style puts the arrow back in places
+    // Dependng on the style puts the arrow back in places
     if (!displayUp) {
-      arrow.classList.toggle("arrow-select-down")
-      arrow.classList.toggle("arrow-select-up")
-    };
-    
+      arrow.classList.toggle("arrow-select-down");
+      arrow.classList.toggle("arrow-select-up");
+    }
+
     if (displayUp) {
       dropdown.classList.toggle("show-content-up");
       arrowUp.classList.toggle("arrow-select-up");
-      arrowUp.classList.toggle("arrow-select-down")
+      arrowUp.classList.toggle("arrow-select-down");
     }
   };
 
@@ -65,9 +65,9 @@ const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
 
     // Dependng on the style puts the arrow back in places
     if (!displayUp) {
-      arrow!.classList.remove("arrow-select-up")
+      arrow!.classList.remove("arrow-select-up");
       arrow!.classList.add("arrow-select-down");
-    };
+    }
 
     if (displayUp) {
       dropdown.classList.remove("show-content-up");
@@ -77,11 +77,9 @@ const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
   };
 
   const arrowType = () => {
-    if (displayUp)
-    return "arrow-select-up"
-    else 
-    return "arrow-select-down"
-  }
+    if (displayUp) return "arrow-select-up";
+    else return "arrow-select-down";
+  };
 
   return (
     <div className="custom-select-dropdown">

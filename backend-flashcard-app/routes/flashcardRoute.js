@@ -1,5 +1,5 @@
 import express from "express";
-import { createFlashcard, deleteFlashcard, displayFlashcards, updateFlashcard } from "../controllers/flashcardsController.js";
+import { createFlashcard, deleteFlashcard, displayFlashcards, updateFlashcard, updateFlashcardIndexes } from "../controllers/flashcardsController.js";
 import verifyToken from "../verifyToken.js";
 
 const router = express.Router();
@@ -12,4 +12,6 @@ const deleteCard = router.delete("/api/flashcards", verifyToken, deleteFlashcard
 
 const updateCard = router.put("/api/flashcards", verifyToken, updateFlashcard);
 
-export { createCard, deleteCard, displayCards, updateCard };
+const updateCardIndexes = router.put("/api/flashcards/index", verifyToken, updateFlashcardIndexes);
+
+export { createCard, deleteCard, displayCards, updateCard, updateCardIndexes };

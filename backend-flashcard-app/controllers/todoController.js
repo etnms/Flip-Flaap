@@ -25,11 +25,13 @@ const createTodo = (req, res) => {
   const todo = req.body.definition; // Reuse front-end architecture from the flashcard, definition is a text-area
   const _id = req.body._id;
   const color = req.body.color;
+  const dbIndex = req.body.dbIndex;
   const date = new Date();
 
   new Todo({
     todo,
     color,
+    dbIndex,
     date,
   }).save((err, result) => {
     if (err) return res.status(400).json({ message: "Error field empty" });
@@ -89,4 +91,14 @@ const updateTodo = (req, res) => {
   });
 };
 
-export { createTodo, displayTodos, deleteTodo, updateTodo };
+const updateToDoIndexes = (req, res) => {
+  const arrayTodosToEdit = req.body.arrayCards;
+  arrayTodosToEdit.forEach((element, index) => {
+    Todo.findByIdAndUpdate({ _id: element._id }, { dbIndex: index }, (err) => {
+      console.log(element, index);
+      if (err) return res.status(400);
+    });
+  });
+};
+
+export { createTodo, displayTodos, deleteTodo, updateTodo, updateToDoIndexes };

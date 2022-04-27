@@ -28,11 +28,13 @@ const createFlashcard = (req, res) => {
   const concept = req.body.concept;
   const definition = req.body.definition;
   const _id = req.body._id;
+  const dbIndex = req.body.dbIndex;
   const date = new Date();
-  
+
   new Flashcard({
     concept,
     definition,
+    dbIndex,
     date,
   }).save((err, result) => {
     if (err) return res.status(400).json({ message: "Error field empty" });
@@ -42,16 +44,11 @@ const createFlashcard = (req, res) => {
           return res.status(400).json({ message: "Error adding flashcard to collection" });
         } else {
           jwt.verify(req.token, process.env.JWTKEY, (err) => {
-            if (err)  return res.sendStatus(403);
+            if (err) return res.sendStatus(403);
             else {
-
-              Collection.findByIdAndUpdate(
-                { _id },
-                { $push: { flashcards: result } },
-                (err) => {
-                  if (err) return res.status(400).json({ message: "Error adding flashcard to collection" });
-                }
-              );
+              Collection.findByIdAndUpdate({ _id }, { $push: { flashcards: result } }, (err) => {
+                if (err) return res.status(400).json({ message: "Error adding flashcard to collection" });
+              });
             }
           });
         }
@@ -97,4 +94,14 @@ const updateFlashcard = (req, res) => {
   });
 };
 
-export { createFlashcard, deleteFlashcard, displayFlashcards, updateFlashcard };
+const updateFlashcardIndexes = (req, res) => {
+  const arrayCardsToEdit = req.body.arrayCards;
+
+  arrayCardsToEdit.forEach((element, index) => {
+    Flashcard.findByIdAndUpdate({ _id: element._id }, { dbIndex: index }, (err) => {
+      if (err) return res.status(400);
+    });
+  });
+};
+
+export { createFlashcard, deleteFlashcard, displayFlashcards, updateFlashcard, updateFlashcardIndexes };

@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import { login, signup } from "./routes/auth.js";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { createCard, deleteCard, displayCards, updateCard } from "./routes/flashcardRoute.js";
-import {createToDo, deleteToDo, displayToDos, updateToDo} from "./routes/todoRoute.js";
+import { createCard, deleteCard, displayCards, updateCard, updateCardIndexes } from "./routes/flashcardRoute.js";
+import {createToDo, deleteToDo, displayToDos, updateToDo, updateToDoIndex} from "./routes/todoRoute.js";
 import { dashboard, dashboardPasswordChange } from "./routes/dashboard.js";
 import {
   deleteCollectionRoute,
@@ -14,7 +14,7 @@ import {
 } from "./routes/collectionsRoute.js";
 import dotenv from "dotenv";
 const app = express();
-const port = 8000;
+const PORT = process.env.PORT || 8000;
 
 app.use(bodyParser.json());
 
@@ -48,15 +48,17 @@ app.use("/", createCard);
 app.use("/", deleteCard);
 app.use("/", displayCards);
 app.use("/", updateCard);
+app.use("/", updateCardIndexes);
 
 // To dos
 app.use("/", createToDo);
 app.use("/", deleteToDo);
 app.use("/", displayToDos);
 app.use("/", updateToDo);
+app.use("/", updateToDoIndex);
 
-const server = app.listen(port, () => {
-  console.log(`app is listening on port ${port}`);
+const server = app.listen(PORT, () => {
+  console.log(`app is listening on port ${PORT}`);
 });
 
 server;
