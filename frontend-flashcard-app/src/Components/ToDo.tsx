@@ -34,6 +34,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const [edit, setEdit] = useState(false);
 
   const type = useAppSelector((state) => state.currentCollection.type);
+  const idCollection = useAppSelector((state) => state.currentCollection._id);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -56,14 +57,14 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     "black",
   ];
 
-  const deleteTodo = (_id: string, name: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const deleteTodo = (_id: string, idCollection: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
     const spanEl = (e.target as HTMLElement).parentElement; //span
     const flashcardEl = spanEl?.parentElement;
     axios
       .delete(`${process.env.REACT_APP_BACKEND}/api/todos`, {
-        data: { _id, name },
+        data: { _id, idCollection },
         headers: { Authorization: token! },
       })
       .then(() => {
@@ -186,7 +187,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     } else {
       return (
         <div className="to-do" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
-          <p className="def-text">
+          <p className="def-text to-do-def">
             <strong>{defTypeText(type)}</strong>: {todoText}
           </p>
           {currentColor !== "none" ? (
@@ -213,7 +214,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     else
       return (
         <DeleteOutlinedIcon
-          onClick={(e) => deleteTodo(_id, collectionName, e)}
+          onClick={(e) => deleteTodo(_id, idCollection, e)}
           className="icon icon-delete"
           aria-label="button delete to do"
         />

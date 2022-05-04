@@ -92,6 +92,9 @@ const CollectionForm = () => {
     }
   };
 
+  const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setType(e.target.value);
+  };
   return (
     <div className="wrapper-main">
       <form className="form form-collection" onSubmit={(e) => createCollection(e)}>
@@ -103,13 +106,12 @@ const CollectionForm = () => {
         <label htmlFor="collection-type-select" className="input-label">
           Type of collection:
         </label>
-        <CustomSelect
-          colorOnly={false}
-          currentValue={type}
-          setSelect={setType}
-          values={["concept", "language", "to-do"]}
-          displayUp={false}
-        />
+        <select name="collection-type-select" className="select-collection" onChange={(e) => handleSelect(e)}>
+          <option className="select-item" value="concept">Concepts</option>
+          <option className="select-item" value="language">Language</option>
+          <option className="select-item" value="to-do">To do</option>
+        </select>
+
         {loading ? (
           <Loader />
         ) : (

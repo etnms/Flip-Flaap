@@ -3,19 +3,22 @@ import axios from "axios";
 import React from "react";
 import ErrorMessage from "./ErrorMessage";
 import { IActivity } from "../Interfaces/InterfaceActivity";
+import { useAppSelector } from "../app/hooks";
+import { conceptTypeText, defTypeText } from "../helper/helper";
 
 export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>) => {
   const { title, concept, def, errorText, textInstruction } = props;
 
+  const collectionType = useAppSelector((state) => state.currentCollection.type);
   const renderCard = () => {
     if (concept)
       return (
         <div className="learn-flashcard">
           <div className="card-inner">
             <h2 className="title-flashcard card-front">
-              Concept: <strong>{concept}</strong>
+              {conceptTypeText(collectionType)}: <strong>{concept}</strong>
             </h2>
-            <p className="def-text card-back">Definition: {def}</p>
+            <p className="def-text card-back">{defTypeText(collectionType)}: {def}</p>
           </div>
         </div>
       );
@@ -25,10 +28,10 @@ export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>)
           <div className="begin-text">
             <p>{textInstruction}</p>
             <p>
-              Once you start, hover over your flashcards to flip them. If you're on mobile you can tap them to
+              Once you start, hover over your flashcards to flip them. If you're on a mobile device, you can tap them to
               achieve the same result.
             </p>
-            <p>Press start to begin</p>
+            <p>Press start to begin.</p>
           </div>
         );
       return null;

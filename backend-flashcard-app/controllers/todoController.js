@@ -57,7 +57,7 @@ const createTodo = (req, res) => {
 
 const deleteTodo = (req, res) => {
   const _id = req.body._id;
-  const name = req.body.name;
+  const idCollection = req.body.idCollection;
 
   jwt.verify(req.token, process.env.JWTKEY, (err) => {
     if (err) return res.sendStatus(403);
@@ -65,7 +65,7 @@ const deleteTodo = (req, res) => {
       Todo.findByIdAndDelete({ _id }, (err) => {
         if (err) return res.status(400).json({ message: "Error while deleting Todo" });
         else {
-          Collection.findOneAndUpdate({ name }, { $pull: { todos: _id } }, (err) => {
+          Collection.findByIdAndUpdate({ _id: idCollection }, { $pull: { todos: _id } }, (err) => {
             if (err) return res.status(400).json({ message: "Error del Todo from collect" });
             return res.status(200).json({ message: "Todo deleted" });
           });
@@ -95,7 +95,6 @@ const updateToDoIndexes = (req, res) => {
   const arrayTodosToEdit = req.body.arrayCards;
   arrayTodosToEdit.forEach((element, index) => {
     Todo.findByIdAndUpdate({ _id: element._id }, { dbIndex: index }, (err) => {
-      console.log(element, index);
       if (err) return res.status(400);
     });
   });

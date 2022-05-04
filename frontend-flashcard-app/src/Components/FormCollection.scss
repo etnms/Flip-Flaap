@@ -14,7 +14,13 @@
   width: 20vw;
   border: 2px solid black;
   border-radius: 4px;
+  padding: 0.2rem;
 }
+
+.select-item {
+  font-size: 1.2rem;
+}
+
 
 .form-collection * {
   @include mixin.spacing-m;
@@ -24,7 +30,9 @@
   .form-collection {
     width: 95%;
   }
+
   .select-collection {
-    width: 95%;
+    width: 60vw;
   }
+
 }

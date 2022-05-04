@@ -15,6 +15,9 @@ const Signup = () => {
 
   useEffect(() => {
     document.title = "Flip-Flaap - Sign up";
+    const theme = localStorage.getItem("darkmode");
+    if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
+    else document.documentElement.setAttribute("data-color-scheme", "light");
   });
 
   const signup = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -88,7 +91,7 @@ const Signup = () => {
   return (
     <div className="bg">
       <form onSubmit={(e) => signup(e)} className="form form-auth">
-        <h1 className="title">Signup</h1>
+        <h1 className="title">Sign up</h1>
         <div className="wrapper-input-auth">
           <label htmlFor="email" className="input-label">
             Email
@@ -115,7 +118,7 @@ const Signup = () => {
         {errorMessage !== "" ? <ErrorMessage textError={errorMessage} /> : null}
         <span className="wrapper-button-auth">
           <button type="submit" className="btn-primary">
-            Signup
+            Sign up
           </button>
           <button className="btn-white btn-border" onClick={() => navigateIndex()}>
             {<HomeIcon />}

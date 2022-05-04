@@ -52,13 +52,14 @@ const FlashcardList = () => {
               (a: IFlashcard, b: IFlashcard) => a.dbIndex - b.dbIndex
             );
             setFlashcards(sortedRes);
+            
           } else {
             const sortedRes = res.data.results.collections.todos.sort(
               (a: ITodo, b: ITodo) => a.dbIndex - b.dbIndex
             );
             setTodos(sortedRes);
-            setItemChange(false);
           }
+          setItemChange(false);
         })
         .catch((err) => {
           if (err.response.status === 403) {

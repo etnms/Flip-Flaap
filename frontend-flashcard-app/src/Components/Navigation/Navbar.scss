@@ -14,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   border-radius: 8px;
+  margin-top: 0.3rem;
 }
 
 .settings-icon{
@@ -120,7 +121,7 @@
 @media (max-width: 400px) {
   .navbar-link {
    font-size: 1rem;
-   padding: 0.2rem;
+   padding: 0.1rem;
   }
 }
 

@@ -6,7 +6,6 @@
   flex-direction: column;
   height: 100vh;
   padding: 0 4rem;
-  background-color: var(--bg-primary);
 }
 .wrapper-sections {
   @include mixin.flex-center;
@@ -29,7 +28,6 @@
 
 .get-started {
   height: 80vh;
-  background-color: var(--bg-secondary);
   margin: 1rem;
   border-radius: 8px;
 }
@@ -42,3 +40,9 @@
   font-size: 1.2rem;
 }
 
+@media (max-width: 500px) {
+
+ .section-get-started {
+  padding: 0;
+ }
+}

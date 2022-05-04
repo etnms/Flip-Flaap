@@ -88,7 +88,6 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
           { headers: { Authorization: token! } }
         )
         .then(() => {
-          
           setItemChange(true);
           setErrorPost(false);
           (document.querySelector("textarea[name='definition']") as HTMLInputElement).value = "";

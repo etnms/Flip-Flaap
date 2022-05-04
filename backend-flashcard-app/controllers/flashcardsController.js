@@ -30,7 +30,6 @@ const createFlashcard = (req, res) => {
   const _id = req.body._id;
   const dbIndex = req.body.dbIndex;
   const date = new Date();
-
   new Flashcard({
     concept,
     definition,
@@ -60,7 +59,7 @@ const createFlashcard = (req, res) => {
 
 const deleteFlashcard = (req, res) => {
   const _id = req.body._id;
-  const name = req.body.name;
+  const idCollection = req.body.idCollection;
 
   jwt.verify(req.token, process.env.JWTKEY, (err) => {
     if (err) return res.sendStatus(403);
@@ -68,7 +67,7 @@ const deleteFlashcard = (req, res) => {
       Flashcard.findByIdAndDelete({ _id }, (err) => {
         if (err) return res.status(400).json({ message: "Error while deleting flashcard" });
         else {
-          Collection.findOneAndUpdate({ name }, { $pull: { flashcards: _id } }, (err) => {
+          Collection.findByIdAndUpdate({ _id: idCollection }, { $pull: { flashcards: _id } }, (err) => {
             if (err) return res.status(400).json({ message: "Error del flashcard from collect" });
             return res.status(200).json({ message: "Flashcard deleted" });
           });

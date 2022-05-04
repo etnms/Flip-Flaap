@@ -10,7 +10,10 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Flip-Flaap - Login"
+    document.title = "Flip-Flaap - Login";
+    const theme = localStorage.getItem("darkmode");
+    if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
+    else document.documentElement.setAttribute("data-color-scheme", "light");
   })
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {

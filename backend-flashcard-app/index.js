@@ -13,6 +13,8 @@ import {
   postCollectionRoute,
 } from "./routes/collectionsRoute.js";
 import dotenv from "dotenv";
+import mongoSanitize from "express-mongo-sanitize";
+
 const app = express();
 const PORT = process.env.PORT || 8000;
 
@@ -21,6 +23,13 @@ app.use(bodyParser.json());
 app.use(cors({
   origin: "http://localhost:3000",
 }));
+
+app.use(
+  mongoSanitize({
+    allowDots: true,
+    replaceWith: '_',
+  }),
+);
 
 dotenv.config()
 

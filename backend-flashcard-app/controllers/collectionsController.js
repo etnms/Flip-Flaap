@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import Collection from "../models/collections.js";
 import User from "../models/user.js";
 import async from "async";
+import Flashcard from "../models/flashcard.js";
+import Todo from "../models/todo.js";
 
 const getCollection = (req, res) => {
   jwt.verify(req.token, process.env.JWTKEY, (err, authData) => {
@@ -33,7 +35,7 @@ const postCollection = (req, res) => {
   if (name.length > 80) return res.status(400).json({ error: "Name too long" });
 
   jwt.verify(req.token, process.env.JWTKEY, (err, authData) => {
-    if (err)  return res.sendStatus(403);
+    if (err) return res.sendStatus(403);
     else {
       User.findOne({ username: authData.user.username }).exec((err, result) => {
         if (err) return res.status(400).json({ error: "Error creation collection" });
@@ -61,14 +63,28 @@ const deleteCollection = (req, res) => {
     if (err) {
       return res.sendStatus(403);
     } else {
-      Collection.deleteOne({ _id }, (err) => {
-        if (err) {
-          console.log(err);
-          return res.status(400).json({ error: "Error deleting collection" });
-          
-        } else {
-          res.status(200).json({ message: "Successfully deleted" });
+      Collection.findById({ _id }, (err, res) => {
+        if (err) return res.status(400).json({ error: "Error deleting collection" });
+        const arrayCards = res.flashcards;
+        const arrayTodos = res.todos;
+        if (arrayCards.length > 0) {
+          arrayCards.forEach((card) => {
+            Flashcard.findByIdAndDelete({ _id: card }, (err, res) => {
+              if (err) console.log(err);
+              if (res) console.log(res);
+            });
+          });
         }
+        if (arrayTodos.length > 0) {
+          arrayTodos.forEach((todo) => {
+            Todo.findByIdAndDelete({ _id: todo });
+          });
+        }
+      });
+
+      Collection.deleteOne({ _id }, (err) => {
+        if (err) return res.status(400).json({ error: "Error deleting collection" });
+        else return res.status(200).json({ message: "Successfully deleted" });
       });
     }
   });

@@ -32,6 +32,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const [edit, setEdit] = useState(false);
 
   const type = useAppSelector((state) => state.currentCollection.type);
+  const idCollection = useAppSelector((state) => state.currentCollection._id);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -41,14 +42,14 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
 
   const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const deleteFlashcard = (_id: string, name: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const deleteFlashcard = (_id: string, idCollection: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
     const spanEl = (e.target as HTMLElement).parentElement; //span
     const flashcardEl = spanEl?.parentElement;
     axios
       .delete(`${process.env.REACT_APP_BACKEND}/api/flashcards`, {
-        data: { _id, name },
+        data: { _id, idCollection },
         headers: { Authorization: token! },
       })
       .then(() => {
@@ -199,7 +200,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
     else
       return (
         <DeleteOutlinedIcon
-          onClick={(e) => deleteFlashcard(_id, collectionName, e)}
+          onClick={(e) => deleteFlashcard(_id, idCollection, e)}
           className="icon icon-delete"
           aria-label="button delete flashcard"
         />

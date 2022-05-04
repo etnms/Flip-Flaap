@@ -2,16 +2,23 @@ import "./Practice.scss";
 import "./PracticeLearningActivity.scss";
 import { useEffect, useState } from "react";
 import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
-import { checkCollectionSize, createFakeFlashcard, Getdata, PracticeLearnActivity, RenderButton } from "./PracticeLearnActivity";
+import {
+  checkCollectionSize,
+  createFakeFlashcard,
+  Getdata,
+  PracticeLearnActivity,
+  RenderButton,
+} from "./PracticeLearnActivity";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { conceptTypeText, defTypeText } from "../helper/helper";
 
 const Practice = () => {
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
   const type = useAppSelector((state) => state.currentCollection.type);
-  
+
   const [expired, setExpired] = useState(false);
 
   const [results, setResults] = useState([]);
@@ -26,18 +33,20 @@ const Practice = () => {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  
+
   useEffect(() => {
     Getdata(currentCollectionId, setConcept, setErrorText, setResults, setExpired);
     if (expired === true) {
-    navigate("/redirect")
-    dispatch(changeExpiredStatus(true));
+      navigate("/redirect");
+      dispatch(changeExpiredStatus(true));
     }
   }, [currentCollectionId, expired, navigate, dispatch]);
 
   const createRandomCard = (listCollections: Array<IFlashcard>) => {
     if (type === "to-do")
-    return setErrorText("Error: This collection only contains to dos! Please use a collection with flashcards and come back.");
+      return setErrorText(
+        "Error: This collection only contains to dos! Please use a collection with flashcards and come back."
+      );
     if (concept) createFakeFlashcard(concept, def);
 
     setAnswerSubmitted(false);
@@ -82,7 +91,7 @@ const Practice = () => {
     } else {
       setCheckMessage("Incorrect!");
     }
-    setAnswerSubmitted(true)
+    setAnswerSubmitted(true);
   };
 
   const renderCheckMessage = () => {
@@ -102,22 +111,25 @@ const Practice = () => {
               concept={concept}
               def={def}
               errorText={errorText}
-              textInstruction={"In this module your cards are shuffle and you'll be asked to recognize which ones are correct."}
+              textInstruction={`In this module ${conceptTypeText(type)?.toLowerCase()}s and ${defTypeText(
+                type
+              )?.toLocaleLowerCase()}s are shuffled
+               and you'll be asked to recognize which ones are correct.`}
             />
-            {concept? (
-            
+            {concept ? (
               <div className="check-practice">
                 <p className="question">Is this the correct definition?</p>
-                {!answerSubmitted ?
-                <span className="wrapper-btn-check">
-                  <button onClick={() => checkAnswer(true, sameCard)} className="btn-primary">
-                    Yes
-                  </button>
-                  <button onClick={() => checkAnswer(false, sameCard)} className="btn-secondary">
-                    No
-                  </button>
-                </span> : null}
-                
+                {!answerSubmitted ? (
+                  <span className="wrapper-btn-check">
+                    <button onClick={() => checkAnswer(true, sameCard)} className="btn-primary">
+                      Yes
+                    </button>
+                    <button onClick={() => checkAnswer(false, sameCard)} className="btn-secondary">
+                      No
+                    </button>
+                  </span>
+                ) : null}
+
                 {renderCheckMessage()}
               </div>
             ) : null}
@@ -132,7 +144,9 @@ const Practice = () => {
             concept={concept}
             def={def}
             errorText={errorText}
-            textInstruction={"In this module your cards are mixed up and you'll be asked to recognize which ones are correct."}
+            textInstruction={
+              "In this module your cards are mixed up and you'll be asked to recognize which ones are correct."
+            }
           />
         ) : null}
       </main>

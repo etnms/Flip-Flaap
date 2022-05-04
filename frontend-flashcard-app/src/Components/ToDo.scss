@@ -46,3 +46,17 @@
   border-radius: 50%;
   //margin: 0 1rem;
 }
+
+
+@media (max-width: 400px) {
+  .to-do {
+    flex-direction: column;
+  }
+  .to-do-def {
+    width: 90%;
+  }
+
+  .edit-to-do-text {
+    height: 5rem;
+  }
+}
