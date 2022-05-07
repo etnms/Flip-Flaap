@@ -19,7 +19,6 @@ import { useDrag, useDrop } from "react-dnd";
 const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const {
     _id,
-    collectionName,
     color,
     date,
     editFlashcardIndexes,

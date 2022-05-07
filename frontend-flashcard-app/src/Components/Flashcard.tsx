@@ -18,7 +18,6 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const {
     _id,
     concept,
-    collectionName,
     date,
     definition,
     editFlashcardIndexes,
@@ -168,6 +167,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
               aria-label="button validate edit"
             />
           </span>
+          
         </div>
       );
     } else {

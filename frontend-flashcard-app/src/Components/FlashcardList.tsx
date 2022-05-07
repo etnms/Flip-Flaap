@@ -77,7 +77,6 @@ const FlashcardList = () => {
         <Flashcard
           setItemChange={setItemChange}
           key={card._id}
-          collectionName={currentCollection}
           concept={card.concept}
           definition={card.definition}
           _id={card._id}
@@ -94,7 +93,6 @@ const FlashcardList = () => {
         <ToDo
           setItemChange={setItemChange}
           key={todo._id}
-          collectionName={currentCollection}
           todo={todo.todo}
           _id={todo._id}
           color={todo.color}
