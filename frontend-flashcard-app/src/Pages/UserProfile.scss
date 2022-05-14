@@ -83,3 +83,9 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+  @media (max-width: 540px) {
+    .profile {
+      width: 90vw;
+    }
+  }

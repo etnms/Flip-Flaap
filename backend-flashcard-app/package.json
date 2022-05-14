@@ -1,7 +1,7 @@
 {
-  "name": "flashcard-app-backend",
+  "name": "flip-flaap-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for the webapp Flip-Flaap. Uses Express and Mongoose",
   "main": "index.js",
   "type": "module",
   "scripts": {

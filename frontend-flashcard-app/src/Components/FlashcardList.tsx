@@ -189,6 +189,7 @@ const FlashcardList = () => {
       return (
         <main className="main-view">
           <h1 className="title-s">No collection is currently open</h1>
+          <p>Tips: you can drag and drop your flashcards to organize them the way you want.</p>
         </main>
       );
   };

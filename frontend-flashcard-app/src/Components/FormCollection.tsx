@@ -13,7 +13,6 @@ import { openCollectionForm } from "../features/openCollectionFormSlice";
 import "./FormCollection.scss";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loaders/Loader";
-import CustomSelect from "./CustomSelect";
 
 const CollectionForm = () => {
   const token = localStorage.getItem("token");
