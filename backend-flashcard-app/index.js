@@ -17,11 +17,12 @@ import mongoSanitize from "express-mongo-sanitize";
 
 const app = express();
 const PORT = process.env.PORT || 8000;
+const FRONTEND = process.env.FRONTEND || "http://localhost:3000"
 
 app.use(bodyParser.json());
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: FRONTEND,
 }));
 
 app.use(
