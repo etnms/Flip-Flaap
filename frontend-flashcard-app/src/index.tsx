@@ -2,7 +2,7 @@ import React from "react";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import { Provider } from 'react-redux'
@@ -17,7 +17,7 @@ const root = createRoot(container);
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />}/>
         <Route path="/login" element={<Login />} />
@@ -27,7 +27,7 @@ root.render(
         <Route path="/404" element={<Error404/>}/>
         <Route path="*" element={<Navigate replace to="/404"/>}/>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
     </Provider>
   </React.StrictMode>
 );
