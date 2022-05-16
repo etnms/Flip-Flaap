@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Flip-Flaap/static/css/main.db0a5d30.css",
-    "main.js": "/Flip-Flaap/static/js/main.eae3433b.js",
+    "main.js": "/Flip-Flaap/static/js/main.5adaa2a3.js",
     "static/js/787.ba1a4751.chunk.js": "/Flip-Flaap/static/js/787.ba1a4751.chunk.js",
     "static/media/Flip-Flaap-white.png": "/Flip-Flaap/static/media/Flip-Flaap-white.6c0a6af0ff4f63e0b520.png",
     "static/media/Flip-Flaap-black.png": "/Flip-Flaap/static/media/Flip-Flaap-black.e3915ca7b3e581c1955e.png",
@@ -9,11 +9,11 @@
     "static/media/list-gridview.svg": "/Flip-Flaap/static/media/list-gridview.c9d5daaade05a743e15eef13a177feeb.svg",
     "static/media/list.svg": "/Flip-Flaap/static/media/list.44700e09537fd4103585fb540a365543.svg",
     "main.db0a5d30.css.map": "/Flip-Flaap/static/css/main.db0a5d30.css.map",
-    "main.eae3433b.js.map": "/Flip-Flaap/static/js/main.eae3433b.js.map",
+    "main.5adaa2a3.js.map": "/Flip-Flaap/static/js/main.5adaa2a3.js.map",
     "787.ba1a4751.chunk.js.map": "/Flip-Flaap/static/js/787.ba1a4751.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.db0a5d30.css",
-    "static/js/main.eae3433b.js"
+    "static/js/main.5adaa2a3.js"
   ]
 }
