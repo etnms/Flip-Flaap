@@ -59,3 +59,9 @@
 .btn-space {
   margin: 1rem;
 }
+
+@media (max-width:400px) {
+  .btn-white {
+    width: 30vw;
+  }
+}

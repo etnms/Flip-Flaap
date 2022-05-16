@@ -1,6 +1,15 @@
+import React from "react";
 import "./LoadingScreen.scss";
 
-const LoadingScreen = () => {
+interface ILoading {
+  title: string,
+  message: string,
+}
+
+const LoadingScreen = (props: React.PropsWithChildren<ILoading>) => {
+
+  const {title, message} = props;
+
   return (
     <div className="wrapper-loading">
       <div className="loader-square">
@@ -15,8 +24,8 @@ const LoadingScreen = () => {
         </div>
       </div>
       <div className="loading-text">
-        <h1 className="title-s">Loading</h1>
-        <p>We're preparing your dashboard.</p>
+        <h1 className="title-s">{title}</h1>
+        <p>{message}</p>
       </div>
     </div>
   );

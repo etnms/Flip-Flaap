@@ -27,7 +27,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstLoad, setFirstLoad] = useState(true);
   const [loading, setLoading] = useState(true);
-
+  const [serverLoading, setServerLoading] = useState(true);
   const [results, setResults] = useState([]);
 
   const [mode, setMode] = useState("Flashcard"); // Default to create flashcard option
@@ -44,6 +44,7 @@ const App = () => {
       .then((res) => {
         setUsername(res.data);
         setIsLoggedIn(true);
+        setServerLoading(false);
       })
       .catch(() => {
         setIsLoggedIn(false);
@@ -80,8 +81,25 @@ const App = () => {
     if (mode === "Practice") return <Practice />;
   };
 
+  const renderFirstPage = () => {
+    if (token !== null && serverLoading) return <LoadingScreen title="Loading..."  message="Connecting to Flip-Flaap."/>;
+    else {
+      return (
+        <div className="wrapper-no-auth">
+          <Navbar
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+            setFirstLoad={setFirstLoad}
+            setMode={setMode}
+            username={username}></Navbar>
+          <GettingStarted />
+        </div>
+      );
+    }
+  };
+
   const renderMainScreen = () => {
-    if (loading && firstLoad) return <LoadingScreen />;
+    if (loading && firstLoad) return <LoadingScreen title="Loading..."  message="We're preparing your dashboard." />;
     else
       return (
         <div className="wrapper-content">
@@ -99,23 +117,7 @@ const App = () => {
       );
   };
 
-  return (
-    <div className="App">
-      {isLoggedIn ? (
-        renderMainScreen()
-      ) : (
-        <div className="wrapper-no-auth">
-          <Navbar
-            isLoggedIn={isLoggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-            setFirstLoad={setFirstLoad}
-            setMode={setMode}
-            username={username}></Navbar>
-          <GettingStarted />
-        </div>
-      )}
-    </div>
-  );
+  return <div className="App">{isLoggedIn ? renderMainScreen() : renderFirstPage()}</div>;
 };
 
 export default App;
