@@ -10,7 +10,6 @@ const verifyToken = (req, res, next) => {
   } else {
     // Forbidden
     console.log("forbidden");
-    res.sendStatus(403);
     next();
   }
 };
