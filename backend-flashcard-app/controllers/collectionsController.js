@@ -71,7 +71,6 @@ const deleteCollection = (req, res) => {
           arrayCards.forEach((card) => {
             Flashcard.findByIdAndDelete({ _id: card }, (err, res) => {
               if (err) console.log(err);
-              if (res) console.log(res);
             });
           });
         }

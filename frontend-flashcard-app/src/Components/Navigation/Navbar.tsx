@@ -26,7 +26,7 @@ const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
   };
 
   const signOut = () => {
-    localStorage.setItem("token", "");
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     setFirstLoad(true);
   };

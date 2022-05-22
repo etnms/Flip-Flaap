@@ -7,7 +7,7 @@ const Collection = new Schema({
     name: {type: String, required: true},
     flashcards: [{type: Schema.Types.ObjectId, ref: "Flashcard"}],
     todos: [{type: Schema.Types.ObjectId, ref: "Todo"}],
-    type: {type: String, required: true, unique: true}
+    type: {type: String, required: true}
 })
 
 export default mongoose.model("Collection", Collection);

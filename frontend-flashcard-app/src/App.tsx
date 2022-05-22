@@ -82,7 +82,7 @@ const App = () => {
   };
 
   const renderFirstPage = () => {
-    if (token !== null && serverLoading) return <LoadingScreen title="Loading..."  message="Connecting to Flip-Flaap."/>;
+    if ( token !== null && serverLoading) return <LoadingScreen title="Loading..."  message="Connecting to Flip-Flaap."/>;
     else {
       return (
         <div className="wrapper-no-auth">
