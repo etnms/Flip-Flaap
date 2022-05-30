@@ -41,7 +41,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
 
   const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const deleteFlashcard = (_id: string, idCollection: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const deleteFlashcard = (_id: string, idCollection: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
     const spanEl = (e.target as HTMLElement).parentElement; //span
@@ -145,7 +145,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const renderFlashcard = () => {
     if (edit) {
       return (
-        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
+        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }} tabIndex={0}>
           <input
             name="concept"
             className="edit-text title-flashcard"
@@ -161,18 +161,20 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
             {renderDelBtn()}
+            <button  onClick={() => editFlashcard()}
+              className="icon-cards icon-edit"
+              aria-label="button validate edit">
             <CheckIcon
-              onClick={() => editFlashcard()}
-              className="icon icon-edit"
-              aria-label="button validate edit"
+             
             />
+            </button>
           </span>
           
         </div>
       );
     } else {
       return (
-        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
+        <div className="flashcard" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }} tabIndex={0}>
           <h2 className="title-flashcard">
             {conceptTypeText(type)}: <strong>{conceptText}</strong>
           </h2>
@@ -182,11 +184,13 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-flashcards">
             {renderDelBtn()}
+            <button onClick={() => setEdit(true)}
+              className="icon-cards icon-edit"
+              aria-label="button validate edit">
             <EditIcon
-              onClick={() => setEdit(true)}
-              className="icon icon-edit"
-              aria-label="button validate edit"
+              
             />
+            </button>
           </span>
         </div>
       );
@@ -199,14 +203,17 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
     if (loadingDelete) return <Loader />;
     else
       return (
+        <button  onClick={(e) => deleteFlashcard(_id, idCollection, e)}
+        className="icon-cards icon-delete"
+        aria-label="button delete flashcard">
         <DeleteOutlinedIcon
-          onClick={(e) => deleteFlashcard(_id, idCollection, e)}
-          className="icon icon-delete"
-          aria-label="button delete flashcard"
+         
         />
+        </button>
       );
   };
 
+  // Actual component
   return renderFlashcard();
 };
 

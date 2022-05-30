@@ -48,6 +48,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoggedIn(false);
+        setServerLoading(false);
       });
 
     axios

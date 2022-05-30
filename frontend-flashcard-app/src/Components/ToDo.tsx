@@ -17,16 +17,7 @@ import CustomSelect from "./CustomSelect";
 import { useDrag, useDrop } from "react-dnd";
 
 const ToDo = (props: React.PropsWithChildren<ITodo>) => {
-  const {
-    _id,
-    color,
-    date,
-    editFlashcardIndexes,
-    displayIndex,
-    moveItemList,
-    todo,
-    setItemChange,
-  } = props;
+  const { _id, color, date, editFlashcardIndexes, displayIndex, moveItemList, todo, setItemChange } = props;
 
   const token = localStorage.getItem("token");
 
@@ -56,7 +47,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     "black",
   ];
 
-  const deleteTodo = (_id: string, idCollection: string, e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
+  const deleteTodo = (_id: string, idCollection: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
     const spanEl = (e.target as HTMLElement).parentElement; //span
@@ -159,7 +150,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const renderTodo = () => {
     if (edit) {
       return (
-        <div className="to-do" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
+        <div className="to-do" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }} tabIndex={0}>
           <textarea
             name="definition-edit"
             value={`${todoText}`}
@@ -174,18 +165,19 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
           />
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-todos">
-            <CheckIcon
+            <button
               onClick={() => editTodo()}
-              className="icon icon-edit"
-              aria-label="button validate edit"
-            />
+              className="icon-cards icon-edit"
+              aria-label="button validate edit">
+              <CheckIcon />
+            </button>
             {renderDelBtn()}
           </span>
         </div>
       );
     } else {
       return (
-        <div className="to-do" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }}>
+        <div className="to-do" ref={dragDropRef as any} style={{ opacity: isDragging ? 0 : 1 }} tabIndex={0}>
           <p className="def-text to-do-def">
             <strong>{defTypeText(type)}</strong>: {todoText}
           </p>
@@ -194,11 +186,12 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
           ) : null}
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-todos">
-            <EditIcon
+            <button
               onClick={() => setEdit(true)}
-              className="icon icon-edit"
-              aria-label="button validate edit"
-            />
+              className="icon-cards icon-edit"
+              aria-label="button validate edit">
+              <EditIcon />
+            </button>
             {renderDelBtn()}
           </span>
         </div>
@@ -212,11 +205,12 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     if (loadingDelete) return <Loader />;
     else
       return (
-        <DeleteOutlinedIcon
+        <button
           onClick={(e) => deleteTodo(_id, idCollection, e)}
-          className="icon icon-delete"
-          aria-label="button delete to do"
-        />
+          className="icon-cards icon-delete"
+          aria-label="button delete to do">
+          <DeleteOutlinedIcon />
+        </button>
       );
   };
 

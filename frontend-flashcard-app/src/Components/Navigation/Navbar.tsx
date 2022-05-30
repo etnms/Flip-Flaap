@@ -3,7 +3,6 @@ import "./Navbar.scss";
 import "../../SassStyles/Buttons.scss";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-
 interface ILoginProps {
   isLoggedIn: boolean;
   setIsLoggedIn: Function;
@@ -38,46 +37,58 @@ const Navbar = (props: React.PropsWithChildren<ILoginProps>) => {
     setMode(mode);
   };
 
-
-  return <div className="wrapper-navbar">
-  <nav className="navbar">
-    {isLoggedIn ? (
-      <nav className="nav nav-menu">
-        <button onClick={(e) => selectMode("Flashcard", e)} className="navbar-link link-active">
-          {" "}
-          {/*Default value */}
-          Create Flashcards
-        </button>
-        <button onClick={(e) => selectMode("Learn", e)} className="navbar-link">
-          Learn
-        </button>
-        <button onClick={(e) => selectMode("Practice", e)} className="navbar-link">
-          Practice
-        </button>
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "Enter") navigate("/profile");
+  };
+  return (
+    <div className="wrapper-navbar">
+      <nav className="navbar">
+        {isLoggedIn ? (
+          <nav className="nav nav-menu">
+            <button onClick={(e) => selectMode("Flashcard", e)} className="navbar-link link-active">
+              {" "}
+              {/*Default value */}
+              Create Flashcards
+            </button>
+            <button onClick={(e) => selectMode("Learn", e)} className="navbar-link">
+              Learn
+            </button>
+            <button onClick={(e) => selectMode("Practice", e)} className="navbar-link">
+              Practice
+            </button>
+          </nav>
+        ) : (
+          <div></div>
+        )}
+        {!isLoggedIn ? (
+          <nav className="nav nav-auth">
+            <button onClick={() => signup()} className="btn-white btn-border" aria-label="signup button">
+              Sign up
+            </button>
+            <button onClick={() => login()} className="btn-primary" aria-label="login button">
+              Login
+            </button>
+          </nav>
+        ) : (
+          <nav className="nav nav-auth">
+            <button
+              onClick={() => navigate("/profile")}
+              className="settings-icon"
+              aria-label="settings button"
+              onKeyDown={(e) => {
+                handleKeyPress(e);
+              }}>
+              <SettingsIcon />
+            </button>
+            <p>Welcome, {username}</p>
+            <button onClick={() => signOut()} className="btn-white btn-border" aria-label="sign out button">
+              Sign out
+            </button>
+          </nav>
+        )}
       </nav>
-    ) : (
-      <div></div>
-    )}
-    {!isLoggedIn ? (
-      <nav className="nav nav-auth">
-        <button onClick={() => signup()} className="btn-white btn-border" aria-label="signup button">
-          Sign up
-        </button>
-        <button onClick={() => login()} className="btn-primary" aria-label="login button">
-          Login
-        </button>
-      </nav>
-    ) : (
-      <nav className="nav nav-auth">
-        <SettingsIcon onClick={() => navigate("/profile")} className="settings-icon" />
-        <p>Welcome, {username}</p>
-        <button onClick={() => signOut()} className="btn-white btn-border" aria-label="sign out button">
-          Sign out
-        </button>
-      </nav>
-    )}
-  </nav>
-</div>
+    </div>
+  );
 };
 
 export default Navbar;

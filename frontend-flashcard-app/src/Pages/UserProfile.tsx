@@ -77,7 +77,7 @@ const UserProfile = () => {
     }
   });
 
-  const switchDarkmode = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const switchDarkmode = (e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement> ) => {
     if ((e.target as HTMLInputElement).checked) {
       document.documentElement.setAttribute("data-color-scheme", "dark");
       localStorage.setItem("darkmode", "darkmode");
@@ -86,6 +86,14 @@ const UserProfile = () => {
       document.documentElement.setAttribute("data-color-scheme", "light");
     }
   };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      const el = document.querySelector("input[name='toggle-darkmode']") as HTMLInputElement;
+      el.checked = !el.checked;
+      switchDarkmode(e);
+    }
+  }
 
   return (
     <div className="wrapper-profile">
@@ -117,7 +125,7 @@ const UserProfile = () => {
 
         <span>Toggle dark mode</span>
         <label className="switch">
-          <input type="checkbox" name="toggle-darkmode" onChange={(e) => switchDarkmode(e)} />
+          <input type="checkbox" name="toggle-darkmode" onChange={(e) => switchDarkmode(e)} onKeyDown={(e) => handleKeyPress(e)} tabIndex={0}/>
           <span className="slider round"></span>
         </label>
 

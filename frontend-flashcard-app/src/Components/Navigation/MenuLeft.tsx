@@ -57,6 +57,10 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
     setMenuPhoneStatus(!menuPhoneStatus);
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLSpanElement>, type: string) => {
+    if (e.key === "Enter") hideCollections(type);
+  };
+
   return (
     <div className="menu-left">
       <button
@@ -68,19 +72,31 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
       <img src={Icon} alt="icon" className="icon-main" />
       <h1 className="title">Collections</h1>
 
-      <span onClick={() => hideCollections("concept")} className="wrapper-subtitle">
+      <span
+        onClick={() => hideCollections("concept")}
+        className="wrapper-subtitle"
+        tabIndex={0}
+        onKeyDown={(e) => handleKeyPress(e, "concept")}>
         <h2 className="menu-subtitle">Concepts</h2>
         <span className="arrow arrow-concept"></span>
       </span>
       <ul className="nav-collections collec-concept">{displayNames("concept")}</ul>
 
-      <span onClick={() => hideCollections("language")} className="wrapper-subtitle">
+      <span
+        onClick={() => hideCollections("language")}
+        className="wrapper-subtitle"
+        tabIndex={0}
+        onKeyDown={(e) => handleKeyPress(e, "language")}>
         <h2 className="menu-subtitle">Languages</h2>
         <span className="arrow arrow-language"></span>
       </span>
       <ul className="nav-collections collec-language">{displayNames("language")}</ul>
 
-      <span onClick={() => hideCollections("to-do")} className="wrapper-subtitle">
+      <span
+        onClick={() => hideCollections("to-do")}
+        className="wrapper-subtitle"
+        tabIndex={0}
+        onKeyDown={(e) => handleKeyPress(e, "to-do")}>
         <h2 className="menu-subtitle">To dos</h2>
         <span className="arrow arrow-to-do"></span>
       </span>

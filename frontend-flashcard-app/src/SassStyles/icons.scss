@@ -1,5 +1,15 @@
-.icon {
+.icon, .icon-cards {
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: white;
+}
+.icon {
+  color: white;
+}
+
+.icon-cards {
+  color: var(--color);
 }
 
 .icon-edit:hover {
