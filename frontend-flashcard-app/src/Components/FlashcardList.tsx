@@ -24,10 +24,10 @@ const FlashcardList = () => {
 
   const [flashcards, setFlashcards] = useState<Array<IFlashcard>>([]);
   const [todos, setTodos] = useState<Array<ITodo>>([]);
-  const [typeCard, setTypeCard] = useState("");
+  const [typeCard, setTypeCard] = useState<String>("");
 
-  const [itemChange, setItemChange] = useState(false);
-  const [showFlashcardForm, setShowFlashcardForm] = useState(false);
+  const [itemChange, setItemChange] = useState<boolean>(false);
+  const [showFlashcardForm, setShowFlashcardForm] = useState<boolean>(false);
 
   useEffect(() => {
     // Get the query type to display flashcards or to dos depending on the user's choise

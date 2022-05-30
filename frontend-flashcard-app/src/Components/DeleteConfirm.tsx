@@ -22,7 +22,7 @@ const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
   const nameCollectionDelete = useAppSelector((state) => state.confirmDeleteMenu.nameCollectionDelete);
   const idCollectionDelete = useAppSelector((state) => state.confirmDeleteMenu.idCollectionDelete);
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
-  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const deleteCollection = (_id: string) => {
     // Create loading animation before being deleted

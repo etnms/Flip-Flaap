@@ -16,13 +16,13 @@ const Learn = () => {
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
   const type = useAppSelector((state) => state.currentCollection.type);
   
-  const [expired, setExpired] = useState(false);
+  const [expired, setExpired] = useState<boolean>(false);
 
-  const [results, setResults] = useState([]);
-  const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
+  const [results, setResults] = useState<any>([]);
+  const [errorText, setErrorText] = useState<string>(""); // Error message if problems with the selected collection
 
-  const [concept, setConcept] = useState("");
-  const [def, setDef] = useState("");
+  const [concept, setConcept] = useState<string>("");
+  const [def, setDef] = useState<string>("");
 
   const [previousRdn, setPreviousRdn] = useState<number>();
 

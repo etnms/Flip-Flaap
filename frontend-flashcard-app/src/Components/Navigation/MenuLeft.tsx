@@ -18,8 +18,8 @@ const MenuLeft = (props: React.PropsWithChildren<IMenuProps>) => {
   // Prop drilling for the selectedHTML as redux is not really a good option here (not a "normal" object)
   const [selectedHTML, setSelectedHTML] = useState<HTMLElement>();
 
-  const [menuPhoneStatus, setMenuPhoneStatus] = useState(true);
-  const [menuPhoneText, setMenuPhoneText] = useState("Close collection menu");
+  const [menuPhoneStatus, setMenuPhoneStatus] = useState<boolean>(true);
+  const [menuPhoneText, setMenuPhoneText] = useState<string>("Close collection menu");
   // Main function to display individual items with collection names and buttons
   const displayNames = (type: string) => {
     //if type === result.type then do

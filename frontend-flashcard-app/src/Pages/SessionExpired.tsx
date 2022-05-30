@@ -6,7 +6,7 @@ import { changeExpiredStatus } from "../features/expiredSessionSlice";
 
 const SessionExpired = () => {
   const sessionExpired = useAppSelector((state) => state.expiredSession.value);
-  const [countdownValue, setCountdownValue] = useState(5);
+  const [countdownValue, setCountdownValue] = useState<number>(5);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 

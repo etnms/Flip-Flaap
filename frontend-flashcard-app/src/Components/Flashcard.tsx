@@ -28,7 +28,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
 
   const token = localStorage.getItem("token");
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState<boolean>(false);
 
   const type = useAppSelector((state) => state.currentCollection.type);
   const idCollection = useAppSelector((state) => state.currentCollection._id);
@@ -36,10 +36,10 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [conceptText, setConceptText] = useState(concept);
-  const [defText, setDefText] = useState(definition);
+  const [conceptText, setConceptText] = useState<string>(concept);
+  const [defText, setDefText] = useState<string>(definition);
 
-  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
   const deleteFlashcard = (_id: string, idCollection: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setLoadingDelete(true);

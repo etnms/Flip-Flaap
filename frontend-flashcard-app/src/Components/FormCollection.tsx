@@ -20,13 +20,13 @@ const CollectionForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   // Get the type in the state to be used later for class animations
-  const [type, setType] = useState("concept");
+  const [type, setType] = useState<string>("concept");
 
   // Create an empty error message to check if input is valid. If so, stays as 0, otherwise message indicate type of errors until correct.
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   // Loading icon waiting for post request to be done
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const createCollection = (e: React.FormEvent<HTMLFormElement>) => {
     setLoading(true);

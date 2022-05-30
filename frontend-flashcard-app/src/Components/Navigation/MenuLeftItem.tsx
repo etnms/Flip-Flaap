@@ -22,8 +22,8 @@ import { changeExpiredStatus } from "../../features/expiredSessionSlice";
 const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
   const { _id, name, type, setSelectedHTML } = props;
 
-  const [edit, setEdit] = useState(false);
-  const [currentName, setCurrentName] = useState(name); //extra name for the sole purpose of editing
+  const [edit, setEdit] = useState<boolean>(false);
+  const [currentName, setCurrentName] = useState<string>(name); //extra name for the sole purpose of editing
 
   const token = localStorage.getItem("token");
 

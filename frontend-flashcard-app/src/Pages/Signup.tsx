@@ -5,7 +5,7 @@ import ErrorMessage from "../Components/ErrorMessage";
 import HomeIcon from "@mui/icons-material/Home";
 
 const Signup = () => {
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const navigate = useNavigate();
 

@@ -23,12 +23,12 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [errorPost, setErrorPost] = useState(false);
+  const [errorPost, setErrorPost] = useState<boolean>(false);
 
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
   const type = useAppSelector((state) => state.currentCollection.type);
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // For to dos only - color option
   
@@ -44,7 +44,7 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
     "purple",
     "black",
   ];
-  const [color, setColor] = useState(colorValues[0]); // Default to white
+  const [color, setColor] = useState<string>(colorValues[0]); // Default to white
   useEffect(() => {
     // Adapting error post text
     setErrorPost(false);

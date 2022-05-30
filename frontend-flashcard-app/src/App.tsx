@@ -24,14 +24,14 @@ const App = () => {
   // Check if the menu for a new collection is open
   const openCollectionForm = useAppSelector((state) => state.openCollectionForm.open);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [firstLoad, setFirstLoad] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [serverLoading, setServerLoading] = useState(true);
-  const [results, setResults] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [firstLoad, setFirstLoad] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [serverLoading, setServerLoading] = useState<boolean>(true);
+  const [results, setResults] = useState<any>([]);
 
-  const [mode, setMode] = useState("Flashcard"); // Default to create flashcard option
-  const [username, setUsername] = useState("");
+  const [mode, setMode] = useState<string>("Flashcard"); // Default to create flashcard option
+  const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
     const theme = localStorage.getItem("darkmode");

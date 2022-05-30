@@ -19,16 +19,16 @@ const Practice = () => {
   const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
   const type = useAppSelector((state) => state.currentCollection.type);
 
-  const [expired, setExpired] = useState(false);
+  const [expired, setExpired] = useState<boolean>(false);
 
-  const [results, setResults] = useState([]);
-  const [errorText, setErrorText] = useState(""); // Error message if problems with the selected collection
+  const [results, setResults] = useState<any>([]);
+  const [errorText, setErrorText] = useState<string>(""); // Error message if problems with the selected collection
 
-  const [concept, setConcept] = useState("");
-  const [def, setDef] = useState("");
-  const [sameCard, setSameCard] = useState(true); // Default to true
-  const [checkMessage, setCheckMessage] = useState("");
-  const [answerSubmitted, setAnswerSubmitted] = useState(false);
+  const [concept, setConcept] = useState<string>("");
+  const [def, setDef] = useState<string>("");
+  const [sameCard, setSameCard] = useState<boolean>(true); // Default to true
+  const [checkMessage, setCheckMessage] = useState<string>("");
+  const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false);
   const [previousRdn, setPreviousRdn] = useState<number>();
 
   const navigate = useNavigate();

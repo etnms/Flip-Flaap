@@ -11,9 +11,9 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
-  const [passwordChange, setPasswordChange] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [confirmMessage, setConfirmMessage] = useState("");
+  const [passwordChange, setPasswordChange] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [confirmMessage, setConfirmMessage] = useState<string>("");
 
   const changePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

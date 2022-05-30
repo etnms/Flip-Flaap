@@ -21,7 +21,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
 
   const token = localStorage.getItem("token");
 
-  const [edit, setEdit] = useState(false);
+  const [edit, setEdit] = useState<boolean>(false);
 
   const type = useAppSelector((state) => state.currentCollection.type);
   const idCollection = useAppSelector((state) => state.currentCollection._id);
@@ -29,11 +29,11 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const [todoText, setTodoText] = useState(todo);
+  const [todoText, setTodoText] = useState<string>(todo);
 
-  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
-  const [currentColor, setCurrentColor] = useState(color); // Default to white
+  const [currentColor, setCurrentColor] = useState<string>(color); // Default to white
   const colorValues = [
     "none",
     "red",
