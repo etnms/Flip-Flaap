@@ -168,7 +168,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
             <button
               onClick={() => editTodo()}
               className="icon-cards icon-edit"
-              aria-label="button validate edit">
+              aria-label="validate edit">
               <CheckIcon />
             </button>
             {renderDelBtn()}
@@ -189,7 +189,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
             <button
               onClick={() => setEdit(true)}
               className="icon-cards icon-edit"
-              aria-label="button validate edit">
+              aria-label="edit">
               <EditIcon />
             </button>
             {renderDelBtn()}
@@ -208,7 +208,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
         <button
           onClick={(e) => deleteTodo(_id, idCollection, e)}
           className="icon-cards icon-delete"
-          aria-label="button delete to do">
+          aria-label="delete">
           <DeleteOutlinedIcon />
         </button>
       );

@@ -102,20 +102,20 @@ const MenuLeftItem = (props: React.PropsWithChildren<IMenuLeftItem>) => {
           <button
             className="icon icon-edit"
             onClick={() => editCollectionName(_id, currentName)}
-            aria-label="button validate edit">
+            aria-label="validate edit">
             <CheckIcon />
           </button>
         ) : (
           <button
             className="icon icon-edit"
             onClick={() => setEdit(true)}
-            aria-label="button edit collection">
+            aria-label="edit">
             <EditIcon />
           </button>
         )}
         <button  onClick={(e) => openConfirmDelete(_id, currentName, e)}
           className="icon icon-delete"
-          aria-label="button delete collection">
+          aria-label="delete">
         <DeleteOutlinedIcon
          
         /></button>
