@@ -10,23 +10,24 @@ import React, { useRef, useState } from "react";
 import Loader from "./Loaders/Loader";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { conceptTypeText, defTypeText, formatDate } from "../helper/helper";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { useDrag, useDrop } from "react-dnd";
+import { Dispatch } from "redux";
 
 const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const { _id, concept, date, definition, editFlashcardIndexes, displayIndex, moveItemList, setItemChange } =
     props;
 
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
 
   const [edit, setEdit] = useState<boolean>(false);
 
-  const type = useAppSelector((state) => state.currentCollection.type);
-  const idCollection = useAppSelector((state) => state.currentCollection._id);
+  const type: string = useAppSelector((state) => state.currentCollection.type);
+  const idCollection: string = useAppSelector((state) => state.currentCollection._id);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
 
   const [conceptText, setConceptText] = useState<string>(concept);
   const [defText, setDefText] = useState<string>(definition);
@@ -40,8 +41,8 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   ) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
-    const spanEl = (e.target as HTMLElement).parentElement; //span
-    const flashcardEl = spanEl?.parentElement;
+    const spanEl: HTMLElement | null = (e.target as HTMLElement).parentElement; //span
+    const flashcardEl: HTMLElement | null | undefined = spanEl?.parentElement;
     axios
       .delete(`${process.env.REACT_APP_BACKEND}/api/flashcards`, {
         data: { _id, idCollection },
@@ -105,15 +106,15 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const [, dropRef] = useDrop({
     accept: ["flashcard"],
     hover: (item: IFlashcard, monitor: any) => {
-      const dragIndex = item.displayIndex;
-      const hoverIndex = displayIndex;
-      const hoverBoundingRect = ref?.current?.getBoundingClientRect();
+      const dragIndex: number = item.displayIndex;
+      const hoverIndex: number = displayIndex;
+      const hoverBoundingRect: DOMRect | undefined = ref?.current?.getBoundingClientRect();
 
-      const hoverMiddleY = (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect!.top;
+      const hoverMiddleY: number = (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
+      const hoverActualY: number = monitor.getClientOffset().y - hoverBoundingRect!.top;
 
-      const hoverMiddleX = (hoverBoundingRect!.left - hoverBoundingRect!.right) / 2;
-      const hoverActualX = monitor.getClientOffset().x - hoverBoundingRect!.right;
+      const hoverMiddleX: number = (hoverBoundingRect!.left - hoverBoundingRect!.right) / 2;
+      const hoverActualX: number = monitor.getClientOffset().x - hoverBoundingRect!.right;
 
       // if dragging down, continue only when hover is smaller than middle Y
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
@@ -135,8 +136,8 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   });
 
   // refs for DnD
-  const ref = useRef<HTMLDivElement>();
-  const dragDropRef = dragRef(dropRef(ref));
+  const ref: React.MutableRefObject<HTMLDivElement | undefined> = useRef<HTMLDivElement>();
+  const dragDropRef: React.ReactElement<any, string | React.JSXElementConstructor<any>> | null = dragRef(dropRef(ref));
 
   const renderFlashcard = () => {
     if (edit) {

@@ -8,13 +8,14 @@ import {
   RenderButton,
 } from "./PracticeLearnActivity";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { Dispatch } from "redux";
 
 const Learn = () => {
-  const currentCollection = useAppSelector((state) => state.currentCollection.value);
-  const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
-  const type = useAppSelector((state) => state.currentCollection.type);
+  const currentCollection: string = useAppSelector((state) => state.currentCollection.value);
+  const currentCollectionId: string = useAppSelector((state) => state.currentCollection._id);
+  const type: string = useAppSelector((state) => state.currentCollection.type);
   
   const [expired, setExpired] = useState<boolean>(false);
 
@@ -26,8 +27,8 @@ const Learn = () => {
 
   const [previousRdn, setPreviousRdn] = useState<number>();
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   useEffect(() => {
     Getdata(currentCollectionId, setConcept, setErrorText, setResults, setExpired);
@@ -46,7 +47,7 @@ const Learn = () => {
     // Check to see if there are at least 2 items in the collection, if so display flashcards;
     if (listCollections[0] !== undefined && listCollections[1] !== undefined) {
       // Create random number and loop until it's different from the previous one
-      let rdn = 0;
+      let rdn: number = 0;
       while (previousRdn === rdn) rdn = Math.floor(Math.random() * listCollections.length);
       // Set text corresponding to the randomly selected card
       setConcept(listCollections[rdn].concept);

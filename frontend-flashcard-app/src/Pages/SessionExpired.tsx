@@ -1,14 +1,15 @@
 import "./SessionExpired.scss";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { Dispatch } from "redux";
 
 const SessionExpired = () => {
-  const sessionExpired = useAppSelector((state) => state.expiredSession.value);
+  const sessionExpired: boolean = useAppSelector((state) => state.expiredSession.value);
   const [countdownValue, setCountdownValue] = useState<number>(5);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   useEffect(() => {
     document.title = "Flip-Flaap - Session expired";

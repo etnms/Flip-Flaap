@@ -1,25 +1,25 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
 import HomeIcon from '@mui/icons-material/Home';
 
 const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   useEffect(() => {
     document.title = "Flip-Flaap - Login";
-    const theme = localStorage.getItem("darkmode");
+    const theme: string | null = localStorage.getItem("darkmode");
     if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
     else document.documentElement.setAttribute("data-color-scheme", "light");
   })
 
   const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const username = (document.querySelector("input[name='username']") as HTMLInputElement).value;
-    const password = (document.querySelector("input[name='password']") as HTMLInputElement).value;
+    const username: string = (document.querySelector("input[name='username']") as HTMLInputElement).value;
+    const password: string = (document.querySelector("input[name='password']") as HTMLInputElement).value;
     axios
       .post(`${process.env.REACT_APP_BACKEND}/api/login`, { username, password })
       .then((res) => {

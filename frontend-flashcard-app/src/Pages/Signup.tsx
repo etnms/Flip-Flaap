@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import ErrorMessage from "../Components/ErrorMessage";
 import HomeIcon from "@mui/icons-material/Home";
 
 const Signup = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const navigateIndex = () => {
     navigate("/");
@@ -15,17 +15,17 @@ const Signup = () => {
 
   useEffect(() => {
     document.title = "Flip-Flaap - Sign up";
-    const theme = localStorage.getItem("darkmode");
+    const theme: string | null = localStorage.getItem("darkmode");
     if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
     else document.documentElement.setAttribute("data-color-scheme", "light");
   });
 
   const signup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = (document.querySelector("input[name='email']") as HTMLInputElement).value;
-    const username = (document.querySelector("input[name='username']") as HTMLInputElement).value;
-    const password = (document.querySelector("input[name='password']") as HTMLInputElement).value;
-    const confirmPassword = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
+    const email: string = (document.querySelector("input[name='email']") as HTMLInputElement).value;
+    const username: string = (document.querySelector("input[name='username']") as HTMLInputElement).value;
+    const password: string = (document.querySelector("input[name='password']") as HTMLInputElement).value;
+    const confirmPassword: string = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
       .value;
 
     axios
@@ -61,10 +61,10 @@ const Signup = () => {
   };
 
   const handleChange = () => {
-    const email = (document.querySelector("input[name='email']") as HTMLInputElement).value;
-    const username = (document.querySelector("input[name='username']") as HTMLInputElement).value;
-    const password = (document.querySelector("input[name='password']") as HTMLInputElement).value;
-    const confirmPassword = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
+    const email: string = (document.querySelector("input[name='email']") as HTMLInputElement).value;
+    const username: string = (document.querySelector("input[name='username']") as HTMLInputElement).value;
+    const password: string = (document.querySelector("input[name='password']") as HTMLInputElement).value;
+    const confirmPassword: string = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
       .value;
     switch (errorMessage) {
       case "Error: Username is empty":
@@ -80,8 +80,8 @@ const Signup = () => {
         if (password.length > 6) setErrorMessage("");
         break;
       case "Error: your password must contain 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.":
-        const regexPattern = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])");
-        const checkPattern = regexPattern.test(password);
+        const regexPattern: RegExp = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])");
+        const checkPattern: boolean = regexPattern.test(password);
         if (checkPattern) setErrorMessage("");
         break;
       default:

@@ -9,7 +9,7 @@ import { conceptTypeText, defTypeText } from "../helper/helper";
 export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>) => {
   const { title, concept, def, errorText, textInstruction } = props;
 
-  const collectionType = useAppSelector((state) => state.currentCollection.type);
+  const collectionType: string = useAppSelector((state) => state.currentCollection.type);
   const renderCard = () => {
     if (concept)
       return (
@@ -18,7 +18,9 @@ export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>)
             <h2 className="title-flashcard card-front">
               {conceptTypeText(collectionType)}: <strong>{concept}</strong>
             </h2>
-            <p className="def-text card-back">{defTypeText(collectionType)}: {def}</p>
+            <p className="def-text card-back">
+              {defTypeText(collectionType)}: {def}
+            </p>
           </div>
         </div>
       );
@@ -28,8 +30,8 @@ export const PracticeLearnActivity = (props: React.PropsWithChildren<IActivity>)
           <div className="begin-text">
             <p>{textInstruction}</p>
             <p>
-              Once you start, hover over your flashcards to flip them. If you're on a mobile device, you can tap them to
-              achieve the same result.
+              Once you start, hover over your flashcards to flip them. If you're on a mobile device, you can
+              tap them to achieve the same result.
             </p>
             <p>Press start to begin.</p>
           </div>
@@ -66,7 +68,7 @@ export const Getdata = (
   setConcept(""); //reinitialize value in case of change of collection
   setErrorText("");
   setExpired(false);
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   if (currentCollectionId !== "") {
     axios({
       method: "GET",
@@ -94,14 +96,14 @@ export const checkCollectionSize = (listCollections: Array<Object>) => {
 
 // Creates a fake flashcard for the "swipe" animation
 export const createFakeFlashcard = (concept: string, def: string) => {
-  const main = document.querySelector(".main-view");
+  const main: Element | null = document.querySelector(".main-view");
 
-  const fakecard = document.createElement("div");
+  const fakecard: HTMLDivElement = document.createElement("div");
   fakecard.classList.add("learn-flashcard");
 
   // Only show the concept part of the card and not the full card
   // If flip animation is not activated then showing the full card makes sense, see comment below
-  const titleText = document.createElement("h2");
+  const titleText: HTMLHeadingElement = document.createElement("h2");
   titleText.textContent = `Concept ${(<strong>{concept}</strong>)}`;
   titleText.classList.add("title-flashcard");
 
@@ -113,8 +115,7 @@ export const createFakeFlashcard = (concept: string, def: string) => {
   fakecard.appendChild(titleText);
   // fakecard.appendChild(defText);
   fakecard.classList.add("fake-card");
-  if (localStorage.getItem("darkmode") === "darkmode")
-  fakecard.classList.add("darkmode-primary");
+  if (localStorage.getItem("darkmode") === "darkmode") fakecard.classList.add("darkmode-primary");
   main?.append(fakecard);
 
   setTimeout(() => {
@@ -123,6 +124,6 @@ export const createFakeFlashcard = (concept: string, def: string) => {
 };
 
 export const removeFakeFlashcard = () => {
-  const element = document.getElementsByClassName("fake-card");
+  const element: HTMLCollectionOf<Element> = document.getElementsByClassName("fake-card");
   while (element.length > 0) element[0].remove();
 };

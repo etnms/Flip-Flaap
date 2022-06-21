@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { PropsWithChildren, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../app/hooks";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { conceptTypeText, defTypeText, placeHolderConcept, placeHolderDef } from "../helper/helper";
@@ -10,6 +10,7 @@ import CustomSelect from "./CustomSelect";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loaders/Loader";
 import "./CustomSelect.scss";
+import { Dispatch } from "redux";
 
 interface INameCollection {
   setItemChange: Function;
@@ -18,21 +19,21 @@ interface INameCollection {
 const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
   const { setItemChange } = props;
 
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
 
   const [errorPost, setErrorPost] = useState<boolean>(false);
 
-  const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
-  const type = useAppSelector((state) => state.currentCollection.type);
+  const currentCollectionId: string = useAppSelector((state) => state.currentCollection._id);
+  const type: string = useAppSelector((state) => state.currentCollection.type);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // For to dos only - color option
   
-  const colorValues = [
+  const colorValues: string[] = [
     "none",
     "red",
     "yellow",
@@ -54,14 +55,14 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const definition = (document.querySelector("textarea[name='definition']") as HTMLInputElement).value;
-    const _id = currentCollectionId;
+    const definition: string = (document.querySelector("textarea[name='definition']") as HTMLInputElement).value;
+    const _id: string = currentCollectionId;
     // Get the index by looking at number of items in the flaschard view, which corresponds to the length
-    const index = document.querySelector(".flashcard-view")?.children;
-    const indexLength = index!.length; 
+    const index: HTMLCollection | undefined = document.querySelector(".flashcard-view")?.children;
+    const indexLength: number = index!.length; 
 
     if (type !== "to-do") {
-      const concept = (document.querySelector("input[name='concept']") as HTMLInputElement).value;
+      const concept: string = (document.querySelector("input[name='concept']") as HTMLInputElement).value;
       axios
         .post(
           `${process.env.REACT_APP_BACKEND}/api/flashcards`,

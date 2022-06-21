@@ -7,21 +7,22 @@ import { openDeleteConfirm, showLoadingDelete } from "../features/deleteConfirmS
 import { menuChange } from "../features/menuChangeSlice";
 import { useState } from "react";
 import { LoaderDeleteCollection } from "./Loaders/Loader";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
+import { Dispatch } from "redux";
 
 const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
   const { selectedHTML } = props;
 
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
 
   // Get the name of the collection for delete purposes
-  const nameCollectionDelete = useAppSelector((state) => state.confirmDeleteMenu.nameCollectionDelete);
-  const idCollectionDelete = useAppSelector((state) => state.confirmDeleteMenu.idCollectionDelete);
-  const currentCollection = useAppSelector((state) => state.currentCollection.value);
+  const nameCollectionDelete: string = useAppSelector((state) => state.confirmDeleteMenu.nameCollectionDelete);
+  const idCollectionDelete: string = useAppSelector((state) => state.confirmDeleteMenu.idCollectionDelete);
+  const currentCollection: string = useAppSelector((state) => state.currentCollection.value);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
   const deleteCollection = (_id: string) => {

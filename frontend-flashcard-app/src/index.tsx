@@ -1,6 +1,6 @@
 import React from "react";
 import App from "./App";
-import { createRoot } from "react-dom/client";
+import { createRoot, Root } from "react-dom/client";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
@@ -10,8 +10,8 @@ import SessionExpired from "./Pages/SessionExpired";
 import UserProfile from "./Pages/UserProfile";
 import Error404 from "./Pages/404";
 
-const container = document.getElementById("root")!;
-const root = createRoot(container);
+const container: HTMLElement = document.getElementById("root")!;
+const root: Root = createRoot(container);
 
 root.render(
   <React.StrictMode>

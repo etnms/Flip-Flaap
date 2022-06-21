@@ -10,17 +10,17 @@ import ErrorMessage from "../Components/ErrorMessage";
 const UserProfile = () => {
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
   const [passwordChange, setPasswordChange] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [confirmMessage, setConfirmMessage] = useState<string>("");
 
   const changePassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const currentPassword = (document.querySelector("input[name='current-password']") as HTMLInputElement)
+    const currentPassword: string = (document.querySelector("input[name='current-password']") as HTMLInputElement)
       .value;
-    const newPassword = (document.querySelector("input[name='new-password']") as HTMLInputElement).value;
-    const confirmPassword = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
+    const newPassword: string = (document.querySelector("input[name='new-password']") as HTMLInputElement).value;
+    const confirmPassword: string = (document.querySelector("input[name='confirm-password']") as HTMLInputElement)
       .value;
 
     axios
@@ -44,7 +44,6 @@ const UserProfile = () => {
       })
       .catch((err) => {
         setConfirmMessage("");
-        console.log(err.response);
         switch (err.response.data) {
           case "Passwords don't match":
             return setErrorMessage("Error: passwords don't match.");
@@ -89,7 +88,7 @@ const UserProfile = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      const el = document.querySelector("input[name='toggle-darkmode']") as HTMLInputElement;
+      const el: HTMLInputElement = document.querySelector("input[name='toggle-darkmode']") as HTMLInputElement;
       el.checked = !el.checked;
       switchDarkmode(e);
     }

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import {
   changeCurrentCollection,
@@ -13,12 +13,13 @@ import { openCollectionForm } from "../features/openCollectionFormSlice";
 import "./FormCollection.scss";
 import ErrorMessage from "./ErrorMessage";
 import Loader from "./Loaders/Loader";
+import { Dispatch } from "redux";
 
 const CollectionForm = () => {
   const token = localStorage.getItem("token");
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
   // Get the type in the state to be used later for class animations
   const [type, setType] = useState<string>("concept");
 
@@ -32,7 +33,7 @@ const CollectionForm = () => {
     setLoading(true);
     e.preventDefault();
 
-    const name = (document.querySelector("input[name='name']") as HTMLFormElement).value;
+    const name: string = (document.querySelector("input[name='name']") as HTMLFormElement).value;
 
     axios
       .post(
@@ -76,12 +77,12 @@ const CollectionForm = () => {
 
   // Get the last item in the menu left nav and assign it the active status to show that it's the currently open
   const assignActiveHtml = () => {
-    const activeItem = document.querySelector(".active-menu-item");
+    const activeItem: Element | null = document.querySelector(".active-menu-item");
     activeItem?.classList.remove("active-menu-item");
-    const navCollection = document.querySelector(`.collec-${type}`);
-    const lastLi = navCollection?.lastChild;
-    const link = lastLi?.firstChild;
-    const el = link?.firstChild;
+    const navCollection: Element | null = document.querySelector(`.collec-${type}`);
+    const lastLi: ChildNode | null | undefined = navCollection?.lastChild;
+    const link: ChildNode | null | undefined = lastLi?.firstChild;
+    const el: ChildNode | null | undefined = link?.firstChild;
     (el as HTMLElement).classList.add("active-menu-item");
   };
 

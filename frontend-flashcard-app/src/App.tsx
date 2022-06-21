@@ -13,16 +13,17 @@ import Practice from "./Components/Practice";
 import { menuChange } from "./features/menuChangeSlice";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { Dispatch } from "redux";
 
 const App = () => {
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
 
-  const dispatch = useAppDispatch();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   // Value for animation purposes => when create/delete users can see the collection list being changed
-  const menuChangeValue = useAppSelector((state) => state.menuChangeValue.value);
+  const menuChangeValue: boolean = useAppSelector((state) => state.menuChangeValue.value);
   // Check if the menu for a new collection is open
-  const openCollectionForm = useAppSelector((state) => state.openCollectionForm.open);
+  const openCollectionForm: boolean = useAppSelector((state) => state.openCollectionForm.open);
 
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -34,11 +35,13 @@ const App = () => {
   const [username, setUsername] = useState<string>("");
 
   useEffect(() => {
-    const theme = localStorage.getItem("darkmode");
+    const theme: string | null = localStorage.getItem("darkmode");
     if (theme === "darkmode") document.documentElement.setAttribute("data-color-scheme", "dark");
     else document.documentElement.setAttribute("data-color-scheme", "light");
 
     setLoading(true);
+    // If no token then no need to get axios request
+    if (token === null) return;
     axios
       .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
       .then((res) => {

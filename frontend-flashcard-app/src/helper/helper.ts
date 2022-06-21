@@ -24,10 +24,10 @@ export const placeHolderDef = (type: string) => {
 
 
 export const formatDate = (value: Date) => {
-  const date = new Date(value);
-  const year = date.getFullYear();
-  const month = date.getMonth();
-  const day = date.getDate();
+  const date: Date = new Date(value);
+  const year: number= date.getFullYear();
+  const month: number = date.getMonth();
+  const day: number = date.getDate();
 
   return `${year}/${month}/${day}`;
 };

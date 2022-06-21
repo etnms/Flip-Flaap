@@ -6,24 +6,25 @@ import { IFlashcard } from "../Interfaces/InterfaceFlashcard";
 import "./FlashcardList.scss";
 import FlashcardDisplayStyle from "./FlashcardDisplayStyle";
 import { useAppSelector } from "../app/hooks";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { useDispatch } from "react-redux";
 import ToDo from "./ToDo";
 import { ITodo } from "../Interfaces/InterfaceToDo";
+import { Dispatch } from "redux";
 
 const FlashcardList = () => {
   const token = localStorage.getItem("token");
 
-  const currentCollection = useAppSelector((state) => state.currentCollection.value);
-  const currentCollectionId = useAppSelector((state) => state.currentCollection._id);
-  const currentCollectionType = useAppSelector((state) => state.currentCollection.type);
+  const currentCollection: string = useAppSelector((state) => state.currentCollection.value);
+  const currentCollectionId: string = useAppSelector((state) => state.currentCollection._id);
+  const currentCollectionType: string = useAppSelector((state) => state.currentCollection.type);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
 
-  const [flashcards, setFlashcards] = useState<Array<IFlashcard>>([]);
-  const [todos, setTodos] = useState<Array<ITodo>>([]);
+  const [flashcards, setFlashcards] = useState<IFlashcard[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [typeCard, setTypeCard] = useState<String>("");
 
   const [itemChange, setItemChange] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const FlashcardList = () => {
   useEffect(() => {
     // Get the query type to display flashcards or to dos depending on the user's choise
     const getQueryType = () => {
-      let apiQuery;
+      let apiQuery: string;
       if (currentCollectionType === "to-do") apiQuery = "todos";
       else apiQuery = "flashcards";
       return apiQuery;
@@ -108,16 +109,16 @@ const FlashcardList = () => {
 
   const moveItemList = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      const dragItem = flashcards[dragIndex];
-      const hoverItem = flashcards[hoverIndex];
+      const dragItem: IFlashcard = flashcards[dragIndex];
+      const hoverItem: IFlashcard = flashcards[hoverIndex];
 
-      const dragItemTodo = todos[dragIndex];
-      const hoverItemTodo = todos[hoverIndex];
+      const dragItemTodo: ITodo = todos[dragIndex];
+      const hoverItemTodo: ITodo = todos[hoverIndex];
 
       // Swap places of dragItem and hoverItem in the array
       if (currentCollectionType === "to-do") {
         setTodos((todo) => {
-          const updatedTodo = [...todo];
+          const updatedTodo: ITodo[] = [...todo];
           updatedTodo[dragIndex] = hoverItemTodo;
           updatedTodo[hoverIndex] = dragItemTodo;
           return updatedTodo;
@@ -125,7 +126,7 @@ const FlashcardList = () => {
       }
       if (currentCollectionType !== "to-do") {
         setFlashcards((flashcard) => {
-          const updatedCard = [...flashcard];
+          const updatedCard: IFlashcard[] = [...flashcard];
           updatedCard[dragIndex] = hoverItem;
           updatedCard[hoverIndex] = dragItem;
           return updatedCard;
@@ -136,7 +137,7 @@ const FlashcardList = () => {
   );
 
   const editFlashcardIndexes = (url: string) => {
-    const typeCollection = currentCollectionType === "to-do" ? todos : flashcards;
+    const typeCollection: ITodo[] | IFlashcard[] = currentCollectionType === "to-do" ? todos : flashcards;
     axios
       .put(
         `${url}`,
@@ -158,13 +159,13 @@ const FlashcardList = () => {
 
   // useEffect for display of the different types
   useEffect(() => {
-    const el = document.querySelector(".flashcard-view");
+    const el: HTMLElement | null = document.querySelector(".flashcard-view");
     if (currentCollectionType === "to-do") {
       el?.classList.remove("individual-list");
       el?.classList.add("individual-list");
       setTypeCard("to do");
     } else {
-      const displayType = localStorage.getItem("display") || "grid";
+      const displayType: string = localStorage.getItem("display") || "grid";
       if (displayType === "grid") el?.classList.remove("individual-list");
       setTypeCard("flashcard");
     }

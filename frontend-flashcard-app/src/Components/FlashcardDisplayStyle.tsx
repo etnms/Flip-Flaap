@@ -4,7 +4,7 @@ import listGridViewIcon from "../Assets/list-gridview.svg";
 
 const FlashcardDisplayStyle = () => {
   const changeLookDisplay = (value: string) => {
-    const el = document.querySelector(".flashcard-view");
+    const el: HTMLElement | null = document.querySelector(".flashcard-view");
     el?.classList.remove("individual-list");
 
     if (value === "list") {

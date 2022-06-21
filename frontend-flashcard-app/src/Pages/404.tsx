@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import "./404.scss";
 
 const Error404 = () => {
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
   useEffect(() => {
     document.title = "404 - Page not found";
     const theme = localStorage.getItem("darkmode");

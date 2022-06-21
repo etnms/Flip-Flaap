@@ -26,9 +26,9 @@ const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
   // Display the select dropdown + animations
   const toggleDropdown = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     // Get Dom elements
-    const dropdown = (e.currentTarget as HTMLElement).nextSibling as HTMLElement;
-    const arrow = (e.currentTarget as HTMLElement).children[0] as HTMLElement;
-    const arrowUp = (e.currentTarget as HTMLElement).children[1] as HTMLElement;
+    const dropdown: HTMLElement = (e.currentTarget as HTMLElement).nextSibling as HTMLElement;
+    const arrow: HTMLElement = (e.currentTarget as HTMLElement).children[0] as HTMLElement;
+    const arrowUp: HTMLElement = (e.currentTarget as HTMLElement).children[1] as HTMLElement;
     dropdown.classList.toggle("show-content");
 
     // Dependng on the style puts the arrow back in places
@@ -46,16 +46,16 @@ const CustomSelect = (props: React.PropsWithChildren<ICustomSelect>) => {
 
   const selectValue = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
     // Get Dom elements
-    const dropdown = (e.currentTarget as HTMLElement).parentNode as HTMLElement;
-    const arrowParent = (e.currentTarget as HTMLElement).parentElement?.parentElement;
-    const arrow = arrowParent?.children[0].children[0];
-    const arrowUp = arrowParent?.children[0].children[1];
+    const dropdown: HTMLElement = (e.currentTarget as HTMLElement).parentNode as HTMLElement;
+    const arrowParent: HTMLElement | null | undefined  = (e.currentTarget as HTMLElement).parentElement?.parentElement;
+    const arrow: Element | undefined = arrowParent?.children[0].children[0];
+    const arrowUp: Element | undefined = arrowParent?.children[0].children[1];
 
     // Handle the change select value
     // If used for colors then select the appropriate color
     if (colorOnly) {
-      let selectColorTodo = e.currentTarget.children[0];
-      let style = getComputedStyle(selectColorTodo!);
+      let selectColorTodo: Element = e.currentTarget.children[0];
+      let style: CSSStyleDeclaration = getComputedStyle(selectColorTodo!);
       setSelect(style.backgroundColor);
     }
 

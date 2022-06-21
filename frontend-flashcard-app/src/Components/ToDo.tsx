@@ -9,32 +9,33 @@ import React, { useRef, useState } from "react";
 import Loader from "./Loaders/Loader";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { defTypeText, formatDate } from "../helper/helper";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { ITodo } from "../Interfaces/InterfaceToDo";
 import "./CustomSelect.scss";
 import CustomSelect from "./CustomSelect";
 import { useDrag, useDrop } from "react-dnd";
+import { Dispatch } from "redux";
 
 const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const { _id, color, date, editFlashcardIndexes, displayIndex, moveItemList, todo, setItemChange } = props;
 
-  const token = localStorage.getItem("token");
+  const token: string | null = localStorage.getItem("token");
 
   const [edit, setEdit] = useState<boolean>(false);
 
-  const type = useAppSelector((state) => state.currentCollection.type);
-  const idCollection = useAppSelector((state) => state.currentCollection._id);
+  const type: string = useAppSelector((state) => state.currentCollection.type);
+  const idCollection: string = useAppSelector((state) => state.currentCollection._id);
 
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
 
   const [todoText, setTodoText] = useState<string>(todo);
 
   const [loadingDelete, setLoadingDelete] = useState<boolean>(false);
 
   const [currentColor, setCurrentColor] = useState<string>(color); // Default to white
-  const colorValues = [
+  const colorValues: string[] = [
     "none",
     "red",
     "yellow",
@@ -47,11 +48,15 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     "black",
   ];
 
-  const deleteTodo = (_id: string, idCollection: string, e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const deleteTodo = (
+    _id: string,
+    idCollection: string,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     setLoadingDelete(true);
     // Select the flashcard element for animation purposes
-    const spanEl = (e.target as HTMLElement).parentElement; //span
-    const flashcardEl = spanEl?.parentElement;
+    const spanEl: HTMLElement | null = (e.target as HTMLElement).parentElement; //span
+    const flashcardEl: HTMLElement | null | undefined = spanEl?.parentElement;
     axios
       .delete(`${process.env.REACT_APP_BACKEND}/api/todos`, {
         data: { _id, idCollection },
@@ -114,15 +119,15 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const [, dropRef] = useDrop({
     accept: ["todo"],
     hover: (item: ITodo, monitor: any) => {
-      const dragIndex = item.displayIndex;
-      const hoverIndex = displayIndex;
-      const hoverBoundingRect = ref?.current?.getBoundingClientRect();
+      const dragIndex: number = item.displayIndex;
+      const hoverIndex: number = displayIndex;
+      const hoverBoundingRect: DOMRect | undefined = ref?.current?.getBoundingClientRect();
 
-      const hoverMiddleY = (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect!.top;
+      const hoverMiddleY: number = (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
+      const hoverActualY: number = monitor.getClientOffset().y - hoverBoundingRect!.top;
 
-      const hoverMiddleX = (hoverBoundingRect!.left - hoverBoundingRect!.right) / 2;
-      const hoverActualX = monitor.getClientOffset().x - hoverBoundingRect!.right;
+      const hoverMiddleX: number = (hoverBoundingRect!.left - hoverBoundingRect!.right) / 2;
+      const hoverActualX: number = monitor.getClientOffset().x - hoverBoundingRect!.right;
 
       // if dragging down, continue only when hover is smaller than middle Y
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
@@ -144,8 +149,10 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   });
 
   // refs for DnD
-  const ref = useRef<HTMLDivElement>();
-  const dragDropRef = dragRef(dropRef(ref));
+  const ref: React.MutableRefObject<HTMLDivElement | undefined> = useRef<HTMLDivElement>();
+  const dragDropRef: React.ReactElement<any, string | React.JSXElementConstructor<any>> | null = dragRef(
+    dropRef(ref)
+  );
 
   const renderTodo = () => {
     if (edit) {
@@ -165,10 +172,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
           />
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-todos">
-            <button
-              onClick={() => editTodo()}
-              className="icon-cards icon-edit"
-              aria-label="validate edit">
+            <button onClick={() => editTodo()} className="icon-cards icon-edit" aria-label="validate edit">
               <CheckIcon />
             </button>
             {renderDelBtn()}
@@ -186,10 +190,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
           ) : null}
           <p className="created-on-text">Created on: {<em>{formatDate(date)}</em>}</p>
           <span className="wrapper-btn-todos">
-            <button
-              onClick={() => setEdit(true)}
-              className="icon-cards icon-edit"
-              aria-label="edit">
+            <button onClick={() => setEdit(true)} className="icon-cards icon-edit" aria-label="edit">
               <EditIcon />
             </button>
             {renderDelBtn()}

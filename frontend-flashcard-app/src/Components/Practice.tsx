@@ -10,9 +10,10 @@ import {
   RenderButton,
 } from "./PracticeLearnActivity";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { changeExpiredStatus } from "../features/expiredSessionSlice";
 import { conceptTypeText, defTypeText } from "../helper/helper";
+import { Dispatch } from "redux";
 
 const Practice = () => {
   const currentCollection = useAppSelector((state) => state.currentCollection.value);
@@ -31,8 +32,8 @@ const Practice = () => {
   const [answerSubmitted, setAnswerSubmitted] = useState<boolean>(false);
   const [previousRdn, setPreviousRdn] = useState<number>();
 
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const navigate: NavigateFunction = useNavigate();
+  const dispatch: Dispatch<any> = useAppDispatch();
 
   useEffect(() => {
     Getdata(currentCollectionId, setConcept, setErrorText, setResults, setExpired);
@@ -42,7 +43,7 @@ const Practice = () => {
     }
   }, [currentCollectionId, expired, navigate, dispatch]);
 
-  const createRandomCard = (listCollections: Array<IFlashcard>) => {
+  const createRandomCard = (listCollections: IFlashcard[]) => {
     if (type === "to-do")
       return setErrorText(
         "Error: This collection only contains to dos! Please use a collection with flashcards and come back."
@@ -55,12 +56,12 @@ const Practice = () => {
     setCheckMessage("");
 
     // Define random number to show if the card is the same or not
-    const rdmCard = Math.random();
+    const rdmCard: number = Math.random();
 
     //Check to see if there are at least 2 items in the collection, if so display flashcards;
     if (listCollections[0] !== undefined) {
       //Create random number and loop until it's different from the previous one
-      let rdn = 0;
+      let rdn: number = 0;
       while (previousRdn === rdn) rdn = Math.floor(Math.random() * listCollections.length);
       // Set text corresponding to the randomly selected card
       setConcept(listCollections[rdn].concept);
@@ -68,7 +69,7 @@ const Practice = () => {
       if (rdmCard > 0.5) setDef(listCollections[rdn].definition);
       // Card is different and make sure of it by looping through the values
       else {
-        let rdmDifCard = 0;
+        let rdmDifCard: number = 0;
         rdmDifCard = Math.floor(Math.random() * listCollections.length);
         while (rdmDifCard === rdn) rdmDifCard = Math.floor(Math.random() * listCollections.length);
         setDef(listCollections[rdmDifCard].definition);

@@ -1,11 +1,11 @@
 import IconLightTheme from "../Assets/Flip-Flaap-black.png";
 import IconDarkTheme from "../Assets/Flip-Flaap-white.png";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import "./GettingStarted.scss";
 import { useEffect } from "react";
 
 const GettingStarted = () => {
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const login = () => {
     navigate("/login");
