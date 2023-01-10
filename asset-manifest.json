@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/Flip-Flaap-flashcard-manager/static/css/main.45241626.css",
-    "main.js": "/Flip-Flaap-flashcard-manager/static/js/main.ed6dcf28.js",
+    "main.js": "/Flip-Flaap-flashcard-manager/static/js/main.ea7eab8c.js",
     "static/media/Flip-Flaap-white.png": "/Flip-Flaap-flashcard-manager/static/media/Flip-Flaap-white.6c0a6af0ff4f63e0b520.png",
     "static/media/Flip-Flaap-black.png": "/Flip-Flaap-flashcard-manager/static/media/Flip-Flaap-black.e3915ca7b3e581c1955e.png",
     "index.html": "/Flip-Flaap-flashcard-manager/index.html",
     "static/media/list-gridview.svg": "/Flip-Flaap-flashcard-manager/static/media/list-gridview.b32a1af3e7a9cf49a513731549ecd1b3.svg",
     "static/media/list.svg": "/Flip-Flaap-flashcard-manager/static/media/list.74686389456a856063e59869f565d76a.svg",
     "main.45241626.css.map": "/Flip-Flaap-flashcard-manager/static/css/main.45241626.css.map",
-    "main.ed6dcf28.js.map": "/Flip-Flaap-flashcard-manager/static/js/main.ed6dcf28.js.map"
+    "main.ea7eab8c.js.map": "/Flip-Flaap-flashcard-manager/static/js/main.ea7eab8c.js.map"
   },
   "entrypoints": [
     "static/css/main.45241626.css",
-    "static/js/main.ed6dcf28.js"
+    "static/js/main.ea7eab8c.js"
   ]
 }
