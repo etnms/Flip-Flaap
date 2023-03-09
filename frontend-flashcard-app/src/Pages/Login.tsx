@@ -21,7 +21,7 @@ const Login = () => {
     const username: string = (document.querySelector("input[name='username']") as HTMLInputElement).value;
     const password: string = (document.querySelector("input[name='password']") as HTMLInputElement).value;
     axios
-      .post(`${process.env.REACT_APP_BACKEND}/api/login`, { username, password })
+      .post(`https://flip-flaap-backend.onrender.com/api/login`, { username, password })
       .then((res) => {
         localStorage.setItem("token", res.data.token);
         navigate("/");

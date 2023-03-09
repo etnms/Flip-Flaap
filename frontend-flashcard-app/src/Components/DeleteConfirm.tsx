@@ -31,7 +31,7 @@ const DeleteConfirm = (props: React.PropsWithChildren<IDeleteConfirm>) => {
 
     setDeleteLoading(true);
     axios
-      .delete(`${process.env.REACT_APP_BACKEND}/api/collections`, {
+      .delete(`https://flip-flaap-backend.onrender.com/api/collections`, {
         data: { _id },
         headers: { Authorization: token! },
       })

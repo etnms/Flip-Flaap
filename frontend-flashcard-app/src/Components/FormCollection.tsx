@@ -37,7 +37,7 @@ const CollectionForm = () => {
 
     axios
       .post(
-        `${process.env.REACT_APP_BACKEND}/api/collections`,
+        `https://flip-flaap-backend.onrender.com/api/collections`,
         { name, type },
         { headers: { Authorization: token! } }
       )

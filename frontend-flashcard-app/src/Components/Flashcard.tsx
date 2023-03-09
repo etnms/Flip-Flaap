@@ -44,7 +44,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
     const spanEl: HTMLElement | null = (e.target as HTMLElement).parentElement; //span
     const flashcardEl: HTMLElement | null | undefined = spanEl?.parentElement;
     axios
-      .delete(`${process.env.REACT_APP_BACKEND}/api/flashcards`, {
+      .delete(`https://flip-flaap-backend.onrender.com/api/flashcards`, {
         data: { _id, idCollection },
         headers: { Authorization: token! },
       })
@@ -73,7 +73,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
   const editFlashcard = () => {
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/api/flashcards`,
+        `https://flip-flaap-backend.onrender.com/api/flashcards`,
         {
           _id,
           concept: conceptText,
@@ -128,7 +128,7 @@ const Flashcard = (props: React.PropsWithChildren<IFlashcard>) => {
       item.displayIndex = hoverIndex;
     },
     drop: () => {
-      editFlashcardIndexes(`${process.env.REACT_APP_BACKEND}/api/flashcards/index`);
+      editFlashcardIndexes(`https://flip-flaap-backend.onrender.com/api/flashcards/index`);
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),

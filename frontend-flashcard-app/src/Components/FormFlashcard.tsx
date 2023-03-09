@@ -65,7 +65,7 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
       const concept: string = (document.querySelector("input[name='concept']") as HTMLInputElement).value;
       axios
         .post(
-          `${process.env.REACT_APP_BACKEND}/api/flashcards`,
+          `https://flip-flaap-backend.onrender.com/api/flashcards`,
           { concept, definition, _id, dbIndex: indexLength },
           { headers: { Authorization: token! } }
         )
@@ -84,7 +84,7 @@ const FormFlashcard = (props: PropsWithChildren<INameCollection>) => {
     if (type === "to-do")
       axios
         .post(
-          `${process.env.REACT_APP_BACKEND}/api/todos`,
+          `https://flip-flaap-backend.onrender.com/api/todos`,
           { definition, _id, color, dbIndex: indexLength },
           { headers: { Authorization: token! } }
         )

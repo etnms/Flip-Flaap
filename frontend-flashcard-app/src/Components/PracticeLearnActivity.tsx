@@ -72,7 +72,7 @@ export const Getdata = (
   if (currentCollectionId !== "") {
     axios({
       method: "GET",
-      url: `${process.env.REACT_APP_BACKEND}/api/flashcards`,
+      url: `https://flip-flaap-backend.onrender.com/api/flashcards`,
       params: { currentCollectionId },
       headers: { Authorization: token! },
     })

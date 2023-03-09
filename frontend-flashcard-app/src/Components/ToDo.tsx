@@ -58,7 +58,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
     const spanEl: HTMLElement | null = (e.target as HTMLElement).parentElement; //span
     const flashcardEl: HTMLElement | null | undefined = spanEl?.parentElement;
     axios
-      .delete(`${process.env.REACT_APP_BACKEND}/api/todos`, {
+      .delete(`https://flip-flaap-backend.onrender.com/api/todos`, {
         data: { _id, idCollection },
         headers: { Authorization: token! },
       })
@@ -86,7 +86,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
   const editTodo = () => {
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/api/todos`,
+        `https://flip-flaap-backend.onrender.com/api/todos`,
         {
           _id,
           definition: todoText,
@@ -141,7 +141,7 @@ const ToDo = (props: React.PropsWithChildren<ITodo>) => {
       item.displayIndex = hoverIndex;
     },
     drop: () => {
-      editFlashcardIndexes(`${process.env.REACT_APP_BACKEND}/api/todos/index`);
+      editFlashcardIndexes(`https://flip-flaap-backend.onrender.com/api/todos/index`);
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),

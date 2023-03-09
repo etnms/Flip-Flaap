@@ -25,7 +25,7 @@ const UserProfile = () => {
 
     axios
       .put(
-        `${process.env.REACT_APP_BACKEND}/api/dashboard/change-password`,
+        `https://flip-flaap-backend.onrender.com/api/dashboard/change-password`,
         { currentPassword, newPassword, confirmPassword },
         { headers: { Authorization: token! } }
       )

@@ -42,7 +42,7 @@ const FlashcardList = () => {
     if (currentCollection !== "") {
       axios({
         method: "get",
-        url: `${process.env.REACT_APP_BACKEND}/api/${getQueryType()}`,
+        url: `https://flip-flaap-backend.onrender.com/api/${getQueryType()}`,
         params: { currentCollectionId },
         headers: { Authorization: token! },
       })

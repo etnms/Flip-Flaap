@@ -43,7 +43,7 @@ const App = () => {
     // If no token then no need to get axios request
     if (token === null) return;
     axios
-      .get(`${process.env.REACT_APP_BACKEND}/api/dashboard`, { headers: { Authorization: token! } })
+      .get(`https://flip-flaap-backend.onrender.com/api/dashboard`, { headers: { Authorization: token! } })
       .then((res) => {
         setUsername(res.data);
         setIsLoggedIn(true);
@@ -55,7 +55,7 @@ const App = () => {
       });
 
     axios
-      .get(`${process.env.REACT_APP_BACKEND}/api/collections`, { headers: { Authorization: token! } })
+      .get(`https://flip-flaap-backend.onrender.com/api/collections`, { headers: { Authorization: token! } })
       .then((res) => {
         setResults(res.data.results.collections);
         if (firstLoad) {
