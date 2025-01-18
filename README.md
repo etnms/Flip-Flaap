@@ -1,6 +1,5 @@
 # Flip-Flaap
 
-
 ## Description
 
 Flip-Flaap is a web app that allows you to create virtual flashcards for any memory related exercise. Learning a new language? Learning some new concepts and definition? Flip-Flaap will help you write down any new piece of information and practice :world_map:. 
